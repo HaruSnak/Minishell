@@ -17,8 +17,8 @@ SRC_2 =	srcs/commands/cmds_external.c \
     srcs/commands/out_env_cmds.c \
     srcs/errors/errors.c \
     srcs/parsing/parsing.c \
+    srcs/parsing/verify_operators.c \
     srcs/redirections/operator_redirects.c \
-    srcs/redirections/verify_operators.c \
     srcs/signals/signals.c \
 
 OBJ_1 = ${SRC_1:.c=.o}
