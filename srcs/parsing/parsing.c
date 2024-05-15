@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: shmoreno <shmoreno@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:04:23 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/05/13 14:59:41 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/05/15 16:00:52 by shmoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	ft_if_execve_access(struct s_parsing *parsing, char **envp, bool check)
 {
 	pid_t	pid;
 	int		pipefd[2];
-	int 	fd;
+	//int 	fd;
 
 	pipe(pipefd);
 	if (access(parsing->cmd_path, F_OK) == 0)
@@ -83,7 +83,7 @@ int	ft_if_execve_access(struct s_parsing *parsing, char **envp, bool check)
 			{
 				if (ft_exec_cmd_redirects(parsing->test, parsing, parsing->k) == -1)
 					return (0);
-				else if (ft_exec_cmd_redirects(parsing->test, parsing, parsing->k) == 2)
+				/*else if (ft_exec_cmd_redirects(parsing->test, parsing, parsing->k) == 2)
 				{
 					printf("heredoc\n");
 					fd = open("heredoc", O_RDONLY);
@@ -93,13 +93,14 @@ int	ft_if_execve_access(struct s_parsing *parsing, char **envp, bool check)
 					dup2(pipefd[1], STDOUT_FILENO);
 					close(pipefd[1]);
 					printf("ICI\n");
-				}
+				}*/
 			}
 			printf("ICI2\n");
 			ft_interpret_envp(envp, parsing);
 			execve(parsing->cmd_path, parsing->cmd_extract, envp);
 			printf("cmd_path: %s\n", parsing->cmd_path);
 			printf("cmd_extract[0]: %s\n", parsing->cmd_extract[0]);
+			printf("cmd_extract[1]: %s\n", parsing->cmd_extract[1]);
 			return (0);
 		}
 		else if (pid < 0)
@@ -110,8 +111,8 @@ int	ft_if_execve_access(struct s_parsing *parsing, char **envp, bool check)
 		else
 		{
 			g_signal = 1;
-			close(pipefd[0]);
-			close(pipefd[1]);
+			//close(pipefd[0]);
+			//close(pipefd[1]);
 			waitpid(pid, &parsing->status, 0);
 			parsing->exit_value = WEXITSTATUS(parsing->status);
 			g_signal = 0;
