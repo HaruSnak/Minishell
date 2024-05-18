@@ -1,14 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   operator_redirects.c                               :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: shmoreno <shmoreno@student.42lausanne.ch>  +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/09 10:46:30 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/05/15 11:02:46 by shmoreno         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+
 
 #include "../../includes/minishell.h"
 
@@ -87,38 +77,11 @@ int	ft_handle_here_doc(char **tmp, struct s_parsing *parsing, int i)
 	return (0);
 }
 
-void	ft_condition_operator(char *input, int *i, int *k, char *tmp)
+int	ft_exec_cmd_redirects(char **tmp, struct s_parsing *parsing)
 {
-	if (((input[*i] == '>' || input[*i] == '<' || input[*i] == '|')
-			&& (input[*i + 1] != ' ' && input[*i - 1] != ' '))
-		|| (input[*i] == '<' && input[*i + 1] == '<'
-			&& input[*i + 2] != ' ' && input[*i - 1] != ' ')
-		|| (input[*i] == '>' && input[*i + 1] == '>'
-			&& input[*i + 2] != ' ' && input[*i - 1] != ' '))
-	{
-		tmp[*k] = ' ';
-		(*k)++;
-		tmp[*k] = input[*i];
-		if (input[*i + 1] == '>' || input[*i + 1] == '<')
-		{
-			(*k)++;
-			tmp[*k] = input[*i + 1];
-			(*i)++;
-		}
-		(*k)++;
-		tmp[*k] = ' ';
-		(*k)++;
-	}
-	else
-	{
-		tmp[*k] = input[*i];
-		(*k)++;
-	}
-}
+	int i; // I TEMPORAIRE CAR C'EST PAS LE BON INDEX
 
-int	ft_exec_cmd_redirects(char **tmp, struct s_parsing *parsing,
-	int i)
-{
+	i = 0; // I TEMPORAIRE CAR C'EST PAS LE BON INDEX
 	if (ft_strncmp(tmp[i], "<", ft_strlen(tmp[i])) == 0)
 	{
 		if (ft_handle_less_than(tmp, parsing, i) == -1)

@@ -1,14 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   export_unset_cmds.c                                :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/02 14:54:34 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/05/14 15:20:21 by shmoreno         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+
 
 #include "../../includes/minishell.h"
 
@@ -44,8 +34,6 @@ int	ft_handle_unset(char **input, char **envp)
 	char	**tmp;
 	int		i;
 
-
-
 	i = -1;
 	tmp = ft_split(*input, ' ');
 	if (tmp[1] == NULL)
@@ -66,7 +54,7 @@ int	ft_handle_unset(char **input, char **envp)
 			}
 		}
 	}
-	ft_free_char(tmp);
+	ft_free_d_ptr((void **)tmp);
 	return (0);
 }
 
@@ -91,9 +79,9 @@ void	ft_handle_export(char **input, struct s_parsing *parsing, char **envp)
 		parsing->n_senv = tmp2[0];
 		parsing->v_senv = tmp2[1];
 		ft_setenv(envp, parsing);
-		ft_free_char(tmp2);
+		ft_free_d_ptr((void **)tmp2);
 	}
-	ft_free_char(tmp);
+	ft_free_d_ptr((void **)tmp);
 }
 
 int	ft_external_cmds_bis(char **input, struct s_parsing *parsing, char **envp)

@@ -1,16 +1,35 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   verify_operators.c                                 :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: shmoreno <shmoreno@student.42lausanne.ch>  +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/13 15:46:12 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/05/15 17:10:37 by shmoreno         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+
 
 #include "../../includes/minishell.h"
+
+void	ft_condition_operator(char *input, int *i, int *k, char *tmp)
+{
+	if (((input[*i] == '>' || input[*i] == '<' || input[*i] == '|')
+			&& (input[*i + 1] != ' ' && input[*i - 1] != ' '))
+		|| (input[*i] == '<' && input[*i + 1] == '<'
+			&& input[*i + 2] != ' ' && input[*i - 1] != ' ')
+		|| (input[*i] == '>' && input[*i + 1] == '>'
+			&& input[*i + 2] != ' ' && input[*i - 1] != ' '))
+	{
+		tmp[*k] = ' ';
+		(*k)++;
+		tmp[*k] = input[*i];
+		if (input[*i + 1] == '>' || input[*i + 1] == '<')
+		{
+			(*k)++;
+			tmp[*k] = input[*i + 1];
+			(*i)++;
+		}
+		(*k)++;
+		tmp[*k] = ' ';
+		(*k)++;
+	}
+	else
+	{
+		tmp[*k] = input[*i];
+		(*k)++;
+	}
+}
 
 char	*ft_separe_operator(char *input)
 {
@@ -30,47 +49,62 @@ char	*ft_separe_operator(char *input)
 	return (tmp);
 }
 
-int	ft_handle_verify(char **input, struct s_parsing *parsing, char **envp)
+int	ft_token_value(struct s_parsing *parsing)
 {
-	bool	check;
-	int		i;
-	int		k;
+	int	i;
 
 	i = -1;
-	k = -1;
-	check = false;
+	parsing->tkn_value = malloc(sizeof(int *) * 100);
+	while (parsing->tkn[++i] != NULL)
+	{
+		parsing->tkn_value[i] = malloc(sizeof(int) * 100);
+		if (!ft_strncmp(parsing->tkn[i], "<", 1))
+			parsing->tkn_value[i][0] = IN;
+		else if (!ft_strncmp(parsing->tkn[i], ">", 1))
+			parsing->tkn_value[i][0] = OUT;
+		else if (!ft_strncmp(parsing->tkn[i], ">>", 2))
+			parsing->tkn_value[i][0] = APPEND;
+		else if (!ft_strncmp(parsing->tkn[i], "<<", 2))
+			parsing->tkn_value[i][0] = HEREDOC;
+		else if (!ft_strncmp(parsing->tkn[i], "|", 1))
+			parsing->tkn_value[i][0] = PIPE;
+		else if (i > 0 && (!ft_strncmp(parsing->tkn[i - 1], "<", 1)
+				|| !ft_strncmp(parsing->tkn[i - 1], ">", 1)
+				|| !ft_strncmp(parsing->tkn[i - 1], "<<", 1)
+				|| !ft_strncmp(parsing->tkn[i - 1], ">>", 1)))
+			parsing->tkn_value[i][0] = FILE;
+		else // PEUT-ETRE VERIF ICI A VOIR
+			parsing->tkn_value[i][0] = CMD;
+	}
+	return (0);
+}
+
+/*int	ft_end_verify(char *input, struct s_parsing *parsing)
+{
+	free(input);
+	free(parsing->tkn_cpy);
+	return (0);
+}*/
+
+int	ft_handle_verify(char **input, struct s_parsing *parsing, char **envp)
+{
+	parsing->tkn_cpy = ft_strdup(*input);
 	*input = ft_separe_operator(*input);
-	parsing->test = ft_split(*input, ' ');
-	for (int k = 0; parsing->test[k] != NULL; k++)
+	parsing->tkn = ft_split(*input, ' ');
+	// HERE // Function to quote and double quote
+	ft_token_value(parsing);
+	for (int k = 0; parsing->tkn[k] != NULL; k++)
 	{
-		printf("parsing->test[%d] = %s\n", k, parsing->test[k]);
+		printf("parsing->tkn[%d] = %s | FLAG: %d\n", k, parsing->tkn[k], *parsing->tkn_value[k]);
 	}
-	// HERE TRANSFORM '' AND ""
-	while (parsing->test[++i] != NULL)
+	exit(0);
+	if (ft_external_cmds(input, parsing, envp) == 0)
+		return (ft_end_verify(input, parsing), 0);
+	if (ft_find_execve(envp, parsing) == -1)
 	{
-		while (parsing->test[i][++k] != '\0')
-		{
-			if ((parsing->test[i][k] == '>' && parsing->test[i][k + 1] != '>')
-			|| (parsing->test[i][k] == '<' && parsing->test[i][k + 1] != '<')
-			|| (parsing->test[i][k] == '<' && parsing->test[i][k + 1] == '<')
-			|| (parsing->test[i][k] == '>' && parsing->test[i][k + 1] == '>'))
-			{
-				check = true;
-				parsing->k = i;
-				//printf("k = %d\n", parsing->k);
-				if (ft_find_execve(parsing->test, envp, parsing, check) == -1)
-				{
-					printf("%s: command not found\n", *input);
-				}
-				break ;
-			}
-		}
-		k = -1;
+		printf("%s: command not found\n", *input);
+		return (ft_end_verify(input, parsing), -1);
 	}
-	add_history(*input);
-	ft_free_char(parsing->test);
-	if (!check)
-		return (-1);
-	free(*input);
+	ft_end_verify(input, parsing);
 	return (0);
 }
