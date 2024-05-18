@@ -1,5 +1,4 @@
 
-
 #include "../../includes/minishell.h"
 
 // Cette fonction sert à trouver le chemin d'accès d'une commande

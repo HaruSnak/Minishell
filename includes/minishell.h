@@ -1,5 +1,4 @@
 
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -17,9 +16,15 @@
 # include <sys/wait.h>
 # include <signal.h>
 # include <termios.h>
+# include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft/includes/libft.h"
+
+# define PL printf("file:%s line: %d\n", __FILE__, __LINE__)
+
+# define TRUE 1
+# define FALSE 0
 
 # define IN 0
 # define OUT 1
@@ -46,7 +51,24 @@ struct s_parsing
 	char	*tmp;
 	int		exit_value;
 	int		status;
+
+	char	*infile;
+	char	*outfile;
+	int		fds[2];
+	int		prevpipe;
+	pid_t	pidz[1];
 };
+
+// EXECUTION
+void	execution(char *argv[], char **envp, struct s_parsing *parsing);
+void	child_exec(char **envp,  struct s_parsing *parsing, int i, char *path);
+
+// Execution Utils
+char	**ft_path_envp(char **envp);
+void	wait_pidz(struct s_parsing *parsing);
+void	check_err_fork(pid_t pid);
+char	*find_cmd_path(struct s_parsing *parsing, int i);
+int		is_cmd(char *path);
 
 // PARSING FUNCTIONS 
 int		ft_find_execve(char **envp, struct s_parsing *parsing);

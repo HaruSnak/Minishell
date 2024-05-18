@@ -1,5 +1,4 @@
 
-
 #include "../../includes/minishell.h"
 
 void	ft_condition_operator(char *input, int *i, int *k, char *tmp)
@@ -45,7 +44,7 @@ char	*ft_separe_operator(char *input)
 		ft_condition_operator(input, &i, &k, tmp);
 	}
 	tmp[k] = '\0';
-	printf("%s\n", tmp); //delete
+	// printf("%s\n", tmp); //delete
 	return (tmp);
 }
 
@@ -84,7 +83,7 @@ int	ft_token_value(struct s_parsing *parsing)
 	free(input);
 	free(parsing->tkn_cpy);
 	return (0);
-}*/
+}*/	
 
 int	ft_handle_verify(char **input, struct s_parsing *parsing, char **envp)
 {
@@ -93,10 +92,11 @@ int	ft_handle_verify(char **input, struct s_parsing *parsing, char **envp)
 	parsing->tkn = ft_split(*input, ' ');
 	// HERE // Function to quote and double quote
 	ft_token_value(parsing);
-	for (int k = 0; parsing->tkn[k] != NULL; k++)
-	{
-		printf("parsing->tkn[%d] = %s | FLAG: %d\n", k, parsing->tkn[k], *parsing->tkn_value[k]);
-	}
+	// for (int k = 0; parsing->tkn[k] != NULL; k++)
+	// {
+		// printf("parsing->tkn[%d] = %s ; FLAG: %d\n", k, parsing->tkn[k], *parsing->tkn_value[k]);
+	// }
+	execution(parsing->tkn, envp, parsing);
 	exit(0);
 	if (ft_external_cmds(input, parsing, envp) == 0)
 		return (ft_end_verify(input, parsing), 0);

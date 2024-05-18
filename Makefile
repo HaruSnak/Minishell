@@ -1,13 +1,13 @@
 NAME = minishell
 CC = gcc
 RM = rm -f
-FLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+FLAGS = -Wall -Wextra -Werror #-fsanitize=address -g
 LIBFTDIR = includes/libft
 OBJ_DIR = obj/
 SRC_DIR = srcs/
-#READLINE_PATH = /Users/shmoreno/.local/opt/readline
-#CFLAGS = -I$(READLINE_PATH)/include
-#LDFLAGS = -L$(READLINE_PATH)/lib -lreadline
+READLINE_PATH = /Users/pcardin/.local/opt/readline
+CFLAGS = -I$(READLINE_PATH)/include
+LDFLAGS = -L$(READLINE_PATH)/lib -lreadline
 
 SRC_1 = srcs/minishell.c \
 
@@ -20,6 +20,9 @@ SRC_2 =	srcs/commands/cmds_external.c \
     srcs/parsing/verify_operators.c \
     srcs/redirections/operator_redirects.c \
     srcs/signals/signals.c \
+	srcs/execution/child_exec.c \
+	srcs/execution/execution_utils.c \
+	srcs/execution/execution.c \
 
 OBJ_1 = ${SRC_1:.c=.o}
 OBJ_2 = ${SRC_2:.c=.o}
@@ -33,6 +36,7 @@ ${NAME}: ${OBJ_1} ${OBJ_2}
 	@echo "Compiling $(NAME)..."
 	@make -C $(LIBFTDIR)
 	@${CC} ${FLAGS} ${CFLAGS} ${LDFLAGS} ${OBJ_1} ${OBJ_2} -o ${NAME} ${INCLUDE}
+	@clear
 	@echo "$(NAME) compiled successfully."
 
 all: ${NAME}
