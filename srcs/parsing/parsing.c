@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: shmoreno <shmoreno@student.42lausanne.ch>  +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/13 14:04:23 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/05/15 16:00:52 by shmoreno         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
@@ -42,23 +31,23 @@ void	ft_interpret_envp(char **envp, struct s_parsing *parsing)
 	char	*env_cmd;
 
 	i = 0;
-	if (parsing->cmd_extract[1] != NULL
-		&& ft_strchr(parsing->cmd_extract[1], '$')
-		&& ft_strnstr(parsing->cmd_extract[0], "echo",
-			ft_strlen(parsing->cmd_extract[0])))
+	if (parsing->tkn[1] != NULL
+		&& ft_strchr(parsing->tkn[1], '$')
+		&& ft_strnstr(parsing->tkn[0], "echo",
+			ft_strlen(parsing->tkn[0])))
 	{
-		env_cmd = ft_substr(parsing->cmd_extract[1], 1,
-				ft_strlen(parsing->cmd_extract[1]) - 1);
+		env_cmd = ft_substr(parsing->tkn[1], 1,
+				ft_strlen(parsing->tkn[1]) - 1);
 		while (envp[i] != NULL)
 		{
 			if (ft_strncmp(envp[i], env_cmd, ft_strlen(env_cmd)) == 0)
 			{
-				parsing->cmd_extract[1] = ft_strdup(envp[i]
+				parsing->tkn[1] = ft_strdup(envp[i]
 						+ ft_strlen(env_cmd) + 1);
 				break ;
 			}
 			else
-				parsing->cmd_extract[1] = ft_strdup("");
+				parsing->tkn[1] = ft_strdup("");
 			i++;
 		}
 	}
@@ -74,6 +63,7 @@ int	ft_if_execve_access(struct s_parsing *parsing, char **envp, bool check)
 	//int 	fd;
 
 	pipe(pipefd);
+	// printf("%dpath: %s\n", __LINE__, parsing->cmd_path);
 	if (access(parsing->cmd_path, F_OK) == 0)
 	{
 		pid = fork();
@@ -82,7 +72,7 @@ int	ft_if_execve_access(struct s_parsing *parsing, char **envp, bool check)
 			if (check)
 			{
 				if (ft_exec_cmd_redirects(parsing->test, parsing, parsing->k) == -1)
-					return (0);
+					return (0); // ---> A checker et rediriger directement depuis le parsing.
 				/*else if (ft_exec_cmd_redirects(parsing->test, parsing, parsing->k) == 2)
 				{
 					printf("heredoc\n");
@@ -95,12 +85,12 @@ int	ft_if_execve_access(struct s_parsing *parsing, char **envp, bool check)
 					printf("ICI\n");
 				}*/
 			}
-			printf("ICI2\n");
+			// printf("ICI2\n");
 			ft_interpret_envp(envp, parsing);
-			execve(parsing->cmd_path, parsing->cmd_extract, envp);
-			printf("cmd_path: %s\n", parsing->cmd_path);
-			printf("cmd_extract[0]: %s\n", parsing->cmd_extract[0]);
-			printf("cmd_extract[1]: %s\n", parsing->cmd_extract[1]);
+			execve(parsing->cmd_path, parsing->tkn, envp);
+			// printf("cmd_path--: %s\n", parsing->cmd_path);
+			// printf("tkn[0]--: %s\n", parsing->tkn[0]);
+			// printf("tkn[1]--: %s\n", parsing->tkn[1]);
 			return (0);
 		}
 		else if (pid < 0)
@@ -135,26 +125,28 @@ int	ft_find_execve(char *argv[], char **envp, struct s_parsing *parsing, bool ch
 	parsing->path = ft_path_envp(envp);
 	if (parsing->path == NULL)
 		return (-1);
-	parsing->cmd_extract = ft_split(argv[0], ' ');
-	for (i = -1; parsing->cmd_extract[++i] != NULL;)
-		printf("cmd_extract[%d]: %s\n", i, parsing->cmd_extract[i]);
+	parsing->tkn = ft_split(argv[0], ' ');
+	for (i = -1; parsing->tkn[++i] != NULL;)
+		printf("tkn[%d]: %s\n", i, parsing->tkn[i]);
+	i = -1;
 	while (parsing->path[++i] != NULL)
 	{
 		tmp = ft_strjoin(parsing->path[i], "/");
-		parsing->cmd_path = parsing->cmd_extract[0];
-		if (ft_strchr(parsing->cmd_extract[0], '/') == NULL)
-			parsing->cmd_path = ft_strjoin(tmp, parsing->cmd_extract[0]);
+		parsing->cmd_path = parsing->tkn[0];
+		printf("path: %s\n", parsing->cmd_path);
+		if (ft_strchr(parsing->tkn[0], '/') == NULL)
+			parsing->cmd_path = ft_strjoin(tmp, parsing->tkn[0]);
 		free(tmp);
-		if (ft_if_execve_access(parsing, envp, check) == 0)
+		if (ft_if_execve_access(parsing, envp, check) == 0) // Change to multipipes execution
 		{
-			if (ft_strchr(parsing->cmd_extract[0], '/') == NULL)
+			if (ft_strchr(parsing->tkn[0], '/') == NULL)
 				free(parsing->cmd_path);
-			ft_free_char(parsing->cmd_extract);
+			ft_free_char(parsing->tkn);
 			return (ft_free_char(parsing->path), 0);
 		}
-		if (ft_strchr(parsing->cmd_extract[0], '/') == NULL)
+		if (ft_strchr(parsing->tkn[0], '/') == NULL)
 			free(parsing->cmd_path);
 	}
-	ft_free_char(parsing->cmd_extract);
+	ft_free_char(parsing->tkn);
 	return (ft_free_char(parsing->path), -1);
 }

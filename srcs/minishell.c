@@ -1,17 +1,5 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: shmoreno <shmoreno@student.42lausanne.ch>  +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/12 16:11:04 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/05/15 17:07:20 by shmoreno         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../includes/minishell.h"
-#include <signal.h>
 
 int g_signal = 0;
 
@@ -28,6 +16,9 @@ void	ft_init_main(struct s_parsing *parsing,
 	//parsing->blocking_cmd = 0;
 	ft_setenv(envp, parsing);
 	(void)argc; 
+
+	parsing->infile = NULL;
+	parsing->outfile = NULL;
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -39,29 +30,32 @@ int	main(int argc, char **argv, char **envp)
 	//static int			blocking_cmd;
 
 	ft_init_main(&parsing, envp, argc);
-	(void)argv;
+	(void)argv; // Aussi if argc > 1, abort;
 	sa.sa_handler = ft_signal_handler;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
 	sigaction(SIGINT, &sa, NULL);
-	//sigaction(SIGQUIT, &sa, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
 	tcgetattr(STDIN_FILENO, &term);
 	while (1)
 	{
-		sigaction(SIGINT, &sa, NULL);
-		sigaction(SIGQUIT, &sa, NULL);
+		sigaction(SIGINT, &sa, NULL);  // Besoin des deux
+		sigaction(SIGQUIT, &sa, NULL); // in and out loop ?
 		term.c_cc[VQUIT] = _POSIX_VDISABLE;
 		tcsetattr(STDIN_FILENO, TCSANOW, &term);
-		input = readline("\033[0;32mminishell$ \033[0m");
+		input = readline("\033[0;32mminishell\xF0\x9F\x90\x9A \033[0m");
+		add_history(input);
 		if (!input)
 			break ;
 		if (ft_handle_verify(&input, &parsing, envp) == 0)
 			continue ;
 		if (ft_external_cmds(&input, &parsing, envp) == 0) // RETURN VERIFY_OPERATORS.C
 			continue ;
-		if (ft_find_execve(&input, envp, &parsing, false) == -1)
-			printf("%s: command not found\n", input);
-		add_history(input);
+		extract_bin_paths(envp, &parsing);
+		parsing.tkn = ft_split(input, ' ');
+		execution(&input, envp, &parsing, false);
+		// if (ft_find_execve(&input, envp, &parsing, false) == -1)
+			// printf("%s: command not found\n", input);
 		free(input);
 	}
 	return (0);

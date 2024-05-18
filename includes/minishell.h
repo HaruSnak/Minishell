@@ -1,17 +1,10 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/10 17:39:42 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/05/14 10:47:53 by shmoreno         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+# ifndef PL
+#  define PL printf("file:%s line: %d\n", __FILE__, __LINE__)
+# endif
 
 # include <fcntl.h>
 # include <stdarg.h>
@@ -27,16 +20,21 @@
 # include <sys/wait.h>
 # include <signal.h>
 # include <termios.h>
+# include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft/includes/libft.h"
+
+# define TRUE 1
+# define FALSE 0
 
 extern int g_signal;
 
 struct s_parsing
 {
-	char	**cmd_extract;
-	char	**path;
+	char	**tkn;
+	// char	**tkn_value;
+	char	**paths;
 	char	**tmp_env;
 	char	**test;
 	char	*n_senv;
@@ -49,11 +47,37 @@ struct s_parsing
 	int		exit_value;
 	int		status;
 	int		k;
+
+	char	*infile;
+	char	*outfile;
+	int		fds[2];
+	int		prevpipe;
+	pid_t	*pidz;
 };
 
-// PARSING FUNCTIONS 
-int		ft_find_execve(char *argv[], char **envp, struct s_parsing *parsing,
+// typedef struct s_exec
+// {
+// 	struct s_parsing	s_prsng_ptr;
+// 	char				**cmd_ptr;
+// 	int					fds[2];
+// 	int					prevpipe;
+// 	pid_t				*pidz;
+// }	t_exec;
+
+// NEW EXEC
+
+void	execution(char *argv[], char **envp, struct s_parsing *parsing,
 			bool check);
+void	child_exec(char **envp,  struct s_parsing *parsing, int i, char *path);
+void	check_err_fork(pid_t pid);
+void	wait_pidz(struct s_parsing *parsing);
+void	extract_bin_paths(char **envp, struct s_parsing *parsing);
+
+// PARSING FUNCTIONS 
+
+char	*find_cmd_path(struct s_parsing *parsing, int i);
+// int		ft_find_execve(char *argv[], char **envp, struct s_parsing *parsing,
+			// bool check);
 int		ft_if_execve_access(struct s_parsing *parsing, char **envp, bool check);
 
 // SIGNALS FUNCTIONS

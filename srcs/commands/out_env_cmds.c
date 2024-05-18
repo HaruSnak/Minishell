@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   out_env_cmds.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: pcardin <pcardin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 15:39:55 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/05/14 15:42:27 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/05/17 14:32:38 by pcardin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,8 @@ int	ft_external_cmds(char **input, struct s_parsing *parsing, char **envp)
 {
 	if (!ft_strncmp(*input, "exit", 4))
 		ft_handle_exit(input, parsing);
+	else if (input && !ft_strncmp(*input, "clear", ft_strlen("clear")))
+		ft_printf("\033[H\033[J");
 	if (ft_handle_empty_cmd(input) == 0)
 		return (free(*input), 0);
 	if (!ft_strncmp(*input, "cd", 2) && ft_cmd_cd(input, envp, parsing) == 0)

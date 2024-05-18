@@ -5,21 +5,18 @@ FLAGS = -Wall -Wextra -Werror
 LIBFTDIR = includes/libft/
 OBJ_DIR = obj/
 SRC_DIR = srcs/
-READLINE_PATH = /Users/shmoreno/.local/opt/readline
+READLINE_PATH = /Users/pcardin/.local/opt/readline
 CFLAGS = -I$(READLINE_PATH)/include
 LDFLAGS = -L$(READLINE_PATH)/lib -lreadline
 
 SRC_1 = srcs/minishell.c \
 
-SRC_2 =	srcs/commands/cmds_external.c \
-    srcs/commands/export_unset_cmds.c \
-    srcs/commands/out_cd_cmds.c \
-    srcs/commands/out_env_cmds.c \
-    srcs/errors/errors.c \
-    srcs/parsing/parsing.c \
-    srcs/parsing/verify_operators.c \
-    srcs/redirections/operator_redirects.c \
-    srcs/signals/signals.c \
+SRC_2 =	\
+	srcs/commands/cmds_external.c srcs/commands/out_env_cmds.c \
+    srcs/commands/export_unset_cmds.c srcs/commands/out_cd_cmds.c \
+    srcs/errors/errors.c srcs/parsing/parsing.c srcs/parsing/verify_operators.c \
+    srcs/redirections/operator_redirects.c srcs/signals/signals.c \
+	srcs/Execution/child_exec.c srcs/Execution/execution_utils.c srcs/Execution/execution.c \
 
 OBJ_1 = ${SRC_1:.c=.o}
 OBJ_2 = ${SRC_2:.c=.o}

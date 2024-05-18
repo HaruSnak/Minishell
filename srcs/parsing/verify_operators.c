@@ -1,16 +1,31 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   verify_operators.c                                 :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: shmoreno <shmoreno@student.42lausanne.ch>  +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/13 15:46:12 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/05/15 17:10:37 by shmoreno         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+char	**ft_quote(char **input)
+{
+	int	k;
+	int	i;
+
+	k = 0;
+	i = -1;
+	while (input[++i] != NULL)
+	{
+		if (ft_strchr(input[i], '\''))
+		{
+			if (ft_strchr(input[i], '\'') != ft_strrchr(input[i], '\''))
+			{
+
+			}
+			else if (ft_strchr(input[i], '\'') == ft_strrchr(input[i], '\''))
+			{
+				input[i] = ft_strtrim(input[i], "\'");
+				input[k] = ft_strdup(input[i]);
+				k++;
+			}
+		}
+	}
+	return (input);
+}
 
 char	*ft_separe_operator(char *input)
 {
@@ -36,15 +51,14 @@ int	ft_handle_verify(char **input, struct s_parsing *parsing, char **envp)
 	int		i;
 	int		k;
 
+	(void)envp;
 	i = -1;
 	k = -1;
 	check = false;
 	*input = ft_separe_operator(*input);
 	parsing->test = ft_split(*input, ' ');
-	for (int k = 0; parsing->test[k] != NULL; k++)
-	{
-		printf("parsing->test[%d] = %s\n", k, parsing->test[k]);
-	}
+	// for (int k = 0; parsing->test[k] != NULL; k++)
+		// printf("parsing->test[%d] = %s\n", k, parsing->test[k]);
 	// HERE TRANSFORM '' AND ""
 	while (parsing->test[++i] != NULL)
 	{
@@ -58,10 +72,8 @@ int	ft_handle_verify(char **input, struct s_parsing *parsing, char **envp)
 				check = true;
 				parsing->k = i;
 				//printf("k = %d\n", parsing->k);
-				if (ft_find_execve(parsing->test, envp, parsing, check) == -1)
-				{
-					printf("%s: command not found\n", *input);
-				}
+				// if (ft_find_execve(parsing->test, envp, parsing, check) == -1)
+					// printf("%s: command not found\n", *input);
 				break ;
 			}
 		}

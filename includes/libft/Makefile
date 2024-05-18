@@ -7,9 +7,9 @@ FILES	=	mem/ft_memset.c mem/ft_bzero.c mem/ft_memcpy.c mem/ft_memmove.c str/ft_s
 			str/ft_strchr.c str/ft_strrchr.c str/ft_strnstr.c str/ft_strncmp.c conv/ft_atoi.c \
 			char/ft_isalpha.c char/ft_isdigit.c char/ft_isalnum.c char/ft_isascii.c char/ft_isprint.c \
 			char/ft_toupper.c char/ft_tolower.c mem/ft_calloc.c str/ft_strdup.c str/ft_substr.c \
-			str/ft_strjoin.c str/ft_strtrim.c str/ft_split.c conv/ft_itoa.c str/ft_strmapi.c \
+			str/ft_strjoin.c str/ft_strjoin_bs.c str/ft_strtrim.c str/ft_split.c conv/ft_itoa.c str/ft_strmapi.c \
 			put/ft_putchar_fd.c put/ft_putstr_fd.c put/ft_putendl_fd.c put/ft_putnbr_fd.c \
-			gnl/get_next_line.c printf/ft_conv_primary.c printf/ft_conv_specifies.c \
+			gnl/get_next_line.c printf/ft_conv_primary.c \
 			printf/ft_conv_suit.c printf/ft_printf.c put/ft_putchar.c put/ft_putnbr.c \
 			put/ft_putstr.c \
 

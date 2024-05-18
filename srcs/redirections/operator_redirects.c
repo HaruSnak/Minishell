@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   operator_redirects.c                               :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: shmoreno <shmoreno@student.42lausanne.ch>  +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/09 10:46:30 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/05/15 11:02:46 by shmoreno         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
@@ -22,7 +11,7 @@ int	ft_handle_less_than(char **tmp, struct s_parsing *parsing, int i)
 		printf("minishell: %s: No such file or directory\n", tmp[i + 1]);
 		parsing->exit_value = 1;
 		return (-1);
-	}
+		}
 	if (dup2(fd, STDIN_FILENO) == -1)
 	{
 		perror("dup2");
