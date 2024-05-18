@@ -6,7 +6,7 @@
 /*   By: shmoreno <shmoreno@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 13:10:38 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/05/15 11:19:30 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/05/16 17:28:33 by shmoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	ft_signal_handler(int signo)
 		if (g_signal == 0)
 		{
 			rl_on_new_line();
-			//rl_clear_history();
 			rl_replace_line("", 0);
 			rl_redisplay();
 		}

@@ -1,14 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/10 17:39:42 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/05/14 10:47:53 by shmoreno         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -31,30 +21,36 @@
 # include <readline/history.h>
 # include "libft/includes/libft.h"
 
+# define IN 0
+# define OUT 1
+# define APPEND 2
+# define HEREDOC 3
+# define PIPE 4
+# define CMD 5
+# define FILE 6
+
 extern int g_signal;
 
 struct s_parsing
 {
-	char	**cmd_extract;
+	char	**tkn;
+	int		**tkn_value;
 	char	**path;
 	char	**tmp_env;
-	char	**test;
+	char	*tkn_cpy;
 	char	*n_senv;
 	char	*v_senv;
 	char	*cmd_path;
 	char	*input;
 	char	*pwd;
 	char	*tmp;
-	int		blocking_cmd;
 	int		exit_value;
 	int		status;
-	int		k;
 };
 
 // PARSING FUNCTIONS 
-int		ft_find_execve(char *argv[], char **envp, struct s_parsing *parsing,
-			bool check);
-int		ft_if_execve_access(struct s_parsing *parsing, char **envp, bool check);
+int		ft_find_execve(char **envp, struct s_parsing *parsing);
+int		ft_if_execve_access(struct s_parsing *parsing, char **envp);
 
 // SIGNALS FUNCTIONS
 void	ft_signal_handler(int signo);
@@ -86,8 +82,10 @@ int		ft_handle_echo(char *input, struct s_parsing *parsing);
 
 // REDIRECTION FUNCTIONS SHELL
 int		ft_handle_verify(char **input, struct s_parsing *parsing, char **envp);
-int		ft_exec_cmd_redirects(char **tmp, struct s_parsing *parsing,
-			int i);
-void	ft_condition_operator(char *input, int *i, int *k, char *tmp);
+int		ft_exec_cmd_redirects(char **tmp, struct s_parsing *parsing);
+
+// ERRORS FUNCTIONS
+void	ft_end_verify(char **input, struct s_parsing *parsing);
+void	ft_free_d_ptr(void **ptr);
 
 #endif

@@ -1,13 +1,13 @@
 NAME = minishell
 CC = gcc
 RM = rm -f
-FLAGS = -Wall -Wextra -Werror
-LIBFTDIR = includes/libft/
+FLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+LIBFTDIR = includes/libft
 OBJ_DIR = obj/
 SRC_DIR = srcs/
-READLINE_PATH = /Users/shmoreno/.local/opt/readline
-CFLAGS = -I$(READLINE_PATH)/include
-LDFLAGS = -L$(READLINE_PATH)/lib -lreadline
+#READLINE_PATH = /Users/shmoreno/.local/opt/readline
+#CFLAGS = -I$(READLINE_PATH)/include
+#LDFLAGS = -L$(READLINE_PATH)/lib -lreadline
 
 SRC_1 = srcs/minishell.c \
 
@@ -24,7 +24,7 @@ SRC_2 =	srcs/commands/cmds_external.c \
 OBJ_1 = ${SRC_1:.c=.o}
 OBJ_2 = ${SRC_2:.c=.o}
 
-INCLUDE = -L $(LIBFTDIR) -lft
+INCLUDE = -L $(LIBFTDIR) -lft -lreadline
 
 .c.o:
 	@$(CC) $(FLAGS) $(CFLAGS) -c $< -o $@
@@ -39,7 +39,7 @@ all: ${NAME}
 
 clean:
 	@echo "Cleaning object files..."
-	@${RM} ${OBJ_1} ${OBJ_2} ${NAME}
+	@${RM} ${OBJ_1} ${OBJ_2}
 	@echo "Object files cleaned."
 
 fclean: clean

@@ -1,14 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: shmoreno <shmoreno@student.42lausanne.ch>  +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/26 15:48:12 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/05/15 14:17:29 by shmoreno         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+
 
 #include "../../includes/minishell.h"
 
@@ -20,15 +10,24 @@ void	ft_error_cmd_ext(char *error, int status)
 	exit(status);
 }
 
-void	ft_free_char(char **str)
+void	ft_free_d_ptr(void **ptr)
 {
 	int	i;
 
 	i = 0;
-	while (str[i] != NULL)
+	while (ptr[i] != NULL)
 	{
-		free(str[i]);
+		free(ptr[i]);
 		i++;
 	}
-	free(str);
+	free(ptr);
+}
+
+void	ft_end_verify(char **input, struct s_parsing *parsing)
+{
+	add_history(*input);
+	ft_free_d_ptr((void **)parsing->tkn);
+	ft_free_d_ptr((void **)parsing->tkn_value);
+	free(parsing->tkn_cpy);
+	free(*input);
 }
