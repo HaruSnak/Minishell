@@ -91,10 +91,10 @@ int	ft_handle_verify(char **input, struct s_parsing *parsing, char **envp)
 	parsing->tkn = ft_split(*input, ' ');
 	// HERE // Function to quote and double quote
 	ft_token_value(parsing);
-	for (int k = 0; parsing->path[k] != NULL; k++)
-	{
-		printf("parsing->tkn[%d] = %s ; FLAG: %d\n", k, parsing->path[k], /**parsing->tkn_value[k]);
-	}
+	// for (int k = 0; parsing->tkn[k] != NULL; k++)
+	// {
+		// printf("parsing->tkn[%d] = %s ; FLAG: %d\n", k, parsing->tkn[k], *parsing->tkn_value[k]);
+	// }
 	execution(parsing->tkn, envp, parsing);
 	exit(0);
 	if (ft_external_cmds(input, parsing, envp) == 0)

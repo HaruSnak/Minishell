@@ -62,14 +62,13 @@ void	init_data(t_exec **data, t_redir **s_redir, struct s_parsing *parsing)
 	(*s_redir)->redir_in = FALSE;
 	(*s_redir)->redir_out = FALSE;
 	*data = malloc(sizeof(t_exec));
-	
 	(*data)->parsing_ptr = parsing;
 	(*data)->infile = NULL;
 	(*data)->outfile = NULL;
 	(*data)->heredoc = FALSE;
+	(*data)->pidz = malloc(cmd_count(parsing->tkn_value) * sizeof(pid_t));
+	(*data)->prevpipe = 0;
 	// (*data)->cmds = NULL;
-	// (*data)->pidz = 0;
 	// (*data)->fds[0] = 0;
 	// (*data)->fds[1] = 0;
-	// (*data)->prevpipe = 0;
 }

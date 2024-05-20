@@ -32,6 +32,7 @@ void	check_err_fork(pid_t pid);
 char	*find_cmd_path(t_exec **data, int i);
 int		is_cmd(char *path);
 void	init_data(t_exec **data, t_redir **s_redir, struct s_parsing *parsing);
+int		cmd_count(int **tkn_value);
 
 // REDIRECTION
 void	redirection(char **tkn, int **tkn_value,

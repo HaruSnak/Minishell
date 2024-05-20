@@ -56,7 +56,7 @@ void	redirection(char **tkn, int **tkn_value,
 	while (tkn[++i])
 	{
 		if (*tkn_value[i] == IN)
-		{
+		{ 
 			(*s_redir)->redir_in = TRUE;
 			check_access_infile(tkn[i + 1], tkn_value[i], data);
 		}

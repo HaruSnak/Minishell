@@ -29,42 +29,48 @@ void	command_not_found(t_exec **data, int i)
 	close((*data)->fds[1]);
 	close((*data)->fds[0]);
 }
-/*
+
 void	cmds_execution(t_exec **data, char **envp)
 {
-	char	**path;
+	char	*path;
 	int		i;
 
 	i = -1;
-	while ((*data)->parsing_ptr->tkn[++i]
-		&& (*data)->parsing_ptr->tkn_value[i] == 6)
+	if ((*data)->infile)
+		(*data)->prevpipe = open((*data)->infile, O_RDONLY);
+	fprintf(stderr, "stdin: %d\n", (*data)->prevpipe);
+	while ((*data)->parsing_ptr->tkn[++i])
 	{
-		path = find_cmd_path(&data, i);
+		if (*(*data)->parsing_ptr->tkn_value[i] != CMD)
+			continue ;
+		path = find_cmd_path(data, i);
 		if (pipe((*data)->fds) == -1)
 		{
 			perror("pipe");
 			exit(errno);
 		}
 		if (path == NULL)
-			command_not_found(&data, i);
+			command_not_found(data, i);
 		else
-			command_found(&data, &path, envp, i);
+			command_found(data, &path, envp, i);
 	}
-}*/
+}
 
 void	execution(char *tkn[], char **envp, struct s_parsing *parsing)
 {
 	t_exec	*data;
 	t_redir	*s_redir;
 
-	(void)envp;
+	parsing->path = ft_path_envp(envp);
 	init_data(&data, &s_redir, parsing);
 	redirection(tkn, parsing->tkn_value, &data, &s_redir);
-	
-	// cmds_execution(data, envp);
+	cmds_execution(&data, envp);
 	// close(data->prevpipe);
 	// wait_pidz(parsing);
 }
+
+//-----// to come back to //-----//
+
 
 // < in ls | wc -w > out
 

@@ -17,8 +17,8 @@ void	redirect_output(t_exec **data)
 {
 	int		fd_out;
 
-	printf("outpath: %s\n", (*data)->outfile);
-	fd_out = open((*data)->outfile, O_CREAT | O_WRONLY | O_RDONLY | O_TRUNC, 0);
+	// fprintf(stderr, "outpath: %s\n", (*data)->outfile);
+	fd_out = open((*data)->outfile, O_WRONLY | O_RDONLY | O_TRUNC, 0777);
 	if (fd_out == -1)
 	{
 		perror("outfile");
@@ -29,13 +29,13 @@ void	redirect_output(t_exec **data)
 
 void	pipe_handling(t_exec **data, int i)
 {
+	(void)i;
 	dup2((*data)->prevpipe, STDIN_FILENO);
 	close((*data)->prevpipe);
 	close((*data)->fds[0]);
-	if ((*data)->parsing_ptr->tkn[i + 1] == NULL)
-		;
-		// redirect_output(parsing);
-	else
+	// if ((*data)->parsing_ptr->tkn[i + 1] == NULL)
+	// redirect_output(data);
+	// else
 		dup2((*data)->fds[1], STDOUT_FILENO);
 	close((*data)->fds[1]);
 }
