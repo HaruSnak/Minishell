@@ -14,7 +14,6 @@ void	ft_setenv_last(char **envp, struct s_parsing *parsing, int i)
 	parsing->tmp_env[j + 1] = NULL;
 	envp[i + 1] = parsing->tmp_env[j];
 	envp[i + 2] = NULL;
-	printf("j = %d\n", j);
 	j++;
 	free(tmp_equal);
 }

@@ -8,7 +8,7 @@ int	is_cmd(char *path)
 	return (TRUE);
 }
 
-char	*find_cmd_path(struct s_parsing *parsing, int i)
+char	*find_cmd_path(t_exec **data, int i)
 {
 	char	*path;
 	int		accss;
@@ -17,7 +17,8 @@ char	*find_cmd_path(struct s_parsing *parsing, int i)
 	j = 0;
 	while (j < 8)
 	{
-		path = ft_strjoin_fs(parsing->path[j], parsing->tkn[i]);
+		path = ft_strjoin_fs((*data)->parsing_ptr->path[j],
+			(*data)->parsing_ptr->tkn[i]);
 		if (!path)
 			return (NULL);
 		accss = access(path, X_OK);
@@ -30,16 +31,16 @@ char	*find_cmd_path(struct s_parsing *parsing, int i)
 	return (NULL);
 }
 
-void	wait_pidz(struct s_parsing *parsing)
+void	wait_pidz(t_exec **data)
 {
 	int		i;
 	int		status;
 	pid_t	result;
 
 	i = 0;
-	while (parsing->pidz[i])
+	while ((*data)->pidz[i])
 	{
-		result = waitpid(parsing->pidz[i], &status, 0);
+		result = waitpid((*data)->pidz[i], &status, 0);
 		if (result == -1)
 			perror("waitpid");
 		i++;
@@ -53,4 +54,22 @@ void	check_err_fork(pid_t pid)
 		perror("fork");
 		exit(0);
 	}
+}
+
+void	init_data(t_exec **data, t_redir **s_redir, struct s_parsing *parsing)
+{
+	*s_redir = malloc(sizeof(t_redir));
+	(*s_redir)->redir_in = FALSE;
+	(*s_redir)->redir_out = FALSE;
+	*data = malloc(sizeof(t_exec));
+	
+	(*data)->parsing_ptr = parsing;
+	(*data)->infile = NULL;
+	(*data)->outfile = NULL;
+	(*data)->heredoc = FALSE;
+	// (*data)->cmds = NULL;
+	// (*data)->pidz = 0;
+	// (*data)->fds[0] = 0;
+	// (*data)->fds[1] = 0;
+	// (*data)->prevpipe = 0;
 }

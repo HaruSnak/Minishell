@@ -14,7 +14,7 @@ void	ft_init_main(struct s_parsing *parsing,
 	parsing->n_senv = "OLDPWD";
 	parsing->v_senv = "";
 	ft_setenv(envp, parsing);
-	(void)argc; 
+	(void)argc;
 }
 
 int	main(int argc, char **argv, char **envp)

@@ -13,12 +13,12 @@
 // 	return (exec_argv);
 // }
 
-void	redirect_output( struct s_parsing *parsing)
+void	redirect_output(t_exec **data)
 {
 	int		fd_out;
 
-	printf("outpath: %s\n", parsing->outfile);
-	fd_out = open(parsing->outfile, O_CREAT | O_WRONLY | O_RDONLY | O_TRUNC, 0);
+	printf("outpath: %s\n", (*data)->outfile);
+	fd_out = open((*data)->outfile, O_CREAT | O_WRONLY | O_RDONLY | O_TRUNC, 0);
 	if (fd_out == -1)
 	{
 		perror("outfile");
@@ -27,21 +27,21 @@ void	redirect_output( struct s_parsing *parsing)
 	dup2(fd_out, STDOUT_FILENO);
 }
 
-void	pipe_handling( struct s_parsing *parsing, int i)
+void	pipe_handling(t_exec **data, int i)
 {
-	dup2(parsing->prevpipe, STDIN_FILENO);
-	close(parsing->prevpipe);
-	close(parsing->fds[0]);
-	if (parsing->tkn[i + 1] == NULL)
+	dup2((*data)->prevpipe, STDIN_FILENO);
+	close((*data)->prevpipe);
+	close((*data)->fds[0]);
+	if ((*data)->parsing_ptr->tkn[i + 1] == NULL)
 		;
 		// redirect_output(parsing);
 	else
-		dup2(parsing->fds[1], STDOUT_FILENO);
-	close(parsing->fds[1]);
+		dup2((*data)->fds[1], STDOUT_FILENO);
+	close((*data)->fds[1]);
 }
 
-void	child_exec(char **envp,  struct s_parsing *parsing, int i, char *path)
+void	child_exec(char **envp, t_exec **data, int i, char *path)
 {
-	pipe_handling(parsing, i);
-	execve(path, parsing->tkn, envp);
+	pipe_handling(data, i);
+	execve(path, (*data)->parsing_ptr->tkn, envp);
 }

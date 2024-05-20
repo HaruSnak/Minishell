@@ -23,6 +23,7 @@ SRC_2 =	srcs/commands/cmds_external.c \
 	srcs/execution/child_exec.c \
 	srcs/execution/execution_utils.c \
 	srcs/execution/execution.c \
+	srcs/execution/redirection.c \
 
 OBJ_1 = ${SRC_1:.c=.o}
 OBJ_2 = ${SRC_2:.c=.o}
