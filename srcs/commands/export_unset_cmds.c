@@ -54,7 +54,7 @@ int	ft_handle_unset(char **input, char **envp)
 			}
 		}
 	}
-	ft_free_d_ptr((void **)tmp);
+	ft_free_d_ptr((void ***)tmp);
 	return (0);
 }
 
@@ -79,9 +79,9 @@ void	ft_handle_export(char **input, struct s_parsing *parsing, char **envp)
 		parsing->n_senv = tmp2[0];
 		parsing->v_senv = tmp2[1];
 		ft_setenv(envp, parsing);
-		ft_free_d_ptr((void **)tmp2);
+		ft_free_d_ptr((void ***)tmp2);
 	}
-	ft_free_d_ptr((void **)tmp);
+	ft_free_d_ptr((void ***)tmp);
 }
 
 int	ft_external_cmds_bis(char **input, struct s_parsing *parsing, char **envp)

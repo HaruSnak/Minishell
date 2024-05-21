@@ -27,7 +27,8 @@
 # define HEREDOC 3
 # define PIPE 4
 # define CMD 5
-# define FILE 6
+# define ARG 6
+# define FILE 7
 
 extern int g_signal;
 
@@ -51,6 +52,8 @@ struct s_parsing
 // PARSING FUNCTIONS 
 int		ft_find_execve(char **envp, struct s_parsing *parsing);
 int		ft_if_execve_access(struct s_parsing *parsing, char **envp);
+int		ft_token_value(struct s_parsing *parsing);
+char	*ft_separe_operator(char *input);
 
 // SIGNALS FUNCTIONS
 void	ft_signal_handler(int signo);
@@ -86,6 +89,14 @@ int		ft_exec_cmd_redirects(char **tmp, struct s_parsing *parsing);
 
 // ERRORS FUNCTIONS
 void	ft_end_verify(char **input, struct s_parsing *parsing);
-void	ft_free_d_ptr(void **ptr);
+void	ft_free_and_compact(char **str, int index, int size);
+void	ft_free_d_ptr(void ***ptr);
+
+// QUOTE FUNCTIONS SHELL
+
+// UTILS FUNCTIONS
+int		ft_count_index(char **input);
+char	*ft_replace_espace(char *input, struct s_parsing *parsing);
+void	ft_delete_espace(struct s_parsing *parsing);
 
 #endif

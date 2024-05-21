@@ -18,8 +18,12 @@ SRC_2 =	srcs/commands/cmds_external.c \
     srcs/errors/errors.c \
     srcs/parsing/parsing.c \
     srcs/parsing/verify_operators.c \
+	srcs/parsing/token_value.c \
+	srcs/parsing/redirect_quote.c \
     srcs/redirections/operator_redirects.c \
     srcs/signals/signals.c \
+	srcs/quote/quote.c \
+	srcs/utils/function_utils.c \
 
 OBJ_1 = ${SRC_1:.c=.o}
 OBJ_2 = ${SRC_2:.c=.o}

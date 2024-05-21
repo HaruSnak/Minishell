@@ -141,8 +141,8 @@ int	ft_find_execve(char **envp, struct s_parsing *parsing)
 				{
 					if (ft_strchr(parsing->tkn[0], '/') == NULL)
 						free(parsing->cmd_path);
-					ft_free_d_ptr((void **)parsing->tkn);
-					return (ft_free_d_ptr((void **)parsing->path), 0);
+					ft_free_d_ptr((void ***)&parsing->tkn);
+					return (ft_free_d_ptr((void ***)&parsing->path), 0);
 				}
 				if (ft_strchr(parsing->tkn[0], '/') == NULL)
 					free(parsing->cmd_path);
@@ -150,6 +150,6 @@ int	ft_find_execve(char **envp, struct s_parsing *parsing)
 		}
 		i = -1;
 	}
-	ft_free_d_ptr((void **)parsing->tkn);
-	return (ft_free_d_ptr((void **)parsing->path), -1);
+	ft_free_d_ptr((void ***)&parsing->tkn);
+	return (ft_free_d_ptr((void ***)&parsing->path), -1);
 }
