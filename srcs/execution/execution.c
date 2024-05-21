@@ -38,9 +38,9 @@ void	cmds_execution(t_exec **data, char **envp)
 	i = -1;
 	if ((*data)->infile)
 		(*data)->prevpipe = open((*data)->infile, O_RDONLY);
-	fprintf(stderr, "stdin: %d\n", (*data)->prevpipe);
 	while ((*data)->parsing_ptr->tkn[++i])
 	{
+		// printf("tkn[%d]: %s\n", i, (*data)->parsing_ptr->tkn[i]);
 		if (*(*data)->parsing_ptr->tkn_value[i] != CMD)
 			continue ;
 		path = find_cmd_path(data, i);
@@ -63,10 +63,15 @@ void	execution(char *tkn[], char **envp, struct s_parsing *parsing)
 
 	parsing->path = ft_path_envp(envp);
 	init_data(&data, &s_redir, parsing);
-	redirection(tkn, parsing->tkn_value, &data, &s_redir);
-	cmds_execution(&data, envp);
-	// close(data->prevpipe);
-	// wait_pidz(parsing);
+	check_for_redirection(tkn, parsing->tkn_value, &data, &s_redir);
+	// if (data->infile)       	 // make sure the redirection inside
+		// redirect_input(data); // the check_access is fine;
+	if (there_is_pipeline(parsing->tkn_value) == TRUE)
+		cmds_execution(&data, envp);
+	else
+		single_cmd_execution(&data, tkn, s_redir);
+	close(data->prevpipe);
+	wait_pidz(&data);
 }
 
 //-----// to come back to //-----//

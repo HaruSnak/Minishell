@@ -13,35 +13,28 @@
 // 	return (exec_argv);
 // }
 
-void	redirect_output(t_exec **data)
-{
-	int		fd_out;
-
-	// fprintf(stderr, "outpath: %s\n", (*data)->outfile);
-	fd_out = open((*data)->outfile, O_WRONLY | O_RDONLY | O_TRUNC, 0777);
-	if (fd_out == -1)
-	{
-		perror("outfile");
-		exit(0);
-	}
-	dup2(fd_out, STDOUT_FILENO);
-}
-
 void	pipe_handling(t_exec **data, int i)
 {
-	(void)i;
 	dup2((*data)->prevpipe, STDIN_FILENO);
+	sleep(10);
 	close((*data)->prevpipe);
 	close((*data)->fds[0]);
-	// if ((*data)->parsing_ptr->tkn[i + 1] == NULL)
-	// redirect_output(data);
-	// else
+	if (*(*data)->parsing_ptr->tkn_value[i + 1] == OUT
+		|| *(*data)->parsing_ptr->tkn_value[i + 1] == APPEND)
+	{
+		fprintf(stderr, "tkn_value[%d]: %d\n", i, *(*data)->parsing_ptr->tkn_value[i + 1]);
+		fprintf(stderr, "tkn[%d]: %s\n", i, (*data)->parsing_ptr->tkn[i + 1]);
+		redirect_output(data, *(*data)->parsing_ptr->tkn_value[i + 1]);
+	}
+	else
 		dup2((*data)->fds[1], STDOUT_FILENO);
+		sleep(10);
 	close((*data)->fds[1]);
 }
 
 void	child_exec(char **envp, t_exec **data, int i, char *path)
 {
 	pipe_handling(data, i);
-	execve(path, (*data)->parsing_ptr->tkn, envp);
+	exit(0); // DO NOT REMOVE
+	execve(path, (*data)->parsing_ptr->tkn, envp); // setup real argv
 }

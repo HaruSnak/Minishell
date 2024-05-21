@@ -1,7 +1,7 @@
 NAME = minishell
 CC = gcc
 RM = rm -f
-FLAGS = -Wall -Wextra -Werror #-fsanitize=address -g
+FLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
 LIBFTDIR = includes/libft
 OBJ_DIR = obj/
 SRC_DIR = srcs/
@@ -51,6 +51,7 @@ clean:
 fclean: clean
 	@echo "Cleaning executable..."
 	@${RM} ${NAME}
+	@clear
 	@echo "Executable cleaned."
 
 re: fclean all

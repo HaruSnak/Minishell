@@ -96,6 +96,7 @@ int	ft_handle_verify(char **input, struct s_parsing *parsing, char **envp)
 		// printf("parsing->tkn[%d] = %s ; FLAG: %d\n", k, parsing->tkn[k], *parsing->tkn_value[k]);
 	// }
 	execution(parsing->tkn, envp, parsing);
+	ft_end_verify(input, parsing);
 	exit(0);
 	if (ft_external_cmds(input, parsing, envp) == 0)
 		return (ft_end_verify(input, parsing), 0);
@@ -104,6 +105,5 @@ int	ft_handle_verify(char **input, struct s_parsing *parsing, char **envp)
 		printf("%s: command not found\n", *input);
 		return (ft_end_verify(input, parsing), -1);
 	}
-	ft_end_verify(input, parsing);
 	return (0);
 }

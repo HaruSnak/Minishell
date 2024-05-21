@@ -1,12 +1,29 @@
 
 #include "../../includes/minishell.h"
 
+void	redirect_output(t_exec **data, int tkn_value)
+{
+	int		fd_out;
+
+	fd_out = -1;
+	if (tkn_value == OUT)
+		fd_out = open((*data)->outfile, O_WRONLY | O_RDONLY | O_TRUNC, 0777);
+	else if (tkn_value == APPEND)
+		fd_out = open((*data)->outfile, O_WRONLY | O_RDONLY | O_APPEND, 0777);
+	if (fd_out == -1)
+	{
+		perror("outfile");
+		exit(0);
+	}
+	dup2(fd_out, STDOUT_FILENO);
+}
+
 void	check_access_infile(char *infile, int *tkn_value, t_exec **data)
 {
 	if (*tkn_value == HEREDOC)
 	{
 		(*data)->heredoc = TRUE;
-		return ;
+		return ; // Unfinished bullshit
 	}
 	if (access(infile, F_OK | R_OK) < 0)
 	{
@@ -20,6 +37,13 @@ void	check_access_infile(char *infile, int *tkn_value, t_exec **data)
 		return ;
 	}
 	ft_strlcpy((*data)->infile, infile, ft_strlen(infile) + 1);
+	(*data)->prevpipe = open((*data)->infile, O_RDONLY);
+	if ((*data)->prevpipe == -1)
+	{
+		perror("infile");
+		return ;
+	}
+	dup2((*data)->prevpipe, STDIN_FILENO);
 }
 
 void	check_access_outfile(char *outfile, int	*tkn_value, t_exec **data)
@@ -47,7 +71,7 @@ void	check_access_outfile(char *outfile, int	*tkn_value, t_exec **data)
 	ft_strlcpy((*data)->outfile, outfile, ft_strlen(outfile) + 1);
 }
 
-void	redirection(char **tkn, int **tkn_value,
+void	check_for_redirection(char **tkn, int **tkn_value,
 		t_exec **data, t_redir **s_redir)
 {
 	int	i;
