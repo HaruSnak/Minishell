@@ -1,13 +1,9 @@
 
 #include "../../includes/minishell.h"
 
-void	handle_redirections()
+void	single_cmd_execution(t_exec **data, char *tkn[])
 {
-
-}
-
-
-void	single_execution(t_exec **data, char *tkn[])
-{
-	handle_redirections();
+	(void)data;
+	(void)tkn;
+	// handle_redirections();
 }

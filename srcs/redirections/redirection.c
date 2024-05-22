@@ -18,26 +18,14 @@ void	redirect_output(t_exec **data, int tkn_value)
 	dup2(fd_out, STDOUT_FILENO);
 }
 
-void	check_access_infile(char *infile, int *tkn_value, t_exec **data)
+void	check_access_infile(char *infile, t_exec **data)
 {
-	if (*tkn_value == HEREDOC)
-	{
-		(*data)->heredoc = TRUE;
-		return ; // Unfinished bullshit
-	}
 	if (access(infile, F_OK | R_OK) < 0)
 	{
 		perror("infile");
 		return ;
 	}
-	(*data)->infile = malloc((ft_strlen(infile) + 1) * sizeof(char));
-	if (!(*data)->infile)
-	{
-		perror("infile");
-		return ;
-	}
-	ft_strlcpy((*data)->infile, infile, ft_strlen(infile) + 1);
-	(*data)->prevpipe = open((*data)->infile, O_RDONLY);
+	(*data)->prevpipe = open(infile, O_RDONLY);
 	if ((*data)->prevpipe == -1)
 	{
 		perror("infile");
@@ -80,14 +68,22 @@ void	check_for_redirection(char **tkn, int **tkn_value,
 	while (tkn[++i])
 	{
 		if (*tkn_value[i] == IN)
-		{ 
-			(*s_redir)->redir_in = TRUE;
-			check_access_infile(tkn[i + 1], tkn_value[i], data);
-		}
+			check_access_infile(tkn[i + 1], data);
+		// else if (*tkn_value[i] == HEREDOC) // last option would be to store
+			// heredoc_handling(infile);      // in a hidenfile  
 		if (*tkn_value[i] == OUT)
-		{
 			(*s_redir)->redir_out = TRUE;
+		else if (*tkn_value[i] == APPEND)
+			(*s_redir)->append = TRUE;
+		if ((*s_redir)->redir_out == TRUE || (*s_redir)->append == TRUE)
 			check_access_outfile(tkn[i + 1], tkn_value[i], data);
-		}
 	}
 }
+
+	// (*data)->infile = malloc((ft_strlen(infile) + 1) * sizeof(char));
+	// if (!(*data)->infile)
+	// {
+	// 	perror("infile");
+	// 	return ;
+	// }
+	// ft_strlcpy((*data)->infile, infile, ft_strlen(infile) + 1);

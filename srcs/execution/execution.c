@@ -36,8 +36,6 @@ void	cmds_execution(t_exec **data, char **envp)
 	int		i;
 
 	i = -1;
-	if ((*data)->infile)
-		(*data)->prevpipe = open((*data)->infile, O_RDONLY);
 	while ((*data)->parsing_ptr->tkn[++i])
 	{
 		// printf("tkn[%d]: %s\n", i, (*data)->parsing_ptr->tkn[i]);
@@ -69,7 +67,7 @@ void	execution(char *tkn[], char **envp, struct s_parsing *parsing)
 	if (there_is_pipeline(parsing->tkn_value) == TRUE)
 		cmds_execution(&data, envp);
 	else
-		single_cmd_execution(&data, tkn, s_redir);
+		single_cmd_execution(&data, tkn);
 	close(data->prevpipe);
 	wait_pidz(&data);
 }
@@ -77,15 +75,5 @@ void	execution(char *tkn[], char **envp, struct s_parsing *parsing)
 //-----// to come back to //-----//
 
 
-// < in ls | wc -w > out
 
-	// printf("in: %d; out: %d\n", s_redir->redir_in, s_redir->redir_out);
-	// printf("in: %s; out: %s\n", data->infile, data->outfile);
-	// printf("infile: %s\n", (*data)->infile);
-	// if ((*data)->infile)
-		// (*data)->prevpipe = open((*data)->infile, O_RDONLY);
-	// if (((*data)->prevpipe) == -1)
-	// {
-		// perror("infile");
-		// exit(0);
-	// }
+// < in ls | wc -w > out

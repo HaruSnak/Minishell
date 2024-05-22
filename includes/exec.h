@@ -7,24 +7,23 @@ typedef	struct	s_redir
 {
 	bool	redir_in;
 	bool	redir_out;
+	bool	here_doc;
+	bool	append;
 }	t_redir;
 
 typedef struct	s_exec
 {
 	struct	s_parsing	*parsing_ptr;
-	char				*infile;
 	char				*outfile;
-	int					i;
 	int					fds[2];
 	int					prevpipe;
 	pid_t				*pidz;
-	bool				heredoc;
 }	t_exec;
 
 // EXECUTION
 void	execution(char *argv[], char **envp, struct s_parsing *parsing);
 void	child_exec(char **envp,  t_exec **data, int i, char *path);
-void	single_execution(t_exec **data, char *tkn[]);
+void	single_cmd_execution(t_exec **data, char *tkn[]);
 
 // Execution Utils
 char	**ft_path_envp(char **envp);
