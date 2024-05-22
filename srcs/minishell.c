@@ -15,7 +15,7 @@ void	ft_init_main(struct s_parsing *parsing,
 	parsing->n_senv = "OLDPWD";
 	parsing->v_senv = "";
 	ft_setenv(envp, parsing);
-	(void)argc; 
+	(void)argc;
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -41,8 +41,7 @@ int	main(int argc, char **argv, char **envp)
 		input = readline("\033[0;32mminishell\xF0\x9F\x90\x9A \033[0m");
 		if (!input)
 			break ;
-		if (ft_handle_verify(&input, &parsing, envp) == 0)
-			continue ;
+		ft_handle_verify(&input, &parsing, envp);
 		free(input);
 	}
 	return (0);

@@ -64,7 +64,7 @@ char	*ft_split_input(char *input, char *c)
 	{
 		if (tmp_split[i + 1] == NULL && c != NULL)
 		{
-			ft_free_d_ptr((void **)tmp_split);
+			ft_free_d_ptr((void ***)&tmp_split);
 			return (path);
 		}
 		tmp = ft_strjoin("/", tmp_split[i]);
@@ -72,7 +72,7 @@ char	*ft_split_input(char *input, char *c)
 		free(tmp);
 		i++;
 	}
-	ft_free_d_ptr((void **)tmp_split);
+	ft_free_d_ptr((void ***)&tmp_split);
 	return (path);
 }
 
@@ -100,7 +100,7 @@ int	ft_cmd_cd(char **input, char **envp, struct s_parsing *parsing)
 		ft_handle_cd_oldpwd(parsing, envp, path, oldpwd);
 	else if (!ft_strncmp(cmd[0], "cd", 3) && cmd[1] != NULL)
 		ft_handle_cd_path(parsing, envp, input);
-	ft_free_d_ptr((void **)cmd);
+	ft_free_d_ptr((void ***)&cmd);
 	return (0);
 }
 
