@@ -30,14 +30,6 @@
 # define ARG 6
 # define FILE 7
 
-# define IN 0
-# define OUT 1
-# define APPEND 2
-# define HEREDOC 3
-# define PIPE 4
-# define CMD 5
-# define FILE 6
-
 extern int g_signal;
 
 struct s_parsing
