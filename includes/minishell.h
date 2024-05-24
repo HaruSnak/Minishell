@@ -22,7 +22,7 @@
 # include "libft/includes/libft.h"
 # include "exec.h"
 
-# define PL printf("file:%s line: %d\n", __FILE__, __LINE__)
+# define PL fprintf(stderr, "file:%s line: %d pid: %i\n", __FILE__, __LINE__, getpid());
 
 # define TRUE 1
 # define FALSE 0

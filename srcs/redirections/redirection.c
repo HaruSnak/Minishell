@@ -1,14 +1,14 @@
 
 #include "../../includes/minishell.h"
 
-void	redirect_output(t_exec **data, int tkn_value)
+void	redirect_output(t_exec **data, t_redir *s_redir)
 {
 	int		fd_out;
 
 	fd_out = -1;
-	if (tkn_value == OUT)
+	if (s_redir->redir_out == TRUE)
 		fd_out = open((*data)->outfile, O_WRONLY | O_RDONLY | O_TRUNC, 0777);
-	else if (tkn_value == APPEND)
+	else if (s_redir->append == TRUE)
 		fd_out = open((*data)->outfile, O_WRONLY | O_RDONLY | O_APPEND, 0777);
 	if (fd_out == -1)
 	{
@@ -34,27 +34,33 @@ void	check_access_infile(char *infile, t_exec **data)
 	dup2((*data)->prevpipe, STDIN_FILENO);
 }
 
-void	check_access_outfile(char *outfile, int	*tkn_value, t_exec **data)
+void	check_access_outfile(char *outfile, int	tkn_value, t_exec **data)
 {
 	int		fd;
 
-	if (*tkn_value == APPEND)
+	if (tkn_value == APPEND)
+	{
+		// PL
 		fd = open(outfile, O_CREAT | O_WRONLY
 				| O_RDONLY | O_APPEND, 0777);
+	}
 	else
+	{
+		// PL
 		fd = open(outfile, O_CREAT | O_WRONLY
 				| O_RDONLY | O_TRUNC, 0777);
+	}
 	if (fd == -1)
 	{
 		perror("outfile");
-		exit(0);
+		return ;
 	}
 	close(fd);
 	(*data)->outfile = malloc((ft_strlen(outfile) + 1) * sizeof(char));
 	if (!(*data)->outfile)
 	{
 		perror("outfile");
-		exit(0);
+		return ;
 	}
 	ft_strlcpy((*data)->outfile, outfile, ft_strlen(outfile) + 1);
 }
@@ -75,8 +81,9 @@ void	check_for_redirection(char **tkn, int **tkn_value,
 			(*s_redir)->redir_out = TRUE;
 		else if (*tkn_value[i] == APPEND)
 			(*s_redir)->append = TRUE;
-		if ((*s_redir)->redir_out == TRUE || (*s_redir)->append == TRUE)
-			check_access_outfile(tkn[i + 1], tkn_value[i], data);
+		if (((*s_redir)->redir_out == TRUE || (*s_redir)->append == TRUE)
+			&& !(*data)->outfile)
+			check_access_outfile(tkn[i + 1], *tkn_value[i], data);
 	}
 }
 

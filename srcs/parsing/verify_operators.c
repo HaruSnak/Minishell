@@ -93,7 +93,7 @@ int	ft_handle_verify(char **input, struct s_parsing *parsing, char **envp)
 	ft_token_value(parsing);
 	// for (int k = 0; parsing->tkn[k] != NULL; k++)
 	// {
-		// printf("parsing->tkn[%d] = %s ; FLAG: %d\n", k, parsing->tkn[k], *parsing->tkn_value[k]);
+	// 	printf("parsing->tkn[%d] = %s ; FLAG: %d\n", k, parsing->tkn[k], *parsing->tkn_value[k]);
 	// }
 	execution(parsing->tkn, envp, parsing);
 	ft_end_verify(input, parsing);

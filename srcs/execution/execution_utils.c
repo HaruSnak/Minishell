@@ -8,7 +8,7 @@ int	is_cmd(char *path)
 	return (TRUE);
 }
 
-char	*find_cmd_path(t_exec **data, int i)
+char	*find_cmd_path(t_exec **data, char *cmd)
 {
 	char	*path;
 	int		accss;
@@ -17,8 +17,7 @@ char	*find_cmd_path(t_exec **data, int i)
 	j = 0;
 	while (j < 8)
 	{
-		path = ft_strjoin_fs((*data)->parsing_ptr->path[j],
-			(*data)->parsing_ptr->tkn[i]);
+		path = ft_strjoin_fs((*data)->parsing_ptr->path[j], cmd);
 		if (!path)
 			return (NULL);
 		accss = access(path, X_OK);

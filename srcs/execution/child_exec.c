@@ -24,7 +24,7 @@ void	pipe_handling(t_exec **data, int i)
 	{
 		fprintf(stderr, "tkn_value[%d]: %d\n", i, *(*data)->parsing_ptr->tkn_value[i + 1]);
 		fprintf(stderr, "tkn[%d]: %s\n", i, (*data)->parsing_ptr->tkn[i + 1]);
-		redirect_output(data, *(*data)->parsing_ptr->tkn_value[i + 1]);
+		redirect_output(data, (*data)->redir_ptr);
 	}
 	else
 		dup2((*data)->fds[1], STDOUT_FILENO);
