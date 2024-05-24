@@ -2,7 +2,7 @@
 
 #include "../../includes/minishell.h"
 
-void	ft_test(struct s_parsing *parsing, int i)
+void	ft_tkn_value_bis(t_parsing *parsing, int i)
 {
 	if (i > 0 && parsing->tkn_value[i - 1][0] == CMD)
 		parsing->tkn_value[i][0] = ARG;
@@ -12,7 +12,7 @@ void	ft_test(struct s_parsing *parsing, int i)
 		parsing->tkn_value[i][0] = CMD;
 }
 
-int	ft_token_value(struct s_parsing *parsing)
+int	ft_token_value(t_parsing *parsing)
 {
 	int	i;
 
@@ -35,7 +35,7 @@ int	ft_token_value(struct s_parsing *parsing)
 				|| !ft_strncmp(parsing->tkn[i - 1], ">", 1)))
 			parsing->tkn_value[i][0] = FILE;
 		else
-			ft_test(parsing, i);
+			ft_tkn_value_bis(parsing, i);
 	}
 	return (parsing->tkn_value[i] = NULL, 0);
 }

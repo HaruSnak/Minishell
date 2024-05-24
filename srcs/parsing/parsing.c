@@ -26,7 +26,7 @@ char	**ft_path_envp(char **envp)
 	return (path_f);
 }
 
-void	ft_interpret_envp(char **envp, struct s_parsing *parsing)
+void	ft_interpret_envp(char **envp, t_parsing *parsing)
 {
 	int		i;
 	char	*env_cmd;
@@ -57,7 +57,7 @@ void	ft_interpret_envp(char **envp, struct s_parsing *parsing)
 // Cette fonction sert à exécuter une commande.
 // En reprenant les chemins d'acces trouvés par ft_path_envp,
 // elle exécute la commande passée en paramètre.
-int	ft_if_execve_access(struct s_parsing *parsing, char **envp)
+int	ft_if_execve_access(t_parsing *parsing, char **envp)
 {
 	pid_t	pid;
 	int		pipefd[2];
@@ -113,7 +113,7 @@ int	ft_if_execve_access(struct s_parsing *parsing, char **envp)
 // Cette fonction sert à exécuter une commande.
 // En reprenant les chemins d'acces trouvés par ft_path_envp,
 // elle exécute la commande passée en paramètre.
-int	ft_find_execve(char **envp, struct s_parsing *parsing)
+int	ft_find_execve(char **envp, t_parsing *parsing)
 {
 	int		i;
 	int		k;

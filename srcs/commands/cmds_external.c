@@ -19,7 +19,7 @@ int	ft_handle_empty_cmd(char **input)
 	return (0);
 }
 
-void	ft_multi_args_exit(struct s_parsing *parsing, int i, char **tmp)
+void	ft_multi_args_exit(t_parsing *parsing, int i, char **tmp)
 {
 	while (tmp[1][++i] != '\0')
 	{
@@ -34,7 +34,7 @@ void	ft_multi_args_exit(struct s_parsing *parsing, int i, char **tmp)
 	}
 }
 
-int	ft_handle_exit(char **input, struct s_parsing *parsing)
+int	ft_handle_exit(char **input, t_parsing *parsing)
 {
 	char	**tmp;
 	int		i;
@@ -58,7 +58,7 @@ int	ft_handle_exit(char **input, struct s_parsing *parsing)
 	return (-1);
 }
 
-int	ft_return_value_echo(struct s_parsing *parsing, char *input, int i, int j)
+int	ft_return_value_echo(t_parsing *parsing, char *input, int i, int j)
 {
 	char	**tmp;
 
@@ -87,7 +87,7 @@ int	ft_return_value_echo(struct s_parsing *parsing, char *input, int i, int j)
 	return (ft_free_d_ptr((void ***)tmp), 0);
 }
 
-int	ft_handle_echo(char *input, struct s_parsing *parsing)
+int	ft_handle_echo(char *input, t_parsing *parsing)
 {
 	int		i;
 	int		j;

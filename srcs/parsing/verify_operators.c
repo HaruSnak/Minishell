@@ -2,7 +2,7 @@
 
 #include "../../includes/minishell.h"
 
-int	ft_handle_verify(char **input, struct s_parsing *parsing, char **envp)
+int	ft_handle_verify(char **input, t_parsing *parsing, char **envp)
 {
 	parsing->tkn_cpy = ft_strdup(*input);
 	*input = ft_separe_operator(*input);

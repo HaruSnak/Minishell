@@ -5,9 +5,9 @@ FLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 LIBFTDIR = includes/libft
 OBJ_DIR = obj/
 SRC_DIR = srcs/
-#READLINE_PATH = /Users/shmoreno/.local/opt/readline
-#CFLAGS = -I$(READLINE_PATH)/include
-#LDFLAGS = -L$(READLINE_PATH)/lib -lreadline
+READLINE_PATH = /Users/shmoreno/.local/opt/readline
+CFLAGS = -I$(READLINE_PATH)/include
+LDFLAGS = -L$(READLINE_PATH)/lib -lreadline
 
 SRC_1 = srcs/minishell.c \
 
@@ -28,7 +28,7 @@ SRC_2 =	srcs/commands/cmds_external.c \
 OBJ_1 = ${SRC_1:.c=.o}
 OBJ_2 = ${SRC_2:.c=.o}
 
-INCLUDE = -L $(LIBFTDIR) -lft -lreadline
+INCLUDE = -L $(LIBFTDIR) -lft #-lreadline
 
 .c.o:
 	@$(CC) $(FLAGS) $(CFLAGS) -c $< -o $@
