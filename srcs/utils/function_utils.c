@@ -16,77 +16,85 @@ int	ft_count_index(char **input)
 	return (count);
 }
 
-int	ft_condition_replace(char *input, int i, bool *check_s, bool *check_d)
+int	ft_condition_replace(t_parsing *parsing, char *input, int i, int *k)
 {
-	if (input[i] == '\"' && !(*check_s))
+	if (input[i] == '\"' && !parsing->quote->check_s)
 	{
-		*check_d = !(*check_d);
+		parsing->quote->check_d = !parsing->quote->check_d;
 		printf("ici\n");
 		return (0);
 	}
-	else if (input[i] == '\'' && !(*check_d))
+	else if (input[i] == '\'' && !parsing->quote->check_d)
 	{
-		*check_s = !(*check_s);
+		parsing->quote->check_s = !parsing->quote->check_s;
 		return (0);
 	}
+	if ((parsing->quote->check_s == true && parsing->quote->check_d == false)
+		|| (parsing->quote->check_s == false
+			&& parsing->quote->check_d == true))
+		(*k) = i;
 	return (-1);
 }
 
-char	*ft_replace_espace(char *input, struct s_parsing *parsing)
+void	ft_copy_var(t_parsing *parsing, char *input, int i, int k)
+{
+	char		*old_ptr;
+	int			l;
+
+	if ((input[i + 1] == '\'' && parsing->quote->check_s)
+		|| (input[i + 1] == '\"' && parsing->quote->check_d))
+	{
+		l = i - k + 2;
+		printf("l = %d\n", l);
+		parsing->tmp_env[parsing->quote->p] = ft_substr(input, k, l);
+		old_ptr = parsing->tmp_env[parsing->quote->p];
+		parsing->tmp_env[parsing->quote->p]
+			= ft_strjoin(parsing->tmp_env[parsing->quote->p], "\0");
+		free(old_ptr);
+		parsing->quote->p++;
+	}
+}
+
+/*void	ft_condit_replace(t_parsing *parsing, char *input,
+	char *tmp, int i)
+{
+	int static	j;
+
+	if (input[i] == ' ' && (parsing->check_s == true
+			|| parsing->check_d == true))
+		tmp[++j] = '1';
+	else
+		tmp[++j] = input[i];
+}*/
+
+char	*ft_replace_espace(char *input, t_parsing *parsing)
 {
 	char	*tmp;
 	int		i;
-	int		j;
 	int		k;
-	int 	p;
-	int 	l;
-	bool	check_s;
-	bool	check_d;
+	int		j;
 
 	i = -1;
-	j = -1;
 	k = 0;
-	l = 0;
-	p = 0;
-	check_s = false;
-	check_d = false;
-	if (ft_strchr(input, '\'') != ft_strrchr(input, '\'')
-		|| ft_strchr(input, '\"') != ft_strrchr(input, '\"'))
+	j = -1;
+	tmp = malloc(sizeof(char) * ft_strlen(input) + 1);
+	parsing->tmp_env = malloc(sizeof(char *) * 100);
+	while (input[++i] != '\0')
 	{
-		tmp = malloc(sizeof(char) * ft_strlen(input) + 1);
-		parsing->tmp_env = malloc(sizeof(char *) * 100);
-		while (input[++i] != '\0')
-		{
-			if (ft_condition_replace(input, i, &check_s, &check_d) == 0)
-			{
-				if ((check_s == true && check_d == false)
-					|| (check_s == false && check_d == true))
-					k = i;
-			}
-			if (input[i] == ' ' && (check_s == true || check_d == true))
-				tmp[++j] = '1';
-			else
-				tmp[++j] = input[i];
-			printf("tmp = %c\n", tmp[j]);
-			if ((input[i + 1] == '\'' && check_s)
-				|| (input[i + 1] == '\"' && check_d))
-			{
-				l = i - k + 2;
-				printf("l = %d\n", l);
-				parsing->tmp_env[p] = ft_substr(input, k, l);
-				char *old_ptr = parsing->tmp_env[p];
-				parsing->tmp_env[p] = ft_strjoin(parsing->tmp_env[p], "\0");
-				free(old_ptr);
-				p++;
-			}
-		}
-		tmp[++j] = '\0';
-		parsing->tmp_env[p] = NULL;
+		ft_condition_replace(parsing, input, i, &k);
+		if (input[i] == ' ' && (parsing->quote->check_s
+				|| parsing->quote->check_d))
+			tmp[++j] = '1';
+		else
+			tmp[++j] = input[i];
+		ft_copy_var(parsing, input, i, k);
 	}
+	tmp[ft_strlen(tmp) + 1] = '\0'; // tmp[++j] = '\0';
+	parsing->tmp_env[ft_count_index(parsing->tmp_env)] = NULL;
 	return (tmp);
 }
 
-void	ft_delete_espace(struct s_parsing *parsing)
+void	ft_delete_espace(t_parsing *parsing)
 {
 	int		i;
 	int		k;

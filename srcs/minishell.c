@@ -5,7 +5,7 @@
 
 int g_signal = 0;
 
-void	ft_init_main(struct s_parsing *parsing,
+void	ft_init_main(t_parsing *parsing,
 	char **envp, int argc)
 {
 	parsing->exit_value = 0;
@@ -14,6 +14,9 @@ void	ft_init_main(struct s_parsing *parsing,
 	parsing->tmp_env = NULL;
 	parsing->n_senv = "OLDPWD";
 	parsing->v_senv = "";
+	parsing->quote->check_d = false;
+	parsing->quote->check_s = false;
+	parsing->quote->p = 0;
 	ft_setenv(envp, parsing);
 	(void)argc;
 }
@@ -23,7 +26,7 @@ int	main(int argc, char **argv, char **envp)
 	char				*input;
 	struct sigaction	sa;
 	struct termios		term;
-	struct s_parsing	parsing;
+	t_parsing			parsing;
 
 	ft_init_main(&parsing, envp, argc);
 	(void)argv;
