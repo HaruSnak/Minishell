@@ -39,17 +39,11 @@ void	check_access_outfile(char *outfile, int	tkn_value, t_exec **data)
 	int		fd;
 
 	if (tkn_value == APPEND)
-	{
-		// PL
 		fd = open(outfile, O_CREAT | O_WRONLY
 				| O_RDONLY | O_APPEND, 0777);
-	}
 	else
-	{
-		// PL
 		fd = open(outfile, O_CREAT | O_WRONLY
 				| O_RDONLY | O_TRUNC, 0777);
-	}
 	if (fd == -1)
 	{
 		perror("outfile");
@@ -65,7 +59,7 @@ void	check_access_outfile(char *outfile, int	tkn_value, t_exec **data)
 	ft_strlcpy((*data)->outfile, outfile, ft_strlen(outfile) + 1);
 }
 
-void	check_for_redirection(char **tkn, int **tkn_value,
+void	check_for_redirection(char **tkn, int *tkn_value,
 		t_exec **data, t_redir **s_redir)
 {
 	int	i;
@@ -73,17 +67,17 @@ void	check_for_redirection(char **tkn, int **tkn_value,
 	i = -1;
 	while (tkn[++i])
 	{
-		if (*tkn_value[i] == IN)
+		if (tkn_value[i] == IN)
 			check_access_infile(tkn[i + 1], data);
-		// else if (*tkn_value[i] == HEREDOC) // last option would be to store
+		// else if (tkn_value[i] == HEREDOC) // last option would be to store
 			// heredoc_handling(infile);      // in a hidenfile  
-		if (*tkn_value[i] == OUT)
+		if (tkn_value[i] == OUT)
 			(*s_redir)->redir_out = TRUE;
-		else if (*tkn_value[i] == APPEND)
+		else if (tkn_value[i] == APPEND)
 			(*s_redir)->append = TRUE;
 		if (((*s_redir)->redir_out == TRUE || (*s_redir)->append == TRUE)
 			&& !(*data)->outfile)
-			check_access_outfile(tkn[i + 1], *tkn_value[i], data);
+			check_access_outfile(tkn[i + 1], tkn_value[i], data);
 	}
 }
 

@@ -27,14 +27,14 @@
 # define TRUE 1
 # define FALSE 0
 
-# define IN 0
-# define OUT 1
-# define APPEND 2
-# define HEREDOC 3
-# define PIPE 4
-# define CMD 5
-# define ARG 6
-# define FILE 7
+# define IN 1
+# define OUT 2
+# define APPEND 3
+# define HEREDOC 4
+# define PIPE 5
+# define CMD 6
+# define ARG 7
+# define FILE 8
 
 extern int g_signal;
 
@@ -48,7 +48,7 @@ typedef struct s_quote
 typedef struct s_parsing
 {
 	char	**tkn;
-	int		**tkn_value;
+	int		*tkn_value;
 	char	**path;
 	char	**tmp_env;
 	char	*tkn_cpy;
@@ -61,7 +61,7 @@ typedef struct s_parsing
 	int		exit_value;
 	int		status;
 	t_quote	*quote;
-}	t_parsing;
+} 	t_parsing;
 
 // PARSING FUNCTIONS 
 int		ft_find_execve(char **envp, t_parsing *parsing);

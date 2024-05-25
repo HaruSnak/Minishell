@@ -1,7 +1,7 @@
 
 #include "../../includes/minishell.h"
 
-int	cmd_count(int **tkn_value)
+int	cmd_count(int *tkn_value)
 {
 	int	cmd;
 	int i;
@@ -10,7 +10,7 @@ int	cmd_count(int **tkn_value)
 	i = -1;
 	while (tkn_value[++i])
 	{
-		if (*tkn_value[i] == PIPE)
+		if (tkn_value[i] == PIPE)
 			cmd++;
 	}
 	return (cmd + 1);

@@ -55,7 +55,7 @@ void	check_err_fork(pid_t pid)
 	}
 }
 
-void	init_data(t_exec **data, t_redir **s_redir, struct s_parsing *parsing)
+void	init_data(t_exec **data, t_redir **s_redir, t_parsing *parsing)
 {
 	*s_redir = malloc(sizeof(t_redir));
 	(*s_redir)->redir_in = FALSE;

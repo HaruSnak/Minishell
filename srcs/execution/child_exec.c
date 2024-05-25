@@ -19,10 +19,10 @@ void	pipe_handling(t_exec **data, int i)
 	sleep(10);
 	close((*data)->prevpipe);
 	close((*data)->fds[0]);
-	if (*(*data)->parsing_ptr->tkn_value[i + 1] == OUT
-		|| *(*data)->parsing_ptr->tkn_value[i + 1] == APPEND)
+	if ((*data)->parsing_ptr->tkn_value[i + 1] == OUT
+		|| (*data)->parsing_ptr->tkn_value[i + 1] == APPEND)
 	{
-		fprintf(stderr, "tkn_value[%d]: %d\n", i, *(*data)->parsing_ptr->tkn_value[i + 1]);
+		fprintf(stderr, "tkn_value[%d]: %d\n", i, (*data)->parsing_ptr->tkn_value[i + 1]);
 		fprintf(stderr, "tkn[%d]: %s\n", i, (*data)->parsing_ptr->tkn[i + 1]);
 		redirect_output(data, (*data)->redir_ptr);
 	}

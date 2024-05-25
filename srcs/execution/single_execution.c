@@ -1,12 +1,12 @@
 
 #include "../../includes/minishell.h"
 
-int	get_argv_len(int i, int **tkn_value)
+int	get_argv_len(int i, int *tkn_value)
 {
 	int	argv_len;
 
 	argv_len = 0;
-	while (tkn_value[i] && *tkn_value[i] == CMD)
+	while (tkn_value[i] && tkn_value[i] == CMD)
 	{
 		argv_len++;
 		i++;
@@ -14,7 +14,7 @@ int	get_argv_len(int i, int **tkn_value)
 	return (argv_len);
 }
 
-char	**set_argv(char *tkn[], int **tkn_value)
+char	**set_argv(char *tkn[], int *tkn_value)
 {
 	char	**argv;
 	int		i;
@@ -22,10 +22,10 @@ char	**set_argv(char *tkn[], int **tkn_value)
 
 	i = -1;
 	j = 0;
-	while (*tkn_value[++i] != CMD)
+	while (tkn_value[++i] != CMD)
 		;
 	argv = malloc((get_argv_len(i, tkn_value) + 1) * sizeof(char));
-	while (tkn_value[i] && *tkn_value[i] == CMD)
+	while (tkn_value[i] && tkn_value[i] == CMD)
 	{
 		argv[j] = ft_strdup(tkn[i]);
 		i++;
@@ -47,7 +47,7 @@ void	single_cmd_execution(t_exec **data, t_redir *s_redir,
 	pid = fork();
 	if (pid == 0)
 	{
-		if (s_redir->redir_out || s_redir->redir_out)
+		if (s_redir->redir_out || s_redir->append)
 			redirect_output(data, s_redir);
 		execve(path, argv, envp);
 	}
