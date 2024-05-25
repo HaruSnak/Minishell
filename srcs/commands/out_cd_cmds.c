@@ -2,7 +2,7 @@
 
 #include "../../includes/minishell.h"
 
-void	ft_handle_cd_home(struct s_parsing *parsing,
+void	ft_handle_cd_home(t_parsing *parsing,
 	char **envp)
 {
 	if (chdir(getenv("HOME")) == 0)
@@ -20,7 +20,7 @@ void	ft_handle_cd_home(struct s_parsing *parsing,
 		printf("minishell: cd: ~: No such file or directory\n");
 }
 
-void	ft_handle_cd_previous(struct s_parsing *parsing,
+void	ft_handle_cd_previous(t_parsing *parsing,
 	char **envp)
 {
 	char	*path;
@@ -45,7 +45,7 @@ void	ft_handle_cd_previous(struct s_parsing *parsing,
 		printf("minishell: cd: ..: No such file or directory\n");
 }
 
-void	ft_handle_cd_root(struct s_parsing *parsing,
+void	ft_handle_cd_root(t_parsing *parsing,
 	char **envp)
 {
 	if (chdir("/") == 0)
@@ -61,7 +61,7 @@ void	ft_handle_cd_root(struct s_parsing *parsing,
 		printf("minishell: cd: /: No such file or directory\n");
 }
 
-void	ft_handle_cd_oldpwd(struct s_parsing *parsing,
+void	ft_handle_cd_oldpwd(t_parsing *parsing,
 	char **envp, char *path, char *oldpwd)
 {
 	if (chdir(getenv("OLDPWD")) == 0)
@@ -82,7 +82,7 @@ void	ft_handle_cd_oldpwd(struct s_parsing *parsing,
 		printf("minishell: cd: %s: No such file or directory\n", oldpwd);
 }
 
-void	ft_handle_cd_path(struct s_parsing *parsing, char **envp, char **input)
+void	ft_handle_cd_path(t_parsing *parsing, char **envp, char **input)
 {
 	char	*path;
 

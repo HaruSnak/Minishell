@@ -19,7 +19,7 @@ int	ft_handle_empty_cmd(char **input)
 	return (0);
 }
 
-void	ft_multi_args_exit(struct s_parsing *parsing, int i, char **tmp)
+void	ft_multi_args_exit(t_parsing *parsing, int i, char **tmp)
 {
 	while (tmp[1][++i] != '\0')
 	{
@@ -27,14 +27,14 @@ void	ft_multi_args_exit(struct s_parsing *parsing, int i, char **tmp)
 		{
 			printf("minishell: exit: %s: numeric argument required\n", tmp[1]);
 			if (parsing->tmp_env != NULL)
-				ft_free_d_ptr((void **)parsing->tmp_env);
-			ft_free_d_ptr((void **)tmp);
+				ft_free_d_ptr((void ***)parsing->tmp_env);
+			ft_free_d_ptr((void ***)tmp);
 			exit(255);
 		}
 	}
 }
 
-int	ft_handle_exit(char **input, struct s_parsing *parsing)
+int	ft_handle_exit(char **input, t_parsing *parsing)
 {
 	char	**tmp;
 	int		i;
@@ -44,8 +44,8 @@ int	ft_handle_exit(char **input, struct s_parsing *parsing)
 	if (ft_strncmp(tmp[0], "exit", ft_strlen(tmp[0])) == 0 && tmp[1] == NULL)
 	{
 		if (parsing->tmp_env != NULL)
-			ft_free_d_ptr((void **)parsing->tmp_env);
-		ft_free_d_ptr((void **)tmp);
+			ft_free_d_ptr((void ***)parsing->tmp_env);
+		ft_free_d_ptr((void ***)tmp);
 		exit (parsing->exit_value);
 	}
 	else if (ft_strncmp(tmp[0], "exit",
@@ -54,11 +54,11 @@ int	ft_handle_exit(char **input, struct s_parsing *parsing)
 		ft_multi_args_exit(parsing, i, tmp);
 		exit(ft_atoi(tmp[1]));
 	}
-	ft_free_d_ptr((void **)tmp);
+	ft_free_d_ptr((void ***)tmp);
 	return (-1);
 }
 
-int	ft_return_value_echo(struct s_parsing *parsing, char *input, int i, int j)
+int	ft_return_value_echo(t_parsing *parsing, char *input, int i, int j)
 {
 	char	**tmp;
 
@@ -84,10 +84,10 @@ int	ft_return_value_echo(struct s_parsing *parsing, char *input, int i, int j)
 	}
 	printf("\n");
 	add_history(input);
-	return (ft_free_d_ptr((void **)tmp), 0);
+	return (ft_free_d_ptr((void ***)tmp), 0);
 }
 
-int	ft_handle_echo(char *input, struct s_parsing *parsing)
+int	ft_handle_echo(char *input, t_parsing *parsing)
 {
 	int		i;
 	int		j;

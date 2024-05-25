@@ -2,7 +2,7 @@
 
 #include "../../includes/minishell.h"
 
-void	ft_setenv_last(char **envp, struct s_parsing *parsing, int i)
+void	ft_setenv_last(char **envp, t_parsing *parsing, int i)
 {
 	char				*tmp_equal;
 	static int			j;
@@ -18,7 +18,7 @@ void	ft_setenv_last(char **envp, struct s_parsing *parsing, int i)
 	free(tmp_equal);
 }
 
-int	ft_setenv(char **envp, struct s_parsing *parsing)
+int	ft_setenv(char **envp, t_parsing *parsing)
 {
 	char	*tmp;
 	int		i;
@@ -63,7 +63,7 @@ char	*ft_split_input(char *input, char *c)
 	{
 		if (tmp_split[i + 1] == NULL && c != NULL)
 		{
-			ft_free_d_ptr((void **)tmp_split);
+			ft_free_d_ptr((void ***)&tmp_split);
 			return (path);
 		}
 		tmp = ft_strjoin("/", tmp_split[i]);
@@ -71,11 +71,11 @@ char	*ft_split_input(char *input, char *c)
 		free(tmp);
 		i++;
 	}
-	ft_free_d_ptr((void **)tmp_split);
+	ft_free_d_ptr((void ***)&tmp_split);
 	return (path);
 }
 
-int	ft_cmd_cd(char **input, char **envp, struct s_parsing *parsing)
+int	ft_cmd_cd(char **input, char **envp, t_parsing *parsing)
 {
 	char		*path;
 	char		**cmd;
@@ -99,11 +99,11 @@ int	ft_cmd_cd(char **input, char **envp, struct s_parsing *parsing)
 		ft_handle_cd_oldpwd(parsing, envp, path, oldpwd);
 	else if (!ft_strncmp(cmd[0], "cd", 3) && cmd[1] != NULL)
 		ft_handle_cd_path(parsing, envp, input);
-	ft_free_d_ptr((void **)cmd);
+	ft_free_d_ptr((void ***)&cmd);
 	return (0);
 }
 
-int	ft_external_cmds(char **input, struct s_parsing *parsing, char **envp)
+int	ft_external_cmds(char **input, t_parsing *parsing, char **envp)
 {
 	if (!ft_strncmp(*input, "exit", 4))
 		ft_handle_exit(input, parsing);

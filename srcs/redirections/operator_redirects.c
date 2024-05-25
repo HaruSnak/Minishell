@@ -2,7 +2,7 @@
 
 #include "../../includes/minishell.h"
 
-int	ft_handle_less_than(char **tmp, struct s_parsing *parsing, int i)
+int	ft_handle_less_than(char **tmp, t_parsing *parsing, int i)
 {
 	int	fd;
 
@@ -24,7 +24,7 @@ int	ft_handle_less_than(char **tmp, struct s_parsing *parsing, int i)
 	return (0);
 }
 
-int	ft_handle_more_than(char **tmp, struct s_parsing *parsing, int i)
+int	ft_handle_more_than(char **tmp, t_parsing *parsing, int i)
 {
 	int		fd;
 
@@ -46,7 +46,7 @@ int	ft_handle_more_than(char **tmp, struct s_parsing *parsing, int i)
 	return (0);
 }
 
-int	ft_handle_here_doc(char **tmp, struct s_parsing *parsing, int i)
+int	ft_handle_here_doc(char **tmp, t_parsing *parsing, int i)
 {
 	char	*line;
 	int		fd;
@@ -77,7 +77,7 @@ int	ft_handle_here_doc(char **tmp, struct s_parsing *parsing, int i)
 	return (0);
 }
 
-int	ft_exec_cmd_redirects(char **tmp, struct s_parsing *parsing)
+int	ft_exec_cmd_redirects(char **tmp, t_parsing *parsing)
 {
 	int i; // I TEMPORAIRE CAR C'EST PAS LE BON INDEX
 

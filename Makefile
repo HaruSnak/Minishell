@@ -11,15 +11,19 @@ LDFLAGS = -L$(READLINE_PATH)/lib -lreadline
 
 SRC_1 = srcs/minishell.c \
 
-SRC_2 =	\
-	srcs/commands/cmds_external.c srcs/commands/export_unset_cmds.c \
-	srcs/commands/out_cd_cmds.c srcs/commands/out_env_cmds.c \
-	srcs/errors/errors.c srcs/parsing/parsing.c srcs/parsing/verify_operators.c \
-	srcs/redirections/operator_redirects.c \
-	srcs/redirections/redirection.c srcs/signals/signals.c \
-	srcs/execution/child_exec.c srcs/execution/execution_utils.c \
-	srcs/execution/execution.c srcs/execution/execution_utils2.c \
-	srcs/execution/single_execution.c \
+SRC_2 =	srcs/commands/cmds_external.c \
+    srcs/commands/export_unset_cmds.c \
+    srcs/commands/out_cd_cmds.c \
+    srcs/commands/out_env_cmds.c \
+    srcs/errors/errors.c \
+    srcs/parsing/parsing.c \
+    srcs/parsing/verify_operators.c \
+	srcs/parsing/token_value.c \
+	srcs/parsing/redirect_quote.c \
+    srcs/redirections/operator_redirects.c \
+    srcs/signals/signals.c \
+	srcs/quote/quote.c \
+	srcs/utils/function_utils.c \
 
 OBJ_1 = $(patsubst %.c,$(OBJ_DIR)%.o,$(SRC_1))
 OBJ_2 = $(patsubst %.c,$(OBJ_DIR)%.o,$(SRC_2))
@@ -28,7 +32,7 @@ $(OBJ_DIR)%.o: %.c
 	@mkdir -p $(@D)
 	@$(CC) $(FLAGS) $(CFLAGS) -c $< -o $@
 
-INCLUDE = -L $(LIBFTDIR) -lft -lreadline
+INCLUDE = -L $(LIBFTDIR) -lft #-lreadline
 
 .c.o:
 	@$(CC) $(FLAGS) $(CFLAGS) -c $< -o $@

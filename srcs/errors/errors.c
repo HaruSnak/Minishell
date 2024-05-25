@@ -10,24 +10,40 @@ void	ft_error_cmd_ext(char *error, int status)
 	exit(status);
 }
 
-void	ft_free_d_ptr(void **ptr)
+void	ft_free_d_ptr(void ***ptr)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = ft_count_index((char **)*ptr);
+	while (i < count)
+	{
+		free((*ptr)[i]);
+		i++;
+	}
+	free(*ptr);
+	*ptr = NULL;
+}
+
+void	ft_end_verify(char **input, t_parsing *parsing)
+{
+	add_history(*input);
+	ft_free_d_ptr((void ***)&parsing->tkn);
+	ft_free_d_ptr((void ***)&parsing->tkn_value);
+	free(parsing->tkn_cpy);
+}
+
+void	ft_free_and_compact(char **str, int index, int size)
 {
 	int	i;
 
-	i = 0;
-	while (ptr[i] != NULL)
+	i = index;
+	free(str[index]);
+	while (i < size - 1)
 	{
-		free(ptr[i]);
+		str[i] = str[i + 1];
 		i++;
 	}
-	free(ptr);
-}
-
-void	ft_end_verify(char **input, struct s_parsing *parsing)
-{
-	add_history(*input);
-	ft_free_d_ptr((void **)parsing->tkn);
-	ft_free_d_ptr((void **)parsing->tkn_value);
-	free(parsing->tkn_cpy);
-	free(*input);
+	str[size - 1] = NULL;
 }
