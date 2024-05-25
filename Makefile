@@ -20,6 +20,7 @@ SRC_2 =	srcs/commands/cmds_external.c \
     srcs/parsing/verify_operators.c \
 	srcs/parsing/token_value.c \
 	srcs/parsing/redirect_quote.c \
+	srcs/parsing/quote.c \
     srcs/redirections/operator_redirects.c \
     srcs/signals/signals.c \
 	srcs/quote/quote.c \

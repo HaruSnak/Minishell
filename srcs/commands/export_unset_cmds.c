@@ -58,7 +58,7 @@ int	ft_handle_unset(char **input, char **envp)
 	return (0);
 }
 
-void	ft_handle_export(char **input, struct s_parsing *parsing, char **envp)
+void	ft_handle_export(char **input, t_parsing *parsing, char **envp)
 {
 	char	**tmp;
 	char	**tmp2;
@@ -84,7 +84,7 @@ void	ft_handle_export(char **input, struct s_parsing *parsing, char **envp)
 	ft_free_d_ptr((void ***)tmp);
 }
 
-int	ft_external_cmds_bis(char **input, struct s_parsing *parsing, char **envp)
+int	ft_external_cmds_bis(char **input, t_parsing *parsing, char **envp)
 {
 	if (ft_strncmp(*input, "export", 6) == 0)
 	{

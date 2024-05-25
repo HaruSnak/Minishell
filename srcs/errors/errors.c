@@ -26,7 +26,7 @@ void	ft_free_d_ptr(void ***ptr)
 	*ptr = NULL;
 }
 
-void	ft_end_verify(char **input, struct s_parsing *parsing)
+void	ft_end_verify(char **input, t_parsing *parsing)
 {
 	add_history(*input);
 	ft_free_d_ptr((void ***)&parsing->tkn);
