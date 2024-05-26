@@ -16,7 +16,6 @@
 void	pipe_handling(t_exec **data, int i)
 {
 	dup2((*data)->prevpipe, STDIN_FILENO);
-	sleep(10);
 	close((*data)->prevpipe);
 	close((*data)->fds[0]);
 	if ((*data)->parsing_ptr->tkn_value[i + 1] == OUT
@@ -28,13 +27,15 @@ void	pipe_handling(t_exec **data, int i)
 	}
 	else
 		dup2((*data)->fds[1], STDOUT_FILENO);
-		sleep(10);
 	close((*data)->fds[1]);
 }
-
+	
 void	child_exec(char **envp, t_exec **data, int i, char *path)
 {
+	char	**argv;
+
 	pipe_handling(data, i);
-	exit(0); // DO NOT REMOVE
+	argv = set_argv((*data)->parsing_ptr->tkn, (*data)->parsing_ptr->tkn_value);
+	// exit(0); // DO NOT TOUCH
 	execve(path, (*data)->parsing_ptr->tkn, envp); // setup real argv
 }

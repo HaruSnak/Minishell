@@ -22,11 +22,10 @@ SRC_2 =	srcs/commands/cmds_external.c \
 	srcs/parsing/redirect_quote.c \
 	srcs/redirections/operator_redirects.c \
 	srcs/signals/signals.c \
-	srcs/quote/quote.c \
-	srcs/utils/function_utils.c \
-	srcs/execution/execution.c srcs/execution/child_exec.c \
-	srcs/execution/single_execution.c srcs/execution/execution_utils.c \
-	srcs/execution/execution_utils2.c \
+	srcs/quote/quote.c srcs/utils/set_cmd_list.c \
+	srcs/utils/function_utils.c srcs/utils/execution_utils2.c \
+	srcs/utils/execution_utils.c srcs/execution/execution.c \
+	srcs/execution/child_exec.c srcs/execution/single_execution.c \
 	srcs/redirections/redirection.c srcs/redirections/here_doc.c \
 
 OBJ_1 = $(patsubst %.c,$(OBJ_DIR)%.o,$(SRC_1))

@@ -6,7 +6,7 @@ int	get_argv_len(int i, int *tkn_value)
 	int	argv_len;
 
 	argv_len = 0;
-	while (tkn_value[i] && tkn_value[i] == CMD)
+	while (tkn_value[i] && (tkn_value[i] == CMD || tkn_value[i] == ARG))
 	{
 		argv_len++;
 		i++;
@@ -25,7 +25,7 @@ char	**set_argv(char *tkn[], int *tkn_value)
 	while (tkn_value[++i] != CMD)
 		;
 	argv = malloc((get_argv_len(i, tkn_value) + 1) * sizeof(char));
-	while (tkn_value[i] && tkn_value[i] == CMD)
+	while (tkn_value[i] && tkn_value[i] == ARG)
 	{
 		argv[j] = ft_strdup(tkn[i]);
 		i++;
@@ -44,6 +44,8 @@ void	single_cmd_execution(t_exec **data, t_redir *s_redir,
 
 	argv = set_argv(tkn, (*data)->parsing_ptr->tkn_value);
 	path = find_cmd_path(data, argv[0]);
+	// if (is_builtin())
+		// return ;	
 	pid = fork();
 	if (pid == 0)
 	{
