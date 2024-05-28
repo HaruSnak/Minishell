@@ -13,25 +13,28 @@ void	redirect_output(t_exec **data, t_redir *s_redir)
 	if (fd_out == -1)
 	{
 		perror("outfile");
-		exit(0);
+		return ;// error handling
 	}
 	dup2(fd_out, STDOUT_FILENO);
 }
 
-void	check_access_infile(char *infile, t_exec **data)
+void	check_access_infile(char *infile)
 {
+	int	fd;
+
 	if (access(infile, F_OK | R_OK) < 0)
 	{
 		perror("infile");
-		return ;
+		return ;// error handling
 	}
-	(*data)->prevpipe = open(infile, O_RDONLY);
-	if ((*data)->prevpipe == -1)
+	fd = open(infile, O_RDONLY);
+	if (fd == -1)
 	{
 		perror("infile");
-		return ;
+		return ;// error handling 
 	}
-	dup2((*data)->prevpipe, STDIN_FILENO);
+	dup2(fd, STDIN_FILENO);
+
 }
 
 void	check_access_outfile(char *outfile, int	tkn_value, t_exec **data)
@@ -47,7 +50,7 @@ void	check_access_outfile(char *outfile, int	tkn_value, t_exec **data)
 	if (fd == -1)
 	{
 		perror("outfile");
-		return ;
+		return ;// error handling
 	}
 	close(fd);
 	(*data)->outfile = malloc((ft_strlen(outfile) + 1) * sizeof(char));
@@ -68,7 +71,7 @@ void	check_for_redirection(char **tkn, int *tkn_value,
 	while (tkn[++i])
 	{
 		if (tkn_value[i] == IN)
-			check_access_infile(tkn[i + 1], data);
+			check_access_infile(tkn[i + 1]);
 		// else if (tkn_value[i] == HEREDOC) // last option would be to store
 			// heredoc_handling(infile);      // in a hidenfile  
 		if (tkn_value[i] == OUT)

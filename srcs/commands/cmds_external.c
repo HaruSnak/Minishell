@@ -1,5 +1,4 @@
 
-
 #include "../../includes/minishell.h"
 
 int	ft_handle_empty_cmd(char **input)

@@ -39,10 +39,13 @@ void	wait_pidz(t_exec **data)
 	i = 0;
 	while ((*data)->pidz[i])
 	{
-		result = waitpid((*data)->pidz[i], &status, 0);
-		if (result == -1)
-			perror("waitpid");
-		i++;
+		if (*(*data)->pidz)
+		{
+			result = waitpid((*data)->pidz[i], &status, 0);
+			if (result == -1)
+				perror("waitpid");// error handling
+			i++;
+		}
 	}
 }
 
@@ -51,7 +54,7 @@ void	check_err_fork(pid_t pid)
 	if (pid < 0)
 	{
 		perror("fork");
-		exit(0);
+		exit(0);// error handling
 	}
 }
 
@@ -65,11 +68,12 @@ void	init_data(t_exec **data, t_redir **s_redir, t_parsing *parsing)
 	(*s_redir)->redir_out = FALSE;
 	(*s_redir)->here_doc = FALSE;
 	(*s_redir)->append = FALSE;
+	(*data)->redir_ptr = *s_redir;
 	(*data)->parsing_ptr = parsing;
 	(*data)->outfile = NULL;
+	(*data)->cmd_cnt = 0;
 	(*data)->pidz = malloc(cmd_count(parsing->tkn_value) * sizeof(pid_t)); // protect
-	(*data)->prevpipe = 0;
+	(*data)->fds[0] = 0;
+	(*data)->fds[1] = 0;
 	// (*data)->cmds = NULL;
-	// (*data)->fds[0] = 0;
-	// (*data)->fds[1] = 0;
 }

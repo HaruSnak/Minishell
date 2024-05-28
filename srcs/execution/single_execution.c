@@ -20,12 +20,17 @@ char	**set_argv(char *tkn[], int *tkn_value)
 	int		i;
 	int		j;
 
-	i = -1;
 	j = 0;
+	i = -1;
 	while (tkn_value[++i] != CMD)
 		;
-	argv = malloc((get_argv_len(i, tkn_value) + 1) * sizeof(char));
-	while (tkn_value[i] && tkn_value[i] == ARG)
+	argv = malloc((get_argv_len(i, tkn_value) + 1) * sizeof(char *));
+	if (!argv)
+	{
+		perror("set_argv:");
+		return (NULL);//      gestion d'erreur
+	}
+	while (tkn_value[i] && (tkn_value[i] == ARG || tkn_value[i] == CMD))
 	{
 		argv[j] = ft_strdup(tkn[i]);
 		i++;
@@ -39,18 +44,20 @@ void	single_cmd_execution(t_exec **data, t_redir *s_redir,
 			char **envp, char *tkn[])
 {
 	pid_t	pid;
+	int		status;
 	char 	**argv;
 	char	*path;
 
-	argv = set_argv(tkn, (*data)->parsing_ptr->tkn_value);
-	path = find_cmd_path(data, argv[0]);
 	// if (is_builtin())
 		// return ;	
 	pid = fork();
 	if (pid == 0)
 	{
+		argv = set_argv(tkn, (*data)->parsing_ptr->tkn_value);
+		path = find_cmd_path(data, argv[0]);
 		if (s_redir->redir_out || s_redir->append)
 			redirect_output(data, s_redir);
 		execve(path, argv, envp);
 	}
+	waitpid(pid, &status, 0);
 }
