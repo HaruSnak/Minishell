@@ -23,7 +23,7 @@ int	ft_strncmp(const char *s1, const char *s2, int size)
 		if ((unsigned char)s1[i] > (unsigned char)s2[i])
 			return (1);
 		if ((unsigned char)s1[i] < (unsigned char)s2[i])
-			return (-1);
+			return (2);
 		size--;
 		i++;
 	}

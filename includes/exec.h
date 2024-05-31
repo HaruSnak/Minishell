@@ -61,5 +61,6 @@ t_cmd_list	*set_cmd_list(char **tkn, int *tkn_value);
 void		check_for_redirection(char **tkn, int *tkn_value,
 				t_exec **data, t_redir **s_redir);
 void		redirect_output(t_exec **data, t_redir *s_redir);
+int			heredoc_handling(char *eof);
 
 #endif
