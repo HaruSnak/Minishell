@@ -48,14 +48,6 @@ typedef struct s_quote
 }	t_quote;
 
 typedef struct s_parsing
-typedef struct s_quote
-{
-	bool	check_s;
-	bool	check_d;
-	int		p;
-}	t_quote;
-
-typedef struct s_parsing
 {
 	char	**tkn;
 	int		*tkn_value;
@@ -95,16 +87,9 @@ int		ft_setenv(char **envp, t_parsing *parsing);
 int		ft_setenv(char **envp, t_parsing *parsing);
 
 // COMMANDS CD FUNCTIONS
-void	ft_handle_cd_home(t_parsing *parsing,
-void	ft_handle_cd_home(t_parsing *parsing,
-			char **envp);
-void	ft_handle_cd_previous(t_parsing *parsing,
-void	ft_handle_cd_previous(t_parsing *parsing,
-			char **envp);
-void	ft_handle_cd_root(t_parsing *parsing,
-void	ft_handle_cd_root(t_parsing *parsing,
-			char **envp);
-void	ft_handle_cd_oldpwd(t_parsing *parsing,
+void	ft_handle_cd_home(t_parsing *parsing, char **envp);
+void	ft_handle_cd_previous(t_parsing *parsing, char **envp);
+void	ft_handle_cd_root(t_parsing *parsing, char **envp);
 void	ft_handle_cd_oldpwd(t_parsing *parsing,
 			char **envp, char *path, char *oldpwd);
 void	ft_handle_cd_path(t_parsing *parsing, char **envp, char **input);
@@ -112,7 +97,6 @@ void	ft_handle_cd_path(t_parsing *parsing, char **envp, char **input);
 
 // COMMANDS EXPORT UNSET FUNCTIONS
 int		ft_external_cmds_bis(char **input,
-			t_parsing *parsing, char **envp);
 			t_parsing *parsing, char **envp);
 
 // COMMANDS EXTERNALS FUNCTIONS
