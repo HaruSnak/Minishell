@@ -1,5 +1,4 @@
 
-
 #include "../../includes/minishell.h"
 
 void	ft_error_cmd_ext(char *error, int status)
@@ -8,6 +7,24 @@ void	ft_error_cmd_ext(char *error, int status)
 	ft_putstr_fd(error, 2);
 	ft_putstr_fd("\n", 2);
 	exit(status);
+}
+
+void	ft_free_tkn_value(int **ptr)
+{	
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (ptr[count])
+		count++;
+	while (i < count)
+	{
+		free(ptr[i]);
+		i++;
+	}
+	// free(ptr);
+	ptr = NULL;
 }
 
 void	ft_free_d_ptr(void ***ptr)
@@ -29,8 +46,8 @@ void	ft_free_d_ptr(void ***ptr)
 void	ft_end_verify(char **input, t_parsing *parsing)
 {
 	add_history(*input);
+	ft_free_tkn_value(&parsing->tkn_value);
 	ft_free_d_ptr((void ***)&parsing->tkn);
-	ft_free_d_ptr((void ***)&parsing->tkn_value);
 	free(parsing->tkn_cpy);
 }
 

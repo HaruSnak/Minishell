@@ -1,5 +1,4 @@
 
-
 #include "../includes/minishell.h"
 #include <signal.h>
 
@@ -30,6 +29,7 @@ int	main(int argc, char **argv, char **envp)
 	t_parsing			parsing;
 	t_quote 			quote;
 
+	ft_init_main(&parsing, &quote, envp, argc);
 	ft_init_main(&parsing, &quote, envp, argc);
 	(void)argv;
 	sa.sa_handler = ft_signal_handler;

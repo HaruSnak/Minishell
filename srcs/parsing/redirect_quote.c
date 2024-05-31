@@ -1,5 +1,4 @@
 
-
 #include "../../includes/minishell.h"
 
 void	ft_condit_quote(char *tmp_redir, int *i, int *k, char *tmp_quote)

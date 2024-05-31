@@ -1,5 +1,6 @@
 
 
+
 #include "../../includes/minishell.h"
 
 // Cette fonction sert à trouver le chemin d'accès d'une commande
@@ -126,7 +127,7 @@ int	ft_find_execve(char **envp, t_parsing *parsing)
 		return (-1);
 	while (parsing->tkn[++k] != NULL)
 	{
-		if (parsing->tkn_value[k][0] == CMD)
+		if (parsing->tkn_value[k] == CMD)
 		{
 			while (parsing->path[++i] != NULL)
 			{
