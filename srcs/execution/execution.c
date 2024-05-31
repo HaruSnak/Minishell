@@ -1,6 +1,12 @@
 
 #include "../../includes/minishell.h"
 
+void perror_exit(const char *msg) 
+{
+	perror(msg);
+	exit(errno);
+}
+
 void	parent_exec(t_exec **data)
 {
 	close((*data)->fds[1]);
@@ -10,20 +16,15 @@ void	parent_exec(t_exec **data)
 
 void	command_found(t_exec **data, t_cmd_list *list, char *path, char **envp)
 {
-	static int	i;
-
-	i = -1;
-	(*data)->pidz[++i] = fork();
-	check_err_fork((*data)->pidz[i]);
-	if (!(*data)->fds[0] && pipe((*data)->fds) == -1)
+	if (pipe((*data)->fds) == -1)
 	{
 		perror("pipe");
 		exit(errno); // Error handling, no exit?
 	}
-	if ((*data)->pidz[i] == 0)
-	{
+	(*data)->pidz[(*data)->pid_i] = fork();
+	check_err_fork((*data)->pidz[(*data)->pid_i]);
+	if ((*data)->pidz[(*data)->pid_i] == 0)
 		child_exec(envp, data, list, path);
-	}
 	else
 		parent_exec(data);
 }
@@ -41,24 +42,26 @@ void	multi_execution(t_exec **data, char **envp)
 {
 	t_cmd_list	*list;
 	char		*path;
-	int			i;
 
-	i = -1;
-	list = set_cmd_list((*data)->parsing_ptr->tkn, (*data)->parsing_ptr->tkn_value);
-	while (list)
+	list = set_cmd_list((*data)->parsing_ptr->tkn,
+			(*data)->parsing_ptr->tkn_value);
+	while ((*data)->pipe_cnt)
 	{
-		if (list->cmd) 
+		if (list->cmd)
 		{
-			(*data)->cmd_cnt--;
+			// (*data)->pipe_cnt--;
+			// (*data)->pid_i++;
 			path = find_cmd_path(data, list->elem);
 		}
 		if (path && list->cmd)
 			command_found(data, list, path, envp);
-		else if (list->cmd)		
+		else if (list->cmd)
 			command_not_found(data, list->elem);
 		list = list->next;
 	}
-	free(path);
+	if (path && list)
+		free(path);
+	// free list ;
 }
 
 void	execution(char *tkn[], char **envp, t_parsing *parsing)
@@ -69,14 +72,19 @@ void	execution(char *tkn[], char **envp, t_parsing *parsing)
 	parsing->path = ft_path_envp(envp);
 	init_data(&data, &s_redir, parsing);
 	check_for_redirection(tkn, parsing->tkn_value, &data, &s_redir);
-	data->cmd_cnt = there_is_pipeline(parsing->tkn_value);
-	if (data->cmd_cnt)
+	data->pipe_cnt = there_is_pipeline(parsing->tkn_value);
+	if (data->pipe_cnt)
+	{
 		multi_execution(&data, envp);
+		wait_pidz(&data);
+	}
 	else
 		single_cmd_execution(&data, s_redir, envp, tkn);
-	wait_pidz(&data);
 }
 
+		// if (ft_external_cmds(list->elem, (*data)->parsing_ptr, envp) == 0)
+		// 	continue ;
+		
 //-----// to come back to //-----//
 
 // Multi pipes:
@@ -87,4 +95,4 @@ void	execution(char *tkn[], char **envp, t_parsing *parsing)
 // 
 // Heredoc
 
-// < in ls -l | wc > out
+// < in cat | wc > out

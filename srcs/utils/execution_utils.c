@@ -15,6 +15,8 @@ char	*find_cmd_path(t_exec **data, char *cmd)
 	int		j;
 
 	j = 0;
+	(*data)->pipe_cnt--;
+	(*data)->pid_i++;
 	while (j < 8)
 	{
 		path = ft_strjoin_fs((*data)->parsing_ptr->path[j], cmd);
@@ -71,9 +73,9 @@ void	init_data(t_exec **data, t_redir **s_redir, t_parsing *parsing)
 	(*data)->redir_ptr = *s_redir;
 	(*data)->parsing_ptr = parsing;
 	(*data)->outfile = NULL;
-	(*data)->cmd_cnt = 0;
+	(*data)->pipe_cnt = 0;
 	(*data)->pidz = malloc(cmd_count(parsing->tkn_value) * sizeof(pid_t)); // protect
-	(*data)->fds[0] = 0;
+	(*data)->pid_i = -1;
+		(*data)->fds[0] = 0;
 	(*data)->fds[1] = 0;
-	// (*data)->cmds = NULL;
 }

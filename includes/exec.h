@@ -18,9 +18,10 @@ typedef struct	s_exec
 	t_redir		*redir_ptr;
 	t_parsing	*parsing_ptr;
 	char		*outfile;
-	int			cmd_cnt;
+	int			pipe_cnt;
 	int			fds[2];
 	pid_t		*pidz;
+	int			pid_i;
 }	t_exec;
 
 typedef struct s_cmd_list
@@ -32,6 +33,8 @@ typedef struct s_cmd_list
 	bool				arg;
 	struct s_cmd_list	*next;
 }	t_cmd_list;
+
+void perror_exit(const char *msg);
 
 // EXECUTION
 void		execution(char *argv[], char **envp, t_parsing *parsing);

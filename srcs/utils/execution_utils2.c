@@ -28,7 +28,9 @@ int	there_is_pipeline(int *tkn_value)
 		if (tkn_value[i] == PIPE)
 			pipe_cnt++;
 	}
-	return (pipe_cnt + 1);
+	if (pipe_cnt > 0)
+		pipe_cnt++;
+	return (pipe_cnt);
 }
 
 int	get_argv_cnt(t_cmd_list *list)
@@ -53,11 +55,13 @@ char	**iter_through_list(t_cmd_list *list, char **argv)
 	i = -1;
 	while (list)
 	{
-		i++;
 		if (list->pipe)
 			break ;
 		if (list->cmd == TRUE || list->arg == TRUE)
+		{
+			i++;
 			argv[i] = ft_strdup(list->elem);
+		}
 		list = list->next;
 	}
 	if (i == 0)

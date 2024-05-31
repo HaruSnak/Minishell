@@ -7,15 +7,17 @@ void	redirect_output(t_exec **data, t_redir *s_redir)
 
 	fd_out = -1;
 	if (s_redir->redir_out == TRUE)
-		fd_out = open((*data)->outfile, O_WRONLY | O_RDONLY | O_TRUNC, 0777);
+		fd_out = open((*data)->outfile, O_WRONLY | O_TRUNC, 0777);
 	else if (s_redir->append == TRUE)
-		fd_out = open((*data)->outfile, O_WRONLY | O_RDONLY | O_APPEND, 0777);
+		fd_out = open((*data)->outfile, O_WRONLY | O_APPEND, 0777);
 	if (fd_out == -1)
 	{
 		perror("outfile");
 		return ;// error handling
 	}
-	dup2(fd_out, STDOUT_FILENO);
+	if (dup2(fd_out, STDOUT_FILENO) == -1)
+		perror_exit("dup2");
+	close(fd_out);
 }
 
 void	check_access_infile(char *infile)

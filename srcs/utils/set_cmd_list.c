@@ -55,3 +55,5 @@ t_cmd_list	*set_cmd_list(char **tkn, int *tkn_value)
 	}
 	return (cmd);
 }
+
+// free list
