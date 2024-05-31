@@ -2,6 +2,9 @@
 
 #include "../../includes/minishell.h"
 
+// Check if the character is a quote and if it is,
+// check if it is a single or double quote
+// and if it is, add a space after the quote
 void	ft_condit_quote(char *tmp_redir, int *i, int *k, char *tmp_quote)
 {
 	static bool	check_s;

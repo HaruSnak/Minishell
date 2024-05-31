@@ -10,6 +10,7 @@ void	ft_error_cmd_ext(char *error, int status)
 	exit(status);
 }
 
+// Free a double pointer and set it to NULL
 void	ft_free_d_ptr(void ***ptr)
 {
 	int	i;
@@ -26,11 +27,12 @@ void	ft_free_d_ptr(void ***ptr)
 	*ptr = NULL;
 }
 
-void	ft_end_verify(char **input, struct s_parsing *parsing)
+// verify_operations function commands free
+void	ft_end_verify(char **input, t_parsing *parsing)
 {
 	add_history(*input);
 	ft_free_d_ptr((void ***)&parsing->tkn);
-	ft_free_d_ptr((void ***)&parsing->tkn_value);
+	free(parsing->tkn_value);
 	free(parsing->tkn_cpy);
 }
 

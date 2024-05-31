@@ -19,7 +19,7 @@ char	*ft_strdup(const char *src)
 	char	*dest;
 
 	i = 0;
-	dest = malloc(sizeof(char) * ft_strlen(src) + 1);
+	dest = malloc(sizeof(char) * (ft_strlen(src) + 1));
 	if (!dest)
 		return (NULL);
 	while (src[i] != '\0')

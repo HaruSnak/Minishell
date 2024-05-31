@@ -1,5 +1,4 @@
 
-
 #include "../../includes/minishell.h"
 
 // Cette fonction sert à trouver le chemin d'accès d'une commande
@@ -26,38 +25,10 @@ char	**ft_path_envp(char **envp)
 	return (path_f);
 }
 
-void	ft_interpret_envp(char **envp, struct s_parsing *parsing)
-{
-	int		i;
-	char	*env_cmd;
-
-	i = 0;
-	if (parsing->tkn[1] != NULL
-		&& ft_strchr(parsing->tkn[1], '$')
-		&& ft_strnstr(parsing->tkn[0], "echo",
-			ft_strlen(parsing->tkn[0])))
-	{
-		env_cmd = ft_substr(parsing->tkn[1], 1,
-				ft_strlen(parsing->tkn[1]) - 1);
-		while (envp[i] != NULL)
-		{
-			if (ft_strncmp(envp[i], env_cmd, ft_strlen(env_cmd)) == 0)
-			{
-				parsing->tkn[1] = ft_strdup(envp[i]
-						+ ft_strlen(env_cmd) + 1);
-				break ;
-			}
-			else
-				parsing->tkn[1] = ft_strdup("");
-			i++;
-		}
-	}
-}
-
 // Cette fonction sert à exécuter une commande.
 // En reprenant les chemins d'acces trouvés par ft_path_envp,
 // elle exécute la commande passée en paramètre.
-int	ft_if_execve_access(struct s_parsing *parsing, char **envp)
+int	ft_if_execve_access(t_parsing *parsing, char **envp)
 {
 	pid_t	pid;
 	int		pipefd[2];
@@ -83,7 +54,6 @@ int	ft_if_execve_access(struct s_parsing *parsing, char **envp)
 		printf("ICI2\n");
 		if (access(parsing->cmd_path, F_OK) == 0)
 		{
-			ft_interpret_envp(envp, parsing);
 			execve(parsing->cmd_path, parsing->tkn, envp);
 		}
 		else
@@ -113,7 +83,7 @@ int	ft_if_execve_access(struct s_parsing *parsing, char **envp)
 // Cette fonction sert à exécuter une commande.
 // En reprenant les chemins d'acces trouvés par ft_path_envp,
 // elle exécute la commande passée en paramètre.
-int	ft_find_execve(char **envp, struct s_parsing *parsing)
+int	ft_find_execve(char **envp, t_parsing *parsing)
 {
 	int		i;
 	int		k;
@@ -126,7 +96,7 @@ int	ft_find_execve(char **envp, struct s_parsing *parsing)
 		return (-1);
 	while (parsing->tkn[++k] != NULL)
 	{
-		if (parsing->tkn_value[k][0] == CMD)
+		if (parsing->tkn_value[k] == CMD)
 		{
 			while (parsing->path[++i] != NULL)
 			{
