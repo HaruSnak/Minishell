@@ -17,12 +17,15 @@
 # include <signal.h>
 # include <termios.h>
 # include <errno.h>
+# include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft/includes/libft.h"
 # include "exec.h"
 
-# define PL fprintf(stderr, "file:%s line: %d pid: %i\n", __FILE__, __LINE__, getpid());
+# define PL fprintf(stderr, "file: %s line: %d pid: %i\n", __FILE__, __LINE__, getpid())
+# define PI(x) fprintf(stderr, "PI: %d\n", (x));
+# define PS(x) fprintf(stderr, "PS: %s\n", (x));
 
 # define TRUE 1
 # define FALSE 0
@@ -60,6 +63,8 @@ typedef struct s_parsing
 	char	*tmp;
 	int		exit_value;
 	int		status;
+	t_quote	*quote;
+}	t_parsing;
 	t_quote	*quote;
 }	t_parsing;
 
@@ -105,6 +110,7 @@ int		ft_handle_verify(char **input, t_parsing *parsing, char **envp);
 int		ft_exec_cmd_redirects(char **tmp, t_parsing *parsing);
 
 // ERRORS FUNCTIONS
+void	ft_end_verify(char **input, t_parsing *parsing);
 void	ft_end_verify(char **input, t_parsing *parsing);
 void	ft_free_and_compact(char **str, int index, int size);
 void	ft_free_d_ptr(void ***ptr);

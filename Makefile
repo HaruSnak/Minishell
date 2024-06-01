@@ -5,13 +5,19 @@ FLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 LIBFTDIR = includes/libft
 OBJ_DIR = obj/
 SRC_DIR = srcs/
-#READLINE_PATH = /Users/shmoreno/.local/opt/readline
-#CFLAGS = -I$(READLINE_PATH)/include
-#LDFLAGS = -L$(READLINE_PATH)/lib -lreadline
+READLINE_PATH = /Users/pcardin/.local/opt/readline
+CFLAGS = -I$(READLINE_PATH)/include
+LDFLAGS = -L$(READLINE_PATH)/lib -lreadline
 
 SRC_1 = srcs/minishell.c \
 
 SRC_2 =	srcs/commands/cmds_external.c \
+	srcs/commands/export_unset_cmds.c \
+	srcs/commands/out_cd_cmds.c \
+	srcs/commands/out_env_cmds.c \
+	srcs/errors/errors.c \
+	srcs/parsing/parsing.c \
+	srcs/parsing/verify_operators.c \
 	srcs/commands/export_unset_cmds.c \
 	srcs/commands/out_cd_cmds.c \
 	srcs/commands/out_env_cmds.c \
@@ -49,6 +55,7 @@ ${NAME}: ${OBJ_1} ${OBJ_2}
 	@make -C $(LIBFTDIR)
 	@${CC} ${FLAGS} ${CFLAGS} ${LDFLAGS} ${OBJ_1} ${OBJ_2} -o ${NAME} ${INCLUDE}
 	@clear
+	@clear
 	@echo "$(NAME) compiled successfully."
 
 all: ${NAME}
@@ -61,6 +68,8 @@ clean:
 fclean: clean
 	@echo "Cleaning executable..."
 	@${RM} ${NAME}
+	@rm -rf ${OBJ_DIR}
+	@clear
 	@rm -rf ${OBJ_DIR}
 	@clear
 	@echo "Executable cleaned."

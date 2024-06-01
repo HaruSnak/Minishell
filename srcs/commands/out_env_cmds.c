@@ -1,5 +1,4 @@
 
-
 #include "../../includes/minishell.h"
 
 void	ft_setenv_last(char **envp, t_parsing *parsing, int i)

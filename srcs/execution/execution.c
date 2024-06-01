@@ -1,56 +1,67 @@
 
 #include "../../includes/minishell.h"
 
+void perror_exit(const char *msg) 
+{
+	perror(msg);
+	exit(errno);
+}
+
 void	parent_exec(t_exec **data)
 {
 	close((*data)->fds[1]);
-	close((*data)->prevpipe);
-	dup2((*data)->fds[0], (*data)->prevpipe);
+	dup2((*data)->fds[0], STDIN_FILENO);
 	close((*data)->fds[0]);
 }
 
-void	command_found(t_exec **data, char **path, char **envp, int i)
+void	command_found(t_exec **data, t_cmd_list *list, char *path, char **envp)
 {
-	(*data)->pidz[i] = fork();
-	check_err_fork((*data)->pidz[i]);
-	if ((*data)->pidz[i] == 0)
-		child_exec(envp, data, i, *path);
+	if (pipe((*data)->fds) == -1)
+	{
+		perror("pipe");
+		exit(errno); // Error handling, no exit?
+	}
+	(*data)->pidz[(*data)->pid_i] = fork();
+	check_err_fork((*data)->pidz[(*data)->pid_i]);
+	if ((*data)->pidz[(*data)->pid_i] == 0)
+		child_exec(envp, data, list, path);
 	else
 		parent_exec(data);
-	free(*path);
 }
 
-void	command_not_found(t_exec **data, int i)
+void	command_not_found(t_exec **data, char *wrong_cmd)
 {
-	ft_printf("minishlag: %s: command not found\n",
-		(*data)->parsing_ptr->tkn[i]);
-	close((*data)->prevpipe);
-	(*data)->prevpipe = dup((*data)->fds[0]);
+	ft_printf("minishlag: %s: command not found\n", wrong_cmd);
 	close((*data)->fds[1]);
+	if ((*data)->fds[0])
+		dup2((*data)->fds[0], STDIN_FILENO);
 	close((*data)->fds[0]);
 }
 
-void	cmds_execution(t_exec **data, char **envp)
+void	multi_execution(t_exec **data, char **envp)
 {
-	char	*path;
-	int		i;
+	t_cmd_list	*list;
+	char		*path;
 
-	i = -1;
-	while ((*data)->parsing_ptr->tkn[++i])
+	list = set_cmd_list((*data)->parsing_ptr->tkn,
+			(*data)->parsing_ptr->tkn_value);
+	while ((*data)->pipe_cnt)
 	{
-		if ((*data)->parsing_ptr->tkn_value[i] != CMD)
-			continue ;
-		path = find_cmd_path(data, (*data)->parsing_ptr->tkn[i]);
-		if (pipe((*data)->fds) == -1)
+		if (list->cmd)
 		{
-			perror("pipe");
-			exit(errno);
+			// (*data)->pipe_cnt--;
+			// (*data)->pid_i++;
+			path = find_cmd_path(data, list->elem);
 		}
-		if (path == NULL)
-			command_not_found(data, i);
-		else
-			command_found(data, &path, envp, i);
+		if (path && list->cmd)
+			command_found(data, list, path, envp);
+		else if (list->cmd)
+			command_not_found(data, list->elem);
+		list = list->next;
 	}
+	if (path && list)
+		free(path);
+	// free list ;
 }
 
 void	execution(char *tkn[], char **envp, t_parsing *parsing)
@@ -61,19 +72,27 @@ void	execution(char *tkn[], char **envp, t_parsing *parsing)
 	parsing->path = ft_path_envp(envp);
 	init_data(&data, &s_redir, parsing);
 	check_for_redirection(tkn, parsing->tkn_value, &data, &s_redir);
-	// if (data->infile)       	 // make sure the redirection inside
-		// redirect_input(data); // the check_access is fine;
-	if (there_is_pipeline(parsing->tkn_value) == TRUE)
-		cmds_execution(&data, envp);
+	data->pipe_cnt = there_is_pipeline(parsing->tkn_value);
+	if (data->pipe_cnt)
+	{
+		multi_execution(&data, envp);
+		wait_pidz(&data);
+	}
 	else
 		single_cmd_execution(&data, s_redir, envp, tkn);
-	close(data->prevpipe);
-	wait_pidz(&data);
 }
 
-// < in cat > out
+		// if (ft_external_cmds(list->elem, (*data)->parsing_ptr, envp) == 0)
+		// 	continue ;
+		
 //-----// to come back to //-----//
 
-// Single execution 
+// Multi pipes:
 // 
+// 
+// Builtins exec:
+// 
+// 
+// Heredoc
 
+// < in cat | wc > out

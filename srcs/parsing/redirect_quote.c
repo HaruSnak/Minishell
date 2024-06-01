@@ -1,5 +1,4 @@
 
-
 #include "../../includes/minishell.h"
 
 // Check if the character is a quote and if it is,
