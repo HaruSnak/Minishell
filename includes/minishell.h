@@ -65,8 +65,6 @@ typedef struct s_parsing
 	int		status;
 	t_quote	*quote;
 }	t_parsing;
-	t_quote	*quote;
-}	t_parsing;
 
 // PARSING FUNCTIONS 
 int		ft_find_execve(char **envp, t_parsing *parsing);
@@ -86,12 +84,9 @@ char	*ft_split_input(char *input, char *c);
 int		ft_setenv(char **envp, t_parsing *parsing);
 
 // COMMANDS CD FUNCTIONS
-void	ft_handle_cd_home(t_parsing *parsing,
-			char **envp);
-void	ft_handle_cd_previous(t_parsing *parsing,
-			char **envp);
-void	ft_handle_cd_root(t_parsing *parsing,
-			char **envp);
+void	ft_handle_cd_home(t_parsing *parsing, char **envp);
+void	ft_handle_cd_previous(t_parsing *parsing, char **envp);
+void	ft_handle_cd_root(t_parsing *parsing, char **envp);
 void	ft_handle_cd_oldpwd(t_parsing *parsing,
 			char **envp, char *path, char *oldpwd);
 void	ft_handle_cd_path(t_parsing *parsing, char **envp, char **input);
@@ -111,8 +106,8 @@ int		ft_exec_cmd_redirects(char **tmp, t_parsing *parsing);
 
 // ERRORS FUNCTIONS
 void	ft_end_verify(char **input, t_parsing *parsing);
-void	ft_end_verify(char **input, t_parsing *parsing);
 void	ft_free_and_compact(char **str, int index, int size);
+void	free_data(t_exec *data, t_redir *s_redir);
 void	ft_free_d_ptr(void ***ptr);
 
 // QUOTE FUNCTIONS SHELL

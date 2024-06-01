@@ -80,6 +80,7 @@ void	execution(char *tkn[], char **envp, t_parsing *parsing)
 	}
 	else
 		single_cmd_execution(&data, s_redir, envp, tkn);
+	free_data(data, s_redir);
 }
 
 		// if (ft_external_cmds(list->elem, (*data)->parsing_ptr, envp) == 0)

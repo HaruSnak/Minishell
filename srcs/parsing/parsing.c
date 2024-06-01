@@ -29,7 +29,6 @@ char	**ft_path_envp(char **envp)
 // En reprenant les chemins d'acces trouvés par ft_path_envp,
 // elle exécute la commande passée en paramètre.
 int	ft_if_execve_access(t_parsing *parsing, char **envp)
-int	ft_if_execve_access(t_parsing *parsing, char **envp)
 {
 	pid_t	pid;
 	int		pipefd[2];
@@ -85,7 +84,6 @@ int	ft_if_execve_access(t_parsing *parsing, char **envp)
 // En reprenant les chemins d'acces trouvés par ft_path_envp,
 // elle exécute la commande passée en paramètre.
 int	ft_find_execve(char **envp, t_parsing *parsing)
-int	ft_find_execve(char **envp, t_parsing *parsing)
 {
 	int		i;
 	int		k;
@@ -98,7 +96,6 @@ int	ft_find_execve(char **envp, t_parsing *parsing)
 		return (-1);
 	while (parsing->tkn[++k] != NULL)
 	{
-		if (parsing->tkn_value[k] == CMD)
 		if (parsing->tkn_value[k] == CMD)
 		{
 			while (parsing->path[++i] != NULL)

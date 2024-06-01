@@ -9,22 +9,12 @@ void	ft_error_cmd_ext(char *error, int status)
 	exit(status);
 }
 
-void	ft_free_tkn_value(int **ptr)
-{	
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	while (ptr[count])
-		count++;
-	while (i < count)
-	{
-		free(ptr[i]);
-		i++;
-	}
-	// free(ptr);
-	ptr = NULL;
+void	free_data(t_exec *data, t_redir *s_redir)
+{
+	free(data->outfile);
+	free(data->pidz);
+	free(data);
+	free(s_redir);
 }
 
 // Free a double pointer and set it to NULL
@@ -48,7 +38,6 @@ void	ft_free_d_ptr(void ***ptr)
 void	ft_end_verify(char **input, t_parsing *parsing)
 {
 	add_history(*input);
-	ft_free_tkn_value(&parsing->tkn_value);
 	ft_free_d_ptr((void ***)&parsing->tkn);
 	free(parsing->tkn_value);
 	free(parsing->tkn_cpy);
