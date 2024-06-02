@@ -1,7 +1,7 @@
 
 #include "../../includes/minishell.h"
 
-void perror_exit(const char *msg) 
+void perror_exit(const char *msg)// tests
 {
 	perror(msg);
 	exit(errno);
@@ -10,7 +10,8 @@ void perror_exit(const char *msg)
 void	parent_exec(t_exec **data)
 {
 	close((*data)->fds[1]);
-	dup2((*data)->fds[0], STDIN_FILENO);
+	if ((*data)->pipe_cnt)
+		// dup2((*data)->fds[0], STDIN_FILENO);
 	close((*data)->fds[0]);
 }
 
@@ -48,13 +49,13 @@ void	multi_execution(t_exec **data, char **envp)
 	while ((*data)->pipe_cnt)
 	{
 		if (list->cmd)
-		{
-			// (*data)->pipe_cnt--;
-			// (*data)->pid_i++;
 			path = find_cmd_path(data, list->elem);
-		}
 		if (path && list->cmd)
+		{
+			(*data)->pipe_cnt--;
+			(*data)->pid_i++;
 			command_found(data, list, path, envp);
+		}
 		else if (list->cmd)
 			command_not_found(data, list->elem);
 		list = list->next;
@@ -78,7 +79,7 @@ void	execution(char *tkn[], char **envp, t_parsing *parsing)
 		multi_execution(&data, envp);
 		wait_pidz(&data);
 	}
-	else
+	else if (*tkn)
 		single_cmd_execution(&data, s_redir, envp, tkn);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shmoreno <shmoreno@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: pcardin <pcardin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 13:10:38 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/05/16 17:28:33 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/06/02 19:20:47 by pcardin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

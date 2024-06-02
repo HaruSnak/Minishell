@@ -15,8 +15,7 @@ char	*find_cmd_path(t_exec **data, char *cmd)
 	int		j;
 
 	j = 0;
-	(*data)->pipe_cnt--;
-	(*data)->pid_i++;
+
 	while (j < 8)
 	{
 		path = ft_strjoin_fs((*data)->parsing_ptr->path[j], cmd);

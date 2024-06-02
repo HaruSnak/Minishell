@@ -30,24 +30,28 @@ int	main(int argc, char **argv, char **envp)
 	t_quote 			quote;
 
 	ft_init_main(&parsing, &quote, envp, argc);
-	ft_init_main(&parsing, &quote, envp, argc);
 	(void)argv;
 	sa.sa_handler = ft_signal_handler;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
 	sigaction(SIGINT, &sa, NULL);
 	tcgetattr(STDIN_FILENO, &term);
+	input = NULL;
 	while (1)
 	{
+		PL;
 		sigaction(SIGINT, &sa, NULL);
 		sigaction(SIGQUIT, &sa, NULL);
 		term.c_cc[VQUIT] = _POSIX_VDISABLE;
 		tcsetattr(STDIN_FILENO, TCSANOW, &term);
 		input = readline("\033[0;32mminishell\xF0\x9F\x90\x9A \033[0m");
+		// sleep(2);
 		if (!input)
 			break ;
+		PL;
 		ft_handle_verify(&input, &parsing, envp);
 		free(input);
+		input = NULL;
 	}
 	return (0);
 }

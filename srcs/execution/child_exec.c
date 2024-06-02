@@ -4,7 +4,7 @@
 void	pipe_handling(t_exec **data)
 {
 	close((*data)->fds[0]);
-	if (!(*data)->pipe_cnt && (*data)->outfile)
+	if (!(*data)->pipe_cnt)
 		redirect_output(data, (*data)->redir_ptr);
 	else
 		dup2((*data)->fds[1], STDOUT_FILENO);

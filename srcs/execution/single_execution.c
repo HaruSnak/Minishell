@@ -40,6 +40,29 @@ char	**set_argv(char *tkn[], int *tkn_value)
 	return (argv);
 }
 
+bool	there_is_cmds(t_exec **data, char *tkn[], int *tkn_value)
+{
+	int		i;
+	char	*path;
+
+	i = -1;
+	while (tkn_value[++i])
+	{
+		if (tkn_value[i] == CMD)
+		{
+			path = find_cmd_path(data, tkn[i]);
+			if (!path)
+				return (FALSE);
+			else
+			{
+				free(path);
+				return (TRUE);
+			}
+		}
+	}
+	return (FALSE);
+}
+
 void	single_cmd_execution(t_exec **data, t_redir *s_redir,
 			char **envp, char *tkn[])
 {
@@ -50,14 +73,18 @@ void	single_cmd_execution(t_exec **data, t_redir *s_redir,
 
 	// if (is_builtin())
 		// return ;	
-	pid = fork();
-	if (pid == 0)
+	if (there_is_cmds(data, tkn, (*data)->parsing_ptr->tkn_value))
 	{
-		argv = set_argv(tkn, (*data)->parsing_ptr->tkn_value);
-		path = find_cmd_path(data, argv[0]);
-		if (s_redir->redir_out || s_redir->append)
-			redirect_output(data, s_redir);
-		execve(path, argv, envp);
+		PL;
+		pid = fork();
+		if (pid == 0)
+		{
+			argv = set_argv(tkn, (*data)->parsing_ptr->tkn_value);
+			path = find_cmd_path(data, argv[0]);
+			if (s_redir->redir_out || s_redir->append)
+				redirect_output(data, s_redir);
+			execve(path, argv, envp);
+		}
+		waitpid(pid, &status, 0);
 	}
-	waitpid(pid, &status, 0);
 }

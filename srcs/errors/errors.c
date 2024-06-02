@@ -23,7 +23,6 @@ void	ft_free_tkn_value(int **ptr)
 		free(ptr[i]);
 		i++;
 	}
-	// free(ptr);
 	ptr = NULL;
 }
 

@@ -13,7 +13,6 @@ int	ft_handle_verify(char **input, t_parsing *parsing, char **envp)
 	ft_token_value(parsing);
 	execution(parsing->tkn, envp, parsing);
 	ft_end_verify(input, parsing);
-	// exit(0);
 	return (0);
 }
 
@@ -24,3 +23,5 @@ int	ft_handle_verify(char **input, t_parsing *parsing, char **envp)
 	// 	printf("%s: command not found\n", *input);
 	// 	return (ft_end_verify(input, parsing), -1);
 	// }
+
+// cat < in | wc > out

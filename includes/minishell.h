@@ -67,11 +67,8 @@ typedef struct s_parsing
 
 // PARSING FUNCTIONS 
 int		ft_find_execve(char **envp, t_parsing *parsing);
-int		ft_if_execve_access(t_parsing *parsing, char **envp);
 int		ft_token_value(t_parsing *parsing);
-int		ft_find_execve(char **envp, t_parsing *parsing);
 int		ft_if_execve_access(t_parsing *parsing, char **envp);
-int		ft_token_value(t_parsing *parsing);
 char	*ft_separe_operator(char *input);
 char	*ft_replace_espace(char *input, t_parsing *parsing);
 void	ft_delete_espace(t_parsing *parsing);
@@ -81,9 +78,7 @@ void	ft_signal_handler(int signo);
 
 // COMMANDS FUNCTIONS
 int		ft_external_cmds(char **input, t_parsing *parsing, char **envp);
-int		ft_external_cmds(char **input, t_parsing *parsing, char **envp);
 char	*ft_split_input(char *input, char *c);
-int		ft_setenv(char **envp, t_parsing *parsing);
 int		ft_setenv(char **envp, t_parsing *parsing);
 
 // COMMANDS CD FUNCTIONS
@@ -92,7 +87,6 @@ void	ft_handle_cd_previous(t_parsing *parsing, char **envp);
 void	ft_handle_cd_root(t_parsing *parsing, char **envp);
 void	ft_handle_cd_oldpwd(t_parsing *parsing,
 			char **envp, char *path, char *oldpwd);
-void	ft_handle_cd_path(t_parsing *parsing, char **envp, char **input);
 void	ft_handle_cd_path(t_parsing *parsing, char **envp, char **input);
 
 // COMMANDS EXPORT UNSET FUNCTIONS
@@ -103,12 +97,8 @@ int		ft_external_cmds_bis(char **input,
 int		ft_handle_empty_cmd(char **input);
 int		ft_handle_exit(char **input, t_parsing *parsing);
 int		ft_handle_echo(char *input, t_parsing *parsing);
-int		ft_handle_exit(char **input, t_parsing *parsing);
-int		ft_handle_echo(char *input, t_parsing *parsing);
 
 // REDIRECTION FUNCTIONS SHELL
-int		ft_handle_verify(char **input, t_parsing *parsing, char **envp);
-int		ft_exec_cmd_redirects(char **tmp, t_parsing *parsing);
 int		ft_handle_verify(char **input, t_parsing *parsing, char **envp);
 int		ft_exec_cmd_redirects(char **tmp, t_parsing *parsing);
 

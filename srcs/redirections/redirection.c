@@ -1,10 +1,32 @@
 
 #include "../../includes/minishell.h"
 
+void	print_output(int fd)
+{
+	char	*line;
+
+	line = NULL;
+	line = get_next_line(fd);
+	while (line)
+	{
+		printf("%s", line);
+		free(line);
+		line = NULL;
+		line = get_next_line(fd);
+	}
+	free(line);
+	close(fd);
+}
+
 void	redirect_output(t_exec **data, t_redir *s_redir)
 {
 	int		fd_out;
 
+	if (!(*data)->outfile)
+	{
+		print_output((*data)->fds[1]);
+		return ;
+	}
 	fd_out = -1;
 	if (s_redir->redir_out == TRUE)
 		fd_out = open((*data)->outfile, O_WRONLY | O_TRUNC, 0777);
@@ -75,7 +97,7 @@ void	check_for_redirection(char **tkn, int *tkn_value,
 		if (tkn_value[i] == IN)
 			check_access_infile(tkn[i + 1]);
 		else if (tkn_value[i] == HEREDOC) // last option would be to store
-			heredoc_handling(tkn[i + 1]);      // in a hidenfile  
+			heredoc_handling(tkn[i + 1]); // in a hidenfile
 		if (tkn_value[i] == OUT)
 			(*s_redir)->redir_out = TRUE;
 		else if (tkn_value[i] == APPEND)
