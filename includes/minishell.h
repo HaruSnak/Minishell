@@ -23,8 +23,8 @@
 # include "exec.h"
 
 # define PL fprintf(stderr, "file: %s line: %d pid: %i\n", __FILE__, __LINE__, getpid())
-# define PI(x) fprintf(stderr, "PI: %d\n", (x));
-# define PS(x) fprintf(stderr, "PS: %s\n", (x));
+# define PI(s, x) fprintf(stderr, "%s: %d\n", (s), (x));
+# define PS(s, x) fprintf(stderr, "%s: %s\n", (s), (x));
 
 # define TRUE 1
 # define FALSE 0

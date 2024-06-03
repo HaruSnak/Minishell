@@ -21,7 +21,6 @@ int	ft_condition_replace(t_parsing *parsing, char *input, int i, int *k)
 	if (input[i] == '\"' && !parsing->quote->check_s)
 	{
 		parsing->quote->check_d = !parsing->quote->check_d;
-		printf("ici\n");
 		return (0);
 	}
 	else if (input[i] == '\'' && !parsing->quote->check_d)
@@ -45,7 +44,7 @@ void	ft_copy_var(t_parsing *parsing, char *input, int i, int k)
 		|| (input[i + 1] == '\"' && parsing->quote->check_d))
 	{
 		l = i - k + 2;
-		printf("l = %d\n", l);
+		PI("l", l);
 		parsing->tmp_env[parsing->quote->p] = ft_substr(input, k, l);
 		old_ptr = parsing->tmp_env[parsing->quote->p];
 		parsing->tmp_env[parsing->quote->p]
@@ -110,8 +109,8 @@ void	ft_delete_espace(t_parsing *parsing)
 		{
 			ft_strlcpy(parsing->tkn[i], parsing->tmp_env[k],
 				ft_strlen(parsing->tmp_env[k]) + 1);
-			printf("parsing->tkn[i] = %s\n", parsing->tkn[i]);
-			printf("k = %d\n", k);
+			PS("tkn[i]", parsing->tkn[i]);
+			PI("k", k);
 			k++;
 		}
 	}

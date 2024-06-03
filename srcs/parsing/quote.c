@@ -1,5 +1,4 @@
 
-
 #include "../../includes/minishell.h"
 
 int	ft_condition_replace(t_parsing *parsing, char *input, int i, int *k)
