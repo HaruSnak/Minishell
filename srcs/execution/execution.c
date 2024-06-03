@@ -11,7 +11,7 @@ void	parent_exec(t_exec **data)
 {
 	close((*data)->fds[1]);
 	if ((*data)->pipe_cnt)
-		// dup2((*data)->fds[0], STDIN_FILENO);
+		dup2((*data)->fds[0], STDIN_FILENO);
 	close((*data)->fds[0]);
 }
 
@@ -81,11 +81,25 @@ void	execution(char *tkn[], char **envp, t_parsing *parsing)
 	}
 	else if (*tkn)
 		single_cmd_execution(&data, s_redir, envp, tkn);
+	dup2(data->stdin_cpy, STDIN_FILENO);
+	dup2(data->stdout_cpy, STDOUT_FILENO);
+	close(data->stdin_cpy);
+	close(data->stdout_cpy);
 }
 
 		// if (ft_external_cmds(list->elem, (*data)->parsing_ptr, envp) == 0)
 		// 	continue ;
 		
+	// t_cmd_list	*list_cpy = list;
+	// while (list_cpy)
+	// {
+	// 	PI(list_cpy->arg);
+	// 	PI(list_cpy->cmd);
+	// 	PS(list_cpy->elem);
+	// 	list_cpy = list_cpy->next;
+	// }
+
+
 //-----// to come back to //-----//
 
 // Multi pipes:

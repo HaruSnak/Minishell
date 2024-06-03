@@ -75,7 +75,6 @@ void	single_cmd_execution(t_exec **data, t_redir *s_redir,
 		// return ;	
 	if (there_is_cmds(data, tkn, (*data)->parsing_ptr->tkn_value))
 	{
-		PL;
 		pid = fork();
 		if (pid == 0)
 		{

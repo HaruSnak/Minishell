@@ -72,9 +72,11 @@ void	init_data(t_exec **data, t_redir **s_redir, t_parsing *parsing)
 	(*data)->redir_ptr = *s_redir;
 	(*data)->parsing_ptr = parsing;
 	(*data)->outfile = NULL;
+	(*data)->stdin_cpy = dup(0);
+	(*data)->stdout_cpy = dup(1);
 	(*data)->pipe_cnt = 0;
 	(*data)->pidz = malloc(cmd_count(parsing->tkn_value) * sizeof(pid_t)); // protect
 	(*data)->pid_i = -1;
-		(*data)->fds[0] = 0;
+	(*data)->fds[0] = 0;
 	(*data)->fds[1] = 0;
 }

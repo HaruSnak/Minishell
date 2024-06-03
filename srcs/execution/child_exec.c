@@ -17,6 +17,12 @@ void	child_exec(char **envp, t_exec **data, t_cmd_list *list, char *path)
 
 	pipe_handling(data);
 	argv = set_argv_lst(list, list->elem);
+	int i = -1;
+	while (argv[++i])
+	{
+		PL;
+		PS(argv[i]);
+	}
 	execve(path, argv, envp);
 	perror_exit("execve");
 }

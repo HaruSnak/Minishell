@@ -40,7 +40,7 @@ int	get_argv_cnt(t_cmd_list *list)
 
 	argv_cnt = 0;
 	temp = list;
-	while (temp->next && (temp->cmd == TRUE || temp->arg == TRUE))
+	while (temp && (temp->cmd == TRUE || temp->arg == TRUE))
 	{
 		argv_cnt++;
 		temp = temp->next;
@@ -64,8 +64,7 @@ char	**iter_through_list(t_cmd_list *list, char **argv)
 		}
 		list = list->next;
 	}
-	if (i == 0)
-		i++;
+	i++;
 	argv[i] = NULL;
 	return (argv);
 }

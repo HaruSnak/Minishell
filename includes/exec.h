@@ -18,6 +18,8 @@ typedef struct	s_exec
 	t_redir		*redir_ptr;
 	t_parsing	*parsing_ptr;
 	char		*outfile;
+	int			stdin_cpy;
+	int			stdout_cpy;
 	int			pipe_cnt;
 	int			fds[2];
 	pid_t		*pidz;

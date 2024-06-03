@@ -11,6 +11,12 @@ int	ft_handle_verify(char **input, t_parsing *parsing, char **envp)
 	parsing->tkn = ft_split(*input, ' ');
 	ft_delete_espace(parsing);
 	ft_token_value(parsing);
+	// int i = -1;
+	// while (parsing->tkn[++i])
+	// {
+	// 	PS(parsing->tkn[i]);
+	// 	PI(parsing->tkn_value[i]);
+	// }
 	execution(parsing->tkn, envp, parsing);
 	ft_end_verify(input, parsing);
 	return (0);
@@ -24,4 +30,4 @@ int	ft_handle_verify(char **input, t_parsing *parsing, char **envp)
 	// 	return (ft_end_verify(input, parsing), -1);
 	// }
 
-// cat < in | wc > out
+// cat < in | grep i

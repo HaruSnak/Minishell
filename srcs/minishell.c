@@ -39,16 +39,13 @@ int	main(int argc, char **argv, char **envp)
 	input = NULL;
 	while (1)
 	{
-		PL;
 		sigaction(SIGINT, &sa, NULL);
 		sigaction(SIGQUIT, &sa, NULL);
 		term.c_cc[VQUIT] = _POSIX_VDISABLE;
 		tcsetattr(STDIN_FILENO, TCSANOW, &term);
-		input = readline("\033[0;32mminishell\xF0\x9F\x90\x9A \033[0m");
-		// sleep(2);
+		input = readline("\033[0;32mminishell\033[0m\xF0\x9F\x90\x9A ");
 		if (!input)
 			break ;
-		PL;
 		ft_handle_verify(&input, &parsing, envp);
 		free(input);
 		input = NULL;
