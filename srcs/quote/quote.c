@@ -11,6 +11,7 @@ void	ft_find_env(t_parsing *parsing, char **envp, int i, char *env_var)
 	char	*tmp_before;
 	int		p;
 
+	p = -1;
 	while (envp[++p] != NULL)
 	{
 		if (ft_strncmp(envp[p], env_var, ft_strlen(env_var)) == 0)

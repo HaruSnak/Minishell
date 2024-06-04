@@ -73,6 +73,7 @@ char	*ft_separe_operator(char *input);
 char	*ft_replace_espace(char *input, t_parsing *parsing);
 void	ft_delete_espace(t_parsing *parsing);
 void	ft_interpret_envp(char **envp, t_parsing *parsing);
+int		ft_token_value(t_parsing *parsing);
 
 // SIGNALS FUNCTIONS
 void	ft_signal_handler(int signo);

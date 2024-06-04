@@ -5,7 +5,7 @@ FLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 LIBFTDIR = includes/libft
 OBJ_DIR = obj/
 SRC_DIR = srcs/
-READLINE_PATH = /Users/pcardin/.local/opt/readline
+READLINE_PATH = /Users/shmoreno/.local/opt/readline
 CFLAGS = -I$(READLINE_PATH)/include
 LDFLAGS = -L$(READLINE_PATH)/lib -lreadline
 
@@ -37,7 +37,7 @@ $(OBJ_DIR)%.o: %.c
 	@mkdir -p $(@D)
 	@$(CC) $(FLAGS) $(CFLAGS) -c $< -o $@
 
-INCLUDE = -L $(LIBFTDIR) -lft -lreadline
+INCLUDE = -L $(LIBFTDIR) -lft
 
 .c.o:
 	@$(CC) $(FLAGS) $(CFLAGS) -c $< -o $@
