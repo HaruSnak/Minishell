@@ -1,7 +1,7 @@
 NAME = minishell
 CC = gcc
 RM = rm -f
-FLAGS = -Wall -Wextra -Werror #-g #-fsanitize=address
+FLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 LIBFTDIR = includes/libft
 OBJ_DIR = obj/
 SRC_DIR = srcs/
@@ -20,8 +20,10 @@ SRC_2 =	srcs/commands/cmds_external.c \
 	srcs/parsing/verify_operators.c \
 	srcs/parsing/token_value.c \
 	srcs/parsing/redirect_quote.c \
-	srcs/redirections/operator_redirects.c \
-	srcs/signals/signals.c \
+	srcs/parsing/quote.c \
+	srcs/parsing/var_env.c \
+    srcs/redirections/operator_redirects.c \
+    srcs/signals/signals.c \
 	srcs/quote/quote.c srcs/utils/set_cmd_list.c \
 	srcs/utils/function_utils.c srcs/utils/execution_utils2.c \
 	srcs/utils/execution_utils.c srcs/execution/execution.c \

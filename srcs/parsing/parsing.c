@@ -1,6 +1,4 @@
 
-
-
 #include "../../includes/minishell.h"
 
 // Cette fonction sert à trouver le chemin d'accès d'une commande
@@ -25,34 +23,6 @@ char	**ft_path_envp(char **envp)
 	path_f = ft_split(path, ':');
 	free(path);
 	return (path_f);
-}
-
-void	ft_interpret_envp(char **envp, t_parsing *parsing)
-{
-	int		i;
-	char	*env_cmd;
-
-	i = 0;
-	if (parsing->tkn[1] != NULL
-		&& ft_strchr(parsing->tkn[1], '$')
-		&& ft_strnstr(parsing->tkn[0], "echo",
-			ft_strlen(parsing->tkn[0])))
-	{
-		env_cmd = ft_substr(parsing->tkn[1], 1,
-				ft_strlen(parsing->tkn[1]) - 1);
-		while (envp[i] != NULL)
-		{
-			if (ft_strncmp(envp[i], env_cmd, ft_strlen(env_cmd)) == 0)
-			{
-				parsing->tkn[1] = ft_strdup(envp[i]
-						+ ft_strlen(env_cmd) + 1);
-				break ;
-			}
-			else
-				parsing->tkn[1] = ft_strdup("");
-			i++;
-		}
-	}
 }
 
 // Cette fonction sert à exécuter une commande.
@@ -84,7 +54,6 @@ int	ft_if_execve_access(t_parsing *parsing, char **envp)
 		printf("ICI2\n");
 		if (access(parsing->cmd_path, F_OK) == 0)
 		{
-			ft_interpret_envp(envp, parsing);
 			execve(parsing->cmd_path, parsing->tkn, envp);
 		}
 		else

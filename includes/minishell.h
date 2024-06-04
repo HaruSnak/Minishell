@@ -17,6 +17,7 @@
 # include <signal.h>
 # include <termios.h>
 # include <errno.h>
+# include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft/includes/libft.h"
@@ -67,11 +68,11 @@ typedef struct s_parsing
 
 // PARSING FUNCTIONS 
 int		ft_find_execve(char **envp, t_parsing *parsing);
-int		ft_token_value(t_parsing *parsing);
 int		ft_if_execve_access(t_parsing *parsing, char **envp);
 char	*ft_separe_operator(char *input);
 char	*ft_replace_espace(char *input, t_parsing *parsing);
 void	ft_delete_espace(t_parsing *parsing);
+void	ft_interpret_envp(char **envp, t_parsing *parsing);
 
 // SIGNALS FUNCTIONS
 void	ft_signal_handler(int signo);
@@ -105,13 +106,14 @@ int		ft_exec_cmd_redirects(char **tmp, t_parsing *parsing);
 // ERRORS FUNCTIONS
 void	ft_end_verify(char **input, t_parsing *parsing);
 void	ft_free_and_compact(char **str, int index, int size);
+void	free_data(t_exec *data, t_redir *s_redir);
 void	ft_free_d_ptr(void ***ptr);
 
 // QUOTE FUNCTIONS SHELL
+int		ft_check_quote(char **envp, t_parsing *parsing);
 
 // UTILS FUNCTIONS
 int		ft_count_index(char **input);
-char	*ft_replace_espace(char *input, t_parsing *parsing);
-void	ft_delete_espace(t_parsing *parsing);
+int		ft_strlen_quote(char *str, char c, int i);
 
 #endif

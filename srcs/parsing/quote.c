@@ -1,6 +1,11 @@
 
 #include "../../includes/minishell.h"
 
+// Check if the character is a quote and if it is,
+// check if it is a single or double quote
+// and if it is, add a space after the quote
+// and copy the character to the tmp_quote variable
+// and add a space after the quote
 int	ft_condition_replace(t_parsing *parsing, char *input, int i, int *k)
 {
 	if (input[i] == '\"' && !parsing->quote->check_s)

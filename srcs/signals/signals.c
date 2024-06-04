@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcardin <pcardin@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: shmoreno <shmoreno@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 13:10:38 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/06/02 19:20:47 by pcardin          ###   ########.fr       */
+/*   Updated: 2024/06/04 12:27:19 by shmoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+// Handle signals for the minishell program
 void	ft_signal_handler(int signo)
 {
 	if (signo == SIGINT)

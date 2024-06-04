@@ -15,7 +15,6 @@ char	*find_cmd_path(t_exec **data, char *cmd)
 	int		j;
 
 	j = 0;
-
 	while (j < 8)
 	{
 		path = ft_strjoin_fs((*data)->parsing_ptr->path[j], cmd);
@@ -38,15 +37,13 @@ void	wait_pidz(t_exec **data)
 	pid_t	result;
 
 	i = 0;
-	while ((*data)->pidz[i])
+	printf("%d\n", (*data)->pidz[i]);
+	while ((*data)->pidz[i] != -1)
 	{
-		if (*(*data)->pidz)
-		{
-			result = waitpid((*data)->pidz[i], &status, 0);
-			if (result == -1)
-				perror("waitpid");// error handling
-			i++;
-		}
+		result = waitpid((*data)->pidz[i], &status, 0);
+		if (result == -1)
+			perror("waitpid");
+		i++;
 	}
 }
 
@@ -55,28 +52,23 @@ void	check_err_fork(pid_t pid)
 	if (pid < 0)
 	{
 		perror("fork");
-		exit(0);// error handling
+		exit(0);
 	}
 }
 
 void	init_data(t_exec **data, t_redir **s_redir, t_parsing *parsing)
 {
 	*s_redir = malloc(sizeof(t_redir));
-	*data = malloc(sizeof(t_exec));
-	if (!s_redir || !data)
-		printf("coucou\n"); // set error & protect
 	(*s_redir)->redir_in = FALSE;
 	(*s_redir)->redir_out = FALSE;
 	(*s_redir)->here_doc = FALSE;
 	(*s_redir)->append = FALSE;
-	(*data)->redir_ptr = *s_redir;
+	*data = malloc(sizeof(t_exec));
 	(*data)->parsing_ptr = parsing;
 	(*data)->outfile = NULL;
-	(*data)->stdin_cpy = dup(0);
-	(*data)->stdout_cpy = dup(1);
-	(*data)->pipe_cnt = 0;
-	(*data)->pidz = malloc(cmd_count(parsing->tkn_value) * sizeof(pid_t)); // protect
-	(*data)->pid_i = -1;
-	(*data)->fds[0] = 0;
-	(*data)->fds[1] = 0;
+	(*data)->pidz = malloc(cmd_count(parsing->tkn_value) * sizeof(pid_t));
+	(*data)->prevpipe = 0;
+	// (*data)->cmds = NULL;
+	// (*data)->fds[0] = 0;
+	// (*data)->fds[1] = 0;
 }
