@@ -9,8 +9,9 @@ void	ft_error_cmd_ext(char *error, int status)
 	exit(status);
 }
 
-void	free_data(t_exec *data, t_redir *s_redir)
+void	ft_free_data(t_exec *data, t_redir *s_redir, t_parsing *parsing)
 {
+	ft_free_d_ptr((void ***)&parsing->path);
 	free(data->outfile);
 	free(data->pidz);
 	free(data);
@@ -35,9 +36,8 @@ void	ft_free_d_ptr(void ***ptr)
 }
 
 // verify_operations function commands free
-void	ft_end_verify(char **input, t_parsing *parsing)
+void	ft_end_verify(t_parsing *parsing)
 {
-	add_history(*input);
 	ft_free_d_ptr((void ***)&parsing->tkn);
 	free(parsing->tkn_value);
 	free(parsing->tkn_cpy);

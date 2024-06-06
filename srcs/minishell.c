@@ -43,11 +43,11 @@ int	main(int argc, char **argv, char **envp)
 		term.c_cc[VQUIT] = _POSIX_VDISABLE;
 		tcsetattr(STDIN_FILENO, TCSANOW, &term);
 		input = readline("\033[0;32mminishell\033[0m\xF0\x9F\x90\x9A ");
+		add_history(input);
 		if (!input)
 			break ;
 		ft_handle_verify(&input, &parsing, envp);
 		free(input);
-		input = NULL;
 	}
 	return (0);
 }

@@ -81,7 +81,7 @@ void	execution(char *tkn[], char **envp, t_parsing *parsing)
 	}
 	else if (*tkn)
 		single_cmd_execution(&data, s_redir, envp, tkn);
-	free_data(data, s_redir);
+	ft_free_data(data, s_redir, parsing);
 }
 
 		// if (ft_external_cmds(list->elem, (*data)->parsing_ptr, envp) == 0)
