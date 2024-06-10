@@ -82,6 +82,7 @@ char	*ft_separe_operator(char *input)
 		ft_condit_quote(tmp_redir, &i, &k, tmp_quote);
 	}
 	tmp_quote[k] = '\0';
+	free(input);
 	input = ft_strdup(tmp_quote);
 	free(tmp_quote);
 	free(tmp_redir);

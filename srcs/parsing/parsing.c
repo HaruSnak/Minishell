@@ -70,12 +70,10 @@ int	ft_if_execve_access(t_parsing *parsing, char **envp)
 	}
 	else
 	{
-		g_signal = 1;
 		//close(pipefd[0]);
 		//close(pipefd[1]);
 		waitpid(pid, &parsing->status, 0);
 		parsing->exit_value = WEXITSTATUS(parsing->status);
-		g_signal = 0;
 	}
 	return (0);
 }

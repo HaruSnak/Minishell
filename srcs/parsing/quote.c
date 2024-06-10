@@ -53,6 +53,7 @@ char	*ft_replace_espace(char *input, t_parsing *parsing)
 	j = -1;
 	tmp = malloc(sizeof(char) * ft_strlen(input) + 1);
 	parsing->tmp_env = malloc(sizeof(char *) * 100);
+	parsing->quote->p = 0;
 	while (input[++i] != '\0')
 	{
 		ft_condition_replace(parsing, input, i, &k);

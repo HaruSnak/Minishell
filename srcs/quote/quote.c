@@ -2,13 +2,28 @@
 
 #include "../../includes/minishell.h"
 
+char	*ft_f_null_q(t_parsing *parsing, char *env_var, int i, int p)
+{
+	char	*tmp_after;
+	char	*tmp_before;
+
+	tmp_after = ft_substr(parsing->tkn[i], 0, p);
+	tmp_before = ft_strjoin(tmp_after,
+			parsing->tkn[i] + ft_strlen(tmp_after) + ft_strlen(env_var) + 1);
+	free(parsing->tkn[i]);
+	parsing->tkn[i] = ft_strdup(tmp_before);
+	free(tmp_after);
+	free(tmp_before);
+	return (parsing->tkn[i]);
+}
+
 // Find the environment variable in the input
 // Replace the environment variable with the value in the input
 void	ft_find_env(t_parsing *parsing, char **envp, int i, char *env_var)
 {
 	char	*tmp_after;
 	char	*tmp_env;
-	char	*tmp_before;
+	char	*tmp;
 	int		p;
 
 	p = -1;
@@ -18,24 +33,25 @@ void	ft_find_env(t_parsing *parsing, char **envp, int i, char *env_var)
 		{
 			tmp_after = ft_substr(parsing->tkn[i], 0, parsing->quote->p);
 			tmp_env = ft_strjoin(tmp_after, envp[p] + ft_strlen(env_var) + 1);
-			tmp_before = ft_strjoin(tmp_env, parsing->tkn[i]
-					+ ft_strlen(tmp_env) + 1);
+			tmp = ft_strjoin(tmp_env, parsing->tkn[i] + ft_strlen(tmp_env) + 1);
 			free(parsing->tkn[i]);
-			parsing->tkn[i] = ft_strdup(tmp_before);
+			parsing->tkn[i] = ft_strdup(tmp);
 			free(tmp_after);
 			free(tmp_env);
-			free(tmp_before);
+			free(tmp);
+			p = -1;
 			break ;
 		}
 	}
+	if (p != -1)
+		parsing->tkn[i] = ft_f_null_q(parsing, env_var, i, parsing->quote->p);
 }
 
 void	ft_pre_find(t_parsing *parsing, char **envp, int i, int k)
 {
 	char	*env_var;
 
-	if (parsing->tkn[i][0] == '\"' && parsing->tkn[i][k] == '$'
-		&& k > 0 && parsing->tkn[i][k - 1] != '\\')
+	if (parsing->tkn[i][0] == '\"' && parsing->tkn[i][k] == '$')
 	{
 		env_var = ft_substr(parsing->tkn[i], k + 1,
 				ft_strlen_quote(parsing->tkn[i], ' ', k + 1));
@@ -43,6 +59,17 @@ void	ft_pre_find(t_parsing *parsing, char **envp, int i, int k)
 			env_var = ft_strtrim(env_var, "\"");
 		else if (ft_strchr(env_var, ' ') != NULL)
 			env_var = ft_strtrim(env_var, " ");
+		printf("env_var = %s | %d\n", env_var, ft_strlen(env_var));
+		printf("parsing->tkn[%d] = %s | %d\n", i, parsing->tkn[i], ft_strlen(parsing->tkn[i]));
+		if (ft_strlen(parsing->tkn[i]) == (ft_strlen(env_var) + 3))
+		{
+			free(parsing->tkn[i]);
+			//parsing->tkn[i] = ft_strjoin("", "\0");
+			parsing->tkn[i] = ft_strjoin("$", env_var);
+			printf("parsing->tkn[%d] = %s | %d\n", i, parsing->tkn[i], ft_strlen(parsing->tkn[i]));
+			free(env_var);
+			return ;
+		}
 		parsing->quote->p = k;
 		ft_find_env(parsing, envp, i, env_var);
 		free(env_var);

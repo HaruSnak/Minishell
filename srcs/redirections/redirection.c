@@ -97,7 +97,10 @@ void	check_for_redirection(char **tkn, int *tkn_value,
 		if (tkn_value[i] == IN)
 			check_access_infile(tkn[i + 1]);
 		else if (tkn_value[i] == HEREDOC) // last option would be to store
-			heredoc_handling(tkn[i + 1]); // in a hidenfile
+		{
+			heredoc_handling(tkn[i + 1], (*data)->envp);
+			(*s_redir)->here_doc = TRUE;
+		}
 		if (tkn_value[i] == OUT)
 			(*s_redir)->redir_out = TRUE;
 		else if (tkn_value[i] == APPEND)

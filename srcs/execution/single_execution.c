@@ -63,16 +63,31 @@ bool	there_is_cmds(t_exec **data, char *tkn[], int *tkn_value)
 	return (FALSE);
 }
 
+void	ft_delete_file_heredoc(struct s_redir *s_redir,
+	char **envp, pid_t pid, int status)
+{
+	if (s_redir->here_doc)
+	{
+		pid = fork();
+		if (pid == 0)
+		{
+			execve("/bin/rm", (char *[]){"rm", "heredoc.txt", NULL}, envp);
+		}
+		waitpid(pid, &status, 0);
+	}
+}
+
 void	single_cmd_execution(t_exec **data, t_redir *s_redir,
 			char **envp, char *tkn[])
 {
 	pid_t	pid;
 	int		status;
-	char 	**argv;
+	char	**argv;
 	char	*path;
 
 	// if (is_builtin())
 		// return ;	
+	ft_init_signal_block();
 	if (there_is_cmds(data, tkn, (*data)->parsing_ptr->tkn_value))
 	{
 		pid = fork();
@@ -82,8 +97,12 @@ void	single_cmd_execution(t_exec **data, t_redir *s_redir,
 			path = find_cmd_path(data, argv[0]);
 			if (s_redir->redir_out || s_redir->append)
 				redirect_output(data, s_redir);
-			execve(path, argv, envp);
+			if (s_redir->here_doc)
+				redirect_heredoc(path, argv, envp);
+			else
+				execve(path, argv, envp);
 		}
 		waitpid(pid, &status, 0);
+		ft_delete_file_heredoc(s_redir, envp, pid, status);
 	}
 }

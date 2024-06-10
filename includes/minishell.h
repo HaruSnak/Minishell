@@ -20,12 +20,15 @@
 # include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <sys/ioctl.h>
 # include "libft/includes/libft.h"
 # include "exec.h"
 
 # define PL fprintf(stderr, "file: %s line: %d pid: %i\n", __FILE__, __LINE__, getpid())
 # define PI(s, x) fprintf(stderr, "%s: %d\n", (s), (x));
 # define PS(s, x) fprintf(stderr, "%s: %s\n", (s), (x));
+
+# define PROMPT "\001\033[0;32m\002minishell\001\033[0m\002\xF0\x9F\x90\x9A "
 
 # define TRUE 1
 # define FALSE 0
@@ -38,8 +41,6 @@
 # define CMD 6
 # define ARG 7
 # define FILE 8
-
-extern int g_signal;
 
 typedef struct s_quote
 {
@@ -54,7 +55,7 @@ typedef struct s_parsing
 	int		*tkn_value;
 	char	**path;
 	char	**tmp_env;
-	char	*tkn_cpy;
+	char	*tkn_cpy; //delete ?
 	char	*n_senv;
 	char	*v_senv;
 	char	*cmd_path;
@@ -77,6 +78,10 @@ int		ft_token_value(t_parsing *parsing);
 
 // SIGNALS FUNCTIONS
 void	ft_signal_handler(int signo);
+void	ft_signal_quit(int signum);
+void	ft_signal_return(int signum);
+void	ft_init_signal(struct sigaction *sa, struct sigaction *sa_quit);
+void	ft_init_signal_block(void);
 
 // COMMANDS FUNCTIONS
 int		ft_external_cmds(char **input, t_parsing *parsing, char **envp);
