@@ -112,7 +112,7 @@ int		ft_exec_cmd_redirects(char **tmp, t_parsing *parsing);
 // ERRORS FUNCTIONS
 void	ft_end_verify(t_parsing *parsing);
 void	ft_free_and_compact(char **str, int index, int size);
-void	ft_free_data(t_exec *data, t_redir *s_redir, t_parsing *parsing);
+void	ft_free_data(t_exec *data, t_parsing *parsing);
 void	ft_free_d_ptr(void ***ptr);
 
 // QUOTE FUNCTIONS SHELL

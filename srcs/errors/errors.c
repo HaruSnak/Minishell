@@ -9,14 +9,14 @@ void	ft_error_cmd_ext(char *error, int status)
 	exit(status);
 }
 
-void	ft_free_data(t_exec *data, t_redir *s_redir, t_parsing *parsing)
+void	ft_free_data(t_exec *data, t_parsing *parsing)
 {
 	ft_free_d_ptr((void ***)&parsing->path);
 	ft_free_d_ptr((void ***)&data->envp);
 	free(data->outfile);
 	free(data->pidz);
-	free(data);
-	free(s_redir);
+	// free(data);
+	// free(s_redir);
 }
 
 // Free a double pointer and set it to NULL

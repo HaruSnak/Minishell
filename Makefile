@@ -1,13 +1,13 @@
 NAME = minishell
 CC = gcc
 RM = rm -f
-FLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+FLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
 LIBFTDIR = includes/libft
 OBJ_DIR = obj/
 SRC_DIR = srcs/
-#READLINE_PATH = /Users/shmoreno/.local/opt/readline
-#CFLAGS = -I$(READLINE_PATH)/include
-#LDFLAGS = -L$(READLINE_PATH)/lib -lreadline
+READLINE_PATH = /Users/pcardin/.local/opt/readline
+CFLAGS = -I$(READLINE_PATH)/include
+LDFLAGS = -L$(READLINE_PATH)/lib -lreadline
 
 SRC_1 = srcs/minishell.c \
 

@@ -24,12 +24,12 @@ int	ft_handle_verify(char **input, t_parsing *parsing, char **envp)
 	ft_check_quote(envp, parsing);
 	ft_interpret_envp(envp, parsing);
 	ft_token_value(parsing);
-	for (int k = 1; parsing->tkn[k] != NULL; k++)
-	{
-		//printf("parsing->tkn[%d] = %s | FLAG: %d\n", k, parsing->tkn[k], parsing->tkn_value[k]);
-		printf("%s", parsing->tkn[k]);
-	}
-	printf("\n");
+	// for (int k = 1; parsing->tkn[k] != NULL; k++)
+	// {
+	// 	//printf("parsing->tkn[%d] = %s | FLAG: %d\n", k, parsing->tkn[k], parsing->tkn_value[k]);
+	// 	printf("%s", parsing->tkn[k]);
+	// }
+	// printf("\n");
 	execution(parsing->tkn, envp, parsing);
 	ft_end_verify(parsing);
 	return (0);

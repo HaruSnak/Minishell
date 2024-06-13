@@ -40,7 +40,7 @@ char	**set_argv(char *tkn[], int *tkn_value)
 	return (argv);
 }
 
-bool	there_is_cmds(t_exec **data, char *tkn[], int *tkn_value)
+bool	there_is_cmds(t_exec *data, char *tkn[], int *tkn_value)
 {
 	int		i;
 	char	*path;
@@ -77,7 +77,7 @@ void	ft_delete_file_heredoc(struct s_redir *s_redir,
 	}
 }
 
-void	single_cmd_execution(t_exec **data, t_redir *s_redir,
+void	single_cmd_execution(t_exec *data, t_redir *s_redir,
 			char **envp, char *tkn[])
 {
 	pid_t	pid;
@@ -88,12 +88,12 @@ void	single_cmd_execution(t_exec **data, t_redir *s_redir,
 	// if (is_builtin())
 		// return ;	
 	ft_init_signal_block();
-	if (there_is_cmds(data, tkn, (*data)->parsing_ptr->tkn_value))
+	if (there_is_cmds(data, tkn, data->parsing_ptr->tkn_value))
 	{
 		pid = fork();
 		if (pid == 0)
 		{
-			argv = set_argv(tkn, (*data)->parsing_ptr->tkn_value);
+			argv = set_argv(tkn, data->parsing_ptr->tkn_value);
 			path = find_cmd_path(data, argv[0]);
 			if (s_redir->redir_out || s_redir->append)
 				redirect_output(data, s_redir);

@@ -18,20 +18,20 @@ void	print_output(int fd)
 	close(fd);
 }
 
-void	redirect_output(t_exec **data, t_redir *s_redir)
+void	redirect_output(t_exec *data, t_redir *s_redir)
 {
 	int		fd_out;
 
-	if (!(*data)->outfile)
+	if (!data->outfile)
 	{
-		print_output((*data)->fds[1]);
+		print_output(data->fds[1]);
 		return ;
 	}
 	fd_out = -1;
 	if (s_redir->redir_out == TRUE)
-		fd_out = open((*data)->outfile, O_WRONLY | O_TRUNC, 0777);
+		fd_out = open(data->outfile, O_WRONLY | O_TRUNC, 0777);
 	else if (s_redir->append == TRUE)
-		fd_out = open((*data)->outfile, O_WRONLY | O_APPEND, 0777);
+		fd_out = open(data->outfile, O_WRONLY | O_APPEND, 0777);
 	if (fd_out == -1)
 	{
 		perror("outfile");
@@ -58,10 +58,9 @@ void	check_access_infile(char *infile)
 		return ;// error handling 
 	}
 	dup2(fd, STDIN_FILENO);
-
 }
 
-void	check_access_outfile(char *outfile, int	tkn_value, t_exec **data)
+void	check_access_outfile(char *outfile, int	tkn_value, t_exec *data)
 {
 	int		fd;
 
@@ -77,17 +76,17 @@ void	check_access_outfile(char *outfile, int	tkn_value, t_exec **data)
 		return ;// error handling
 	}
 	close(fd);
-	(*data)->outfile = malloc((ft_strlen(outfile) + 1) * sizeof(char));
-	if (!(*data)->outfile)
+	data->outfile = malloc((ft_strlen(outfile) + 1) * sizeof(char));
+	if (!data->outfile)
 	{
 		perror("outfile");
 		return ;
 	}
-	ft_strlcpy((*data)->outfile, outfile, ft_strlen(outfile) + 1);
+	ft_strlcpy(data->outfile, outfile, ft_strlen(outfile) + 1);
 }
 
 void	check_for_redirection(char **tkn, int *tkn_value,
-		t_exec **data, t_redir **s_redir)
+		t_exec *data, t_redir *s_redir)
 {
 	int	i;
 
@@ -98,23 +97,23 @@ void	check_for_redirection(char **tkn, int *tkn_value,
 			check_access_infile(tkn[i + 1]);
 		else if (tkn_value[i] == HEREDOC) // last option would be to store
 		{
-			heredoc_handling(tkn[i + 1], (*data)->envp);
-			(*s_redir)->here_doc = TRUE;
+			heredoc_handling(tkn[i + 1], data->envp);
+			s_redir->here_doc = TRUE;
 		}
 		if (tkn_value[i] == OUT)
-			(*s_redir)->redir_out = TRUE;
+			s_redir->redir_out = TRUE;
 		else if (tkn_value[i] == APPEND)
-			(*s_redir)->append = TRUE;
-		if (((*s_redir)->redir_out == TRUE || (*s_redir)->append == TRUE)
-			&& !(*data)->outfile)
+			s_redir->append = TRUE;
+		if ((s_redir->redir_out == TRUE || s_redir->append == TRUE)
+			&& !data->outfile)
 			check_access_outfile(tkn[i + 1], tkn_value[i], data); // do this better
 	}
 }
 
-	// (*data)->infile = malloc((ft_strlen(infile) + 1) * sizeof(char));
-	// if (!(*data)->infile)
+	// data->infile = malloc((ft_strlen(infile) + 1) * sizeof(char));
+	// if (!data->infile)
 	// {
 	// 	perror("infile");
 	// 	return ;
 	// }
-	// ft_strlcpy((*data)->infile, infile, ft_strlen(infile) + 1);
+	// ft_strlcpy(data->infile, infile, ft_strlen(infile) + 1);
