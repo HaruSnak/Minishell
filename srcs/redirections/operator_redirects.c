@@ -1,5 +1,4 @@
 
-
 #include "../../includes/minishell.h"
 
 int	ft_handle_less_than(char **tmp, t_parsing *parsing, int i)

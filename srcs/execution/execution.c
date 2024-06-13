@@ -72,8 +72,7 @@ void	execution(char *tkn[], char **envp, t_parsing *parsing)
 
 	parsing->path = ft_path_envp(envp);
 	init_data(&data, &s_redir, parsing);
-	ft_fill_envp(&data, envp);
-	check_for_redirection(tkn, parsing->tkn_value, &data, &s_redir);
+	check_for_redirection(tkn, parsing->tkn_value, &data, envp);
 	data.pipe_cnt = there_is_pipeline(parsing->tkn_value);
 	if (data.pipe_cnt)
 	{

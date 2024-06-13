@@ -58,6 +58,7 @@ void	check_access_infile(char *infile)
 		return ;// error handling 
 	}
 	dup2(fd, STDIN_FILENO);
+	close(fd);
 }
 
 void	check_access_outfile(char *outfile, int	tkn_value, t_exec *data)
@@ -85,35 +86,27 @@ void	check_access_outfile(char *outfile, int	tkn_value, t_exec *data)
 	ft_strlcpy(data->outfile, outfile, ft_strlen(outfile) + 1);
 }
 
-void	check_for_redirection(char **tkn, int *tkn_value,
-		t_exec *data, t_redir *s_redir)
+void	check_for_redirection(char **tkn, int *tkn_value, 
+		t_exec *data, char **envp)
 {
 	int	i;
 
 	i = -1;
 	while (tkn[++i])
 	{
-		if (tkn_value[i] == IN)
-			check_access_infile(tkn[i + 1]);
-		else if (tkn_value[i] == HEREDOC) // last option would be to store
+		if (tkn_value[i] == HEREDOC)
 		{
-			heredoc_handling(tkn[i + 1], data->envp);
-			s_redir->here_doc = TRUE;
+			heredoc_handling(tkn[i + 1], envp);
+			data->redir_ptr->here_doc = TRUE;
 		}
+		else if (tkn_value[i] == IN)
+			check_access_infile(tkn[i + 1]);
 		if (tkn_value[i] == OUT)
-			s_redir->redir_out = TRUE;
+			data->redir_ptr->redir_out = TRUE;
 		else if (tkn_value[i] == APPEND)
-			s_redir->append = TRUE;
-		if ((s_redir->redir_out == TRUE || s_redir->append == TRUE)
+			data->redir_ptr->append = TRUE;
+		if ((data->redir_ptr->redir_out == TRUE || data->redir_ptr->append == TRUE)
 			&& !data->outfile)
 			check_access_outfile(tkn[i + 1], tkn_value[i], data); // do this better
 	}
 }
-
-	// data->infile = malloc((ft_strlen(infile) + 1) * sizeof(char));
-	// if (!data->infile)
-	// {
-	// 	perror("infile");
-	// 	return ;
-	// }
-	// ft_strlcpy(data->infile, infile, ft_strlen(infile) + 1);

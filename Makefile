@@ -16,7 +16,6 @@ SRC_2 =	srcs/commands/cmds_external.c \
 	srcs/commands/out_cd_cmds.c \
 	srcs/commands/out_env_cmds.c \
 	srcs/errors/errors.c \
-	srcs/parsing/parsing.c \
 	srcs/parsing/verify_operators.c \
 	srcs/parsing/token_value.c \
 	srcs/parsing/redirect_quote.c \

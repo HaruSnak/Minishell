@@ -61,10 +61,6 @@ void	check_err_fork(pid_t pid)
 
 void	init_data(t_exec *data, t_redir *s_redir, t_parsing *parsing)
 {
-	// s_redir = malloc(sizeof(t_redir));
-	// data = malloc(sizeof(t_exec));
-	// if (!s_redir || !data)
-		// printf("coucou\n"); // set error & protect
 	s_redir->redir_in = FALSE;
 	s_redir->redir_out = FALSE;
 	s_redir->here_doc = FALSE;

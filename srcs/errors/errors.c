@@ -11,8 +11,9 @@ void	ft_error_cmd_ext(char *error, int status)
 
 void	ft_free_data(t_exec *data, t_parsing *parsing)
 {
+	if (data->redir_ptr->here_doc)
+		ft_delete_file_heredoc();
 	ft_free_d_ptr((void ***)&parsing->path);
-	ft_free_d_ptr((void ***)&data->envp);
 	free(data->outfile);
 	free(data->pidz);
 	// free(data);
