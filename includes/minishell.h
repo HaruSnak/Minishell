@@ -68,8 +68,6 @@ typedef struct s_parsing
 }	t_parsing;
 
 // PARSING FUNCTIONS 
-int		ft_find_execve(char **envp, t_parsing *parsing);
-int		ft_if_execve_access(t_parsing *parsing, char **envp);
 char	*ft_separe_operator(char *input);
 char	*ft_replace_espace(char *input, t_parsing *parsing);
 void	ft_delete_espace(t_parsing *parsing);
@@ -84,7 +82,8 @@ void	ft_init_signal(struct sigaction *sa, struct sigaction *sa_quit);
 void	ft_init_signal_block(void);
 
 // COMMANDS FUNCTIONS
-int		ft_external_cmds(char **input, t_parsing *parsing, char **envp);
+bool	is_builtins(char *cmd, char ***argv, t_parsing *data, char **envp);
+int		builtins_exec(char **input, t_parsing *parsing, char **envp);
 char	*ft_split_input(char *input, char *c);
 int		ft_setenv(char **envp, t_parsing *parsing);
 

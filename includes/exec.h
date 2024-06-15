@@ -58,7 +58,6 @@ int			there_is_pipeline(int *tkn_value);
 t_cmd_list	*set_cmd_list(char **tkn, int *tkn_value);
 t_cmd_list	*set_cmd_list(char **tkn, int *tkn_value);
 
-
 // REDIRECTION
 void		check_for_redirection(char **tkn, int *tkn_value,
 				t_exec *data, char **envp);

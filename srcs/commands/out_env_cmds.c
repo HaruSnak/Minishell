@@ -102,8 +102,11 @@ int	ft_cmd_cd(char **input, char **envp, t_parsing *parsing)
 	return (0);
 }
 
-int	ft_external_cmds(char **input, t_parsing *parsing, char **envp)
+int	builtins_exec(char **input, t_parsing *parsing, char **envp)
 {
+	int i = -1;
+	while (input[++i])
+		PS("", input[i]);
 	if (!ft_strncmp(*input, "exit", 4))
 		ft_handle_exit(input, parsing);
 	if (ft_handle_empty_cmd(input) == 0)

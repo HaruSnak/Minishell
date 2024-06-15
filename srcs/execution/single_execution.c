@@ -74,16 +74,19 @@ void	single_cmd_execution(t_exec *data, t_redir *s_redir,
 	ft_init_signal_block();
 	if (there_is_cmds(data, tkn, data->parsing_ptr->tkn_value))
 	{
+		argv = set_argv(tkn, data->parsing_ptr->tkn_value);
+		if (is_builtins(argv[0], &argv, data->parsing_ptr, envp))
+			return ;
 		pid = fork();
 		if (pid == 0)
 		{
-			argv = set_argv(tkn, data->parsing_ptr->tkn_value);
 			path = find_cmd_path(data, argv[0]);
-			// if (ft_external_cmds(argv, data->parsing_ptr, envp) == 0)
 			if (s_redir->redir_out || s_redir->append)
 				redirect_output(data, s_redir);
-			else
+			else if (path)
 				execve(path, argv, envp);
+			else 
+				ft_printf("minishlag: %s: command not found\n", argv[0]);
 		}
 		waitpid(pid, &status, 0);
 	}
