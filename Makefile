@@ -1,7 +1,7 @@
 NAME = minishell
 CC = gcc
 RM = rm -f
-FLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+FLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
 LIBFTDIR = includes/libft
 OBJ_DIR = obj/
 SRC_DIR = srcs/

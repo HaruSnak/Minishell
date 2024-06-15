@@ -72,11 +72,11 @@ void	single_cmd_execution(t_exec *data, t_redir *s_redir,
 	char	*path;
 
 	ft_init_signal_block();
+	if (is_builtins(tkn[0], tkn, data->parsing_ptr, envp))
+		return ;
 	if (there_is_cmds(data, tkn, data->parsing_ptr->tkn_value))
 	{
 		argv = set_argv(tkn, data->parsing_ptr->tkn_value);
-		if (is_builtins(argv[0], &argv, data->parsing_ptr, envp))
-			return ;
 		pid = fork();
 		if (pid == 0)
 		{
