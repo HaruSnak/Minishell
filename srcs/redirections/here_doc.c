@@ -10,7 +10,7 @@ void	ft_delete_file_heredoc()
 	envp = NULL;
 	pid = fork();
 	if (pid == 0)
-		execve("/bin/rm", (char *[]){"rm", "heredoc.txt", NULL}, envp);
+		execve("/bin/rm", (char *[]){"rm", "obj/srcs/redirections/heredoc.txt", NULL}, envp);
 	waitpid(pid, &status, 0);
 }
 
@@ -85,7 +85,7 @@ void	heredoc_handling(char *eof, char **g_env)
 	char	*line;
 	int		heredoc;
 
-	heredoc = open("heredoc.txt", O_CREAT | O_RDWR | O_TRUNC, 0777); /// VERIF FLAGS
+	heredoc = open("obj/srcs/redirections/heredoc.txt", O_CREAT | O_WRONLY | O_TRUNC, 0777); /// VERIF FLAGS
 	while (1)
 	{
 		line = readline(">");
@@ -96,8 +96,9 @@ void	heredoc_handling(char *eof, char **g_env)
 		write(heredoc, "\n", 1);
 		free(line);
 	}
-	lseek(heredoc, 0, SEEK_SET);
-	if (dup2(heredoc, STDIN_FILENO) == -1) 
+	close(heredoc);
+	heredoc = open("obj/srcs/redirections/heredoc.txt", O_CREAT | O_RDONLY, 0777); /// VERIF FLAGS
+	if (dup2(heredoc, STDIN_FILENO) == -1)
 	{
 		perror("dup2");
 		close(heredoc);
