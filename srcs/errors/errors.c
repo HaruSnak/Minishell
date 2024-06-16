@@ -9,51 +9,75 @@ void	ft_error_cmd_ext(char *error, int status)
 	exit(status);
 }
 
-void	ft_free_data(t_exec *data, t_redir *s_redir, t_parsing *parsing)
+int	error_operator_redic(t_parsing *parsing, int i, int k)
 {
-	ft_free_d_ptr((void ***)&parsing->path);
-	ft_free_d_ptr((void ***)&data->envp);
-	free(data->outfile);
-	free(data->pidz);
-	free(data);
-	free(s_redir);
-}
-
-// Free a double pointer and set it to NULL
-void	ft_free_d_ptr(void ***ptr)
-{
-	int	i;
-	int	count;
-
-	i = 0;
-	count = ft_count_index((char **)*ptr);
-	while (i < count)
+	if ((parsing->tkn[i][k] == '<' || parsing->tkn[i][k] == '>')
+	&& (parsing->tkn[i + 1] == NULL || parsing->tkn[i + 1][k] == '\0'
+	|| parsing->tkn[i][k + 1] == ' ' || parsing->tkn[i + 1][k] == '\0'
+	|| parsing->tkn[i + 1][k] == '>' || parsing->tkn[i + 1][k] == '<'
+	|| parsing->tkn[i + 1][k] == '|' || parsing->tkn[i + 1][k] == ')'
+	|| parsing->tkn[i + 1][k] == '(' || parsing->tkn[i + 1][k] == ';'
+	|| parsing->tkn[i + 1][k] == '&'))
 	{
-		free((*ptr)[i]);
-		i++;
+		printf("minishell: syntax error near unexpected token `%c'\n",
+			parsing->tkn[i + 1][k]);
+		return (parsing->exit_value = 2, -1);
 	}
-	free(*ptr);
-	*ptr = NULL;
-}
-
-// verify_operations function commands free
-void	ft_end_verify(t_parsing *parsing)
-{
-	ft_free_d_ptr((void ***)&parsing->tkn);
-	free(parsing->tkn_value);
-	free(parsing->tkn_cpy);
-}
-
-void	ft_free_and_compact(char **str, int index, int size)
-{
-	int	i;
-
-	i = index;
-	free(str[index]);
-	while (i < size - 1)
+	else if (parsing->tkn[i][k] == '|' && (parsing->tkn[0][0] == '|'
+	|| parsing->tkn[i - 1] == NULL || parsing->tkn[i + 1] == NULL
+	|| parsing->tkn[i][k + 1] == ' ' || parsing->tkn[i + 1][k] == '\0'
+	|| parsing->tkn[i + 1][k] == '>' || parsing->tkn[i + 1][k] == '<'
+	|| parsing->tkn[i + 1][k] == '|' || parsing->tkn[i + 1][k] == ')'
+	|| parsing->tkn[i + 1][k] == '(' || parsing->tkn[i + 1][k] == ';'
+	|| parsing->tkn[i + 1][k] == '&'))
 	{
-		str[i] = str[i + 1];
-		i++;
+		printf("minishell: syntax error near unexpected token `%c'\n",
+			parsing->tkn[i + 1][k]);
+		return (parsing->exit_value = 2, -1);
 	}
-	str[size - 1] = NULL;
+	return (0);
+}
+
+int	error_operator_other(t_parsing *parsing, int i, int k)
+{
+	if ((parsing->tkn[i][k] == '<' || parsing->tkn[i][k] == '>')
+	&& (parsing->tkn[i + 1][k] == '.' || parsing->tkn[i + 1][k] == '/'
+	|| parsing->tkn[i + 1][k] == '~' || parsing->tkn[i + 1][k] == '?'
+	|| parsing->tkn[i + 1][k] == '*'))
+	{
+		if (parsing->tkn[i + 1][k] == '.' || parsing->tkn[i + 1][k] == '/'
+			|| parsing->tkn[i + 1][k] == '~')
+		{
+			printf("minishell: %c: Is a directory\n", parsing->tkn[i + 1][k]);
+			return (parsing->exit_value = 2, -1);
+		}
+		else
+		{
+			printf("minishell: %c: ambiguous redirect\n",
+				parsing->tkn[i + 1][k]);
+			return (parsing->exit_value = 2, -1);
+		}
+	}
+	return (0);
+}
+
+int	ft_error_operator(t_parsing *parsing)
+{
+	int		i;
+	int		k;
+
+	i = -1;
+	k = -1;
+	while (parsing->tkn[++i] != NULL)
+	{
+		while (parsing->tkn[i][++k] != '\0')
+		{
+			if (error_operator_redic(parsing, i, k) == -1)
+				return (-1);
+			if (error_operator_other(parsing, i, k) == -1)
+				return (-1);
+		}
+		k = -1;
+	}
+	return (0);
 }

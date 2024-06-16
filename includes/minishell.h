@@ -75,6 +75,7 @@ char	*ft_replace_espace(char *input, t_parsing *parsing);
 void	ft_delete_espace(t_parsing *parsing);
 void	ft_interpret_envp(char **envp, t_parsing *parsing);
 int		ft_token_value(t_parsing *parsing);
+int		ft_check_odd_quote(char *input);
 
 // SIGNALS FUNCTIONS
 void	ft_signal_handler(int signo);
@@ -84,7 +85,7 @@ void	ft_init_signal(struct sigaction *sa, struct sigaction *sa_quit);
 void	ft_init_signal_block(void);
 
 // COMMANDS FUNCTIONS
-int		ft_external_cmds(char **input, t_parsing *parsing, char **envp);
+int		ft_external_cmds(t_parsing *parsing, char **envp);
 char	*ft_split_input(char *input, char *c);
 int		ft_setenv(char **envp, t_parsing *parsing);
 
@@ -94,16 +95,15 @@ void	ft_handle_cd_previous(t_parsing *parsing, char **envp);
 void	ft_handle_cd_root(t_parsing *parsing, char **envp);
 void	ft_handle_cd_oldpwd(t_parsing *parsing,
 			char **envp, char *path, char *oldpwd);
-void	ft_handle_cd_path(t_parsing *parsing, char **envp, char **input);
+void	ft_handle_cd_path(t_parsing *parsing, char **envp);
 
 // COMMANDS EXPORT UNSET FUNCTIONS
-int		ft_external_cmds_bis(char **input,
-			t_parsing *parsing, char **envp);
+int		ft_external_cmds_bis(t_parsing *parsing, char **envp);
 
 // COMMANDS EXTERNALS FUNCTIONS
 int		ft_handle_empty_cmd(char **input);
-int		ft_handle_exit(char **input, t_parsing *parsing);
-int		ft_handle_echo(char *input, t_parsing *parsing);
+int		ft_handle_exit(t_parsing *parsing);
+int		ft_handle_echo(t_parsing *parsing);
 
 // REDIRECTION FUNCTIONS SHELL
 int		ft_handle_verify(char **input, t_parsing *parsing, char **envp);
@@ -114,6 +114,7 @@ void	ft_end_verify(t_parsing *parsing);
 void	ft_free_and_compact(char **str, int index, int size);
 void	ft_free_data(t_exec *data, t_redir *s_redir, t_parsing *parsing);
 void	ft_free_d_ptr(void ***ptr);
+int		ft_error_operator(t_parsing *parsing);
 
 // QUOTE FUNCTIONS SHELL
 int		ft_check_quote(char **envp, t_parsing *parsing);

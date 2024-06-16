@@ -24,7 +24,9 @@ int	ft_token_value(t_parsing *parsing)
 	parsing->tkn_value = malloc(sizeof(int) * 100);
 	while (parsing->tkn[++i] != NULL)
 	{
-		if (!ft_strncmp(parsing->tkn[i], "<", ft_strlen(parsing->tkn[i])))
+		if (ft_strlen(parsing->tkn[i]) == 0)
+			parsing->tkn_value[i] = ARG;
+		else if (!ft_strncmp(parsing->tkn[i], "<", ft_strlen(parsing->tkn[i])))
 			parsing->tkn_value[i] = IN;
 		else if (!ft_strncmp(parsing->tkn[i], ">", ft_strlen(parsing->tkn[i])))
 			parsing->tkn_value[i] = OUT;

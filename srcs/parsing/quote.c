@@ -91,3 +91,32 @@ void	ft_delete_espace(t_parsing *parsing)
 	if (parsing->tmp_env != NULL)
 		ft_free_d_ptr((void ***)&parsing->tmp_env);
 }
+
+int	ft_check_odd_quote(char *input)
+{
+	int		i;
+	int		s_quote;
+	int		d_quote;
+
+	i = -1;
+	s_quote = 0;
+	d_quote = 0;
+	while (input[++i] != '\0')
+	{
+		if (input[i] == '\'')
+			s_quote++;
+		else if (input[i] == '\"')
+			d_quote++;
+	}
+	if (s_quote % 2 != 0)
+	{
+		printf("minishell: Syntax error, unmatched single quote\n");
+		return (-1);
+	}
+	if (d_quote % 2 != 0)
+	{
+		printf("minishell: Syntax error, unmatched double quote\n");
+		return (-1);
+	}
+	return (0);
+}
