@@ -60,7 +60,7 @@ char	**iter_through_list(t_cmd_list *list, char **argv)
 		if (list->cmd == TRUE || list->arg == TRUE)
 		{
 			i++;
-			argv[i] = ft_strdup(list->elem);
+			argv[i] = ft_strdup(list->elem);// error handling
 		}
 		list = list->next;
 	}
@@ -79,7 +79,7 @@ char	**set_argv_lst(t_cmd_list *list, char *cmd)
 	if (!argv)
 	{
 		perror("set_argv:");
-		return (NULL);//      gestion d'erreur
+		return (NULL);// error handling
 	}
 	argv = iter_through_list(list, argv);
 	return (argv);

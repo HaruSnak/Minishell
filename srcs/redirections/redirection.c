@@ -25,7 +25,7 @@ void	redirect_output(t_exec *data, t_redir *s_redir)
 	if (!data->outfile)
 	{
 		print_output(data->fds[1]);
-		return ;
+		return ;// error handling
 	}
 	fd_out = -1;
 	if (s_redir->redir_out == TRUE)
@@ -38,17 +38,18 @@ void	redirect_output(t_exec *data, t_redir *s_redir)
 		return ;// error handling
 	}
 	if (dup2(fd_out, STDOUT_FILENO) == -1)
-		perror_exit("dup2");
+		perror_exit("outfile_redir");// error handling
 	close(fd_out);
 }
 
-void	check_access_infile(char *infile)
+void	check_access_infile(t_exec *data, char *infile)
 {
 	int	fd;
 
 	if (access(infile, F_OK | R_OK) < 0)
 	{
 		perror("infile");
+		data->parsing_ptr->exit_value = 1;
 		return ;// error handling
 	}
 	fd = open(infile, O_RDONLY);
@@ -81,7 +82,7 @@ void	check_access_outfile(char *outfile, int	tkn_value, t_exec *data)
 	if (!data->outfile)
 	{
 		perror("outfile");
-		return ;
+		return ;// error handling
 	}
 	ft_strlcpy(data->outfile, outfile, ft_strlen(outfile) + 1);
 }
@@ -100,7 +101,7 @@ void	check_for_redirection(char **tkn, int *tkn_value,
 			data->redir_ptr->here_doc = TRUE;
 		}
 		else if (tkn_value[i] == IN)
-			check_access_infile(tkn[i + 1]);
+			check_access_infile(data, tkn[i + 1]);
 		if (tkn_value[i] == OUT)
 			data->redir_ptr->redir_out = TRUE;
 		else if (tkn_value[i] == APPEND)

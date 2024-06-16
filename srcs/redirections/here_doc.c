@@ -100,9 +100,9 @@ void	heredoc_handling(char *eof, char **g_env)
 	heredoc = open("obj/srcs/redirections/heredoc.txt", O_CREAT | O_RDONLY, 0777); /// VERIF FLAGS
 	if (dup2(heredoc, STDIN_FILENO) == -1)
 	{
-		perror("dup2");
+		perror("redir_heredoc");
 		close(heredoc);
-		return ;
+		return ; // error handling
 	}
 	close(heredoc);
 }

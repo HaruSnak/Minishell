@@ -16,8 +16,6 @@ void	ft_free_data(t_exec *data, t_parsing *parsing)
 	ft_free_d_ptr((void ***)&parsing->path);
 	free(data->outfile);
 	free(data->pidz);
-	// free(data);
-	// free(s_redir);
 }
 
 // Free a double pointer and set it to NULL

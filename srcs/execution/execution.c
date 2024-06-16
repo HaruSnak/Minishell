@@ -20,7 +20,7 @@ void	command_found(t_exec *data, t_cmd_list *list, char *path, char **envp)
 	if (pipe(data->fds) == -1)
 	{
 		perror("pipe");
-		exit(EXIT_FAILURE); // Error handling, fd closing and reprompt?
+		exit(EXIT_FAILURE);// error handling, fd closing and reprompt?
 	}
 	data->pidz[data->pid_i] = fork();
 	check_err_fork(data->pidz[data->pid_i]);

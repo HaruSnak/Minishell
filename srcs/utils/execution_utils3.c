@@ -14,11 +14,11 @@ char	**ft_path_envp(char **envp)
 		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
 		{
 			path = ft_strjoin(envp[i] + 5, "/usr/bin:/bin");
-			break ;
+			break ;// error handling
 		}
 		i++;
 	}
-	path_f = ft_split(path, ':');
+	path_f = ft_split(path, ':');// error handling
 	free(path);
 	return (path_f);
 }
