@@ -11,7 +11,7 @@ void	ft_delete_file_heredoc()
 	pid = fork();
 	if (pid == 0)
 		execve("/bin/rm", (char *[]){"rm", "obj/srcs/redirections/heredoc.txt", NULL}, envp);
-	waitpid(pid, &status, 0);
+	waitpid(pid, &status, 0);// error handling
 }
 
 char	*ft_find_null(char *line, char *env_var, int *i)
@@ -19,11 +19,11 @@ char	*ft_find_null(char *line, char *env_var, int *i)
 	char	*tmp_after;
 	char	*tmp_before;
 
-	tmp_after = ft_substr(line, 0, (*i));
+	tmp_after = ft_substr(line, 0, (*i));// error handling
 	tmp_before = ft_strjoin(tmp_after,
-			line + ft_strlen(tmp_after) + ft_strlen(env_var) + 1);
+			line + ft_strlen(tmp_after) + ft_strlen(env_var) + 1);// error handling
 	free(line);
-	line = ft_strdup(tmp_before);
+	line = ft_strdup(tmp_before);// error handling
 	free(tmp_after);
 	free(tmp_before);
 	(*i) -= 1;
@@ -44,11 +44,11 @@ char	*ft_find_var_env(char *line, char **envp, int *i, char *env_var)
 	{
 		if (ft_strncmp(envp[p], env_var, ft_strlen(env_var)) == 0)
 		{
-			tmp_after = ft_substr(line, 0, (*i));
-			tmp_env = ft_strjoin(tmp_after, envp[p] + ft_strlen(env_var) + 1);
-			tmp_before = ft_strjoin(tmp_env, line + ft_strlen(tmp_env) + 1);
+			tmp_after = ft_substr(line, 0, (*i));// error handling
+			tmp_env = ft_strjoin(tmp_after, envp[p] + ft_strlen(env_var) + 1);// error handling
+			tmp_before = ft_strjoin(tmp_env, line + ft_strlen(tmp_env) + 1);// error handling
 			free(line);
-			line = ft_strdup(tmp_before);
+			line = ft_strdup(tmp_before);// error handling
 			free(tmp_after);
 			free(tmp_env);
 			free(tmp_before);
@@ -72,7 +72,7 @@ char	*ft_var_env(char **envp, char *line)
 		if (line[i] == '$')
 		{
 			env_var = ft_substr(line, i + 1,
-					ft_strlen_quote(line, ' ', i + 1));
+					ft_strlen_quote(line, ' ', i + 1));// error handling
 			line = ft_find_var_env(line, envp, &i, env_var);
 			free(env_var);
 		}
@@ -85,7 +85,13 @@ void	heredoc_handling(char *eof, char **g_env)
 	char	*line;
 	int		heredoc;
 
-	heredoc = open("obj/srcs/redirections/heredoc.txt", O_CREAT | O_WRONLY | O_TRUNC, 0777); /// VERIF FLAGS
+	heredoc = open("obj/srcs/redirections/heredoc.txt",
+				O_CREAT | O_WRONLY | O_TRUNC, 0777);// error handling
+	if (heredoc == -1)
+	{
+		perror("outfile open");
+		return ;// error handling
+	}	
 	while (1)
 	{
 		line = readline(">");
@@ -97,12 +103,5 @@ void	heredoc_handling(char *eof, char **g_env)
 		free(line);
 	}
 	close(heredoc);
-	heredoc = open("obj/srcs/redirections/heredoc.txt", O_CREAT | O_RDONLY, 0777); /// VERIF FLAGS
-	if (dup2(heredoc, STDIN_FILENO) == -1)
-	{
-		perror("redir_heredoc");
-		close(heredoc);
-		return ; // error handling
-	}
-	close(heredoc);
+	redirect_infile(&heredoc, "obj/srcs/redirections/heredoc.txt");
 }

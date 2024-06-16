@@ -7,20 +7,12 @@ void perror_exit(const char *msg)// tests
 	exit(errno);
 }
 
-void	parent_exec(t_exec *data)
-{
-	close(data->fds[1]);
-	if (data->pipe_cnt)
-		dup2(data->fds[0], STDIN_FILENO);
-	close(data->fds[0]);
-}
-
 void	command_found(t_exec *data, t_cmd_list *list, char *path, char **envp)
 {
 	if (pipe(data->fds) == -1)
 	{
 		perror("pipe");
-		exit(EXIT_FAILURE);// error handling, fd closing and reprompt?
+		exit(PIPE_FAILURE);// error handling, fd closing and reprompt?
 	}
 	data->pidz[data->pid_i] = fork();
 	check_err_fork(data->pidz[data->pid_i]);
@@ -36,7 +28,13 @@ void	command_not_found(t_exec *data, char *wrong_cmd)
 	data->parsing_ptr->exit_value = 127;
 	close(data->fds[1]);
 	if (data->fds[0])
-		dup2(data->fds[0], STDIN_FILENO);
+	{
+		if(dup2(data->fds[0], STDIN_FILENO) == -1)// error handling,
+		{
+			perror("dup2");
+			exit(DUP_FAILURE);
+		}
+	}
 	close(data->fds[0]);
 }
 
@@ -84,9 +82,5 @@ void	execution(char *tkn[], char **envp, t_parsing *parsing)
 	}
 	else if (*tkn)
 		single_cmd_execution(&data, envp, tkn);
-	dup2(data.stdin_cpy, STDIN_FILENO);
-	dup2(data.stdout_cpy, STDOUT_FILENO);
-	close(data.stdin_cpy);
-	close(data.stdout_cpy);
-	ft_free_data(&data, parsing);
+	reset_and_free(&data, parsing);
 }

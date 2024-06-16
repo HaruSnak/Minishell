@@ -3,6 +3,15 @@
 
 # include "minishell.h"
 
+# define CMD_NOT_FOUND 127
+# define CMD_NOT_EXECUTABLE 126
+# define OUT_OF_MEMORY 3
+# define PERMISSION_DENY 4
+# define OPEN_FAILURE 5
+# define FORK_FAILURE 6
+# define DUP_FAILURE 7
+# define PIPE_FAILURE 8
+
 typedef struct s_parsing	t_parsing;
 
 typedef struct s_redir
@@ -41,6 +50,7 @@ void		perror_exit(const char *msg);
 // EXECUTION
 void		execution(char *argv[], char **envp, t_parsing *parsing);
 void		child_exec(char **envp, t_exec *data, t_cmd_list *list, char *path);
+void		parent_exec(t_exec *data);
 void		single_cmd_execution(t_exec *data, char **envp, char *tkn[]);
 
 // Execution Utils
@@ -57,12 +67,16 @@ int			there_is_pipeline(int *tkn_value);
 t_cmd_list	*set_cmd_list(char **tkn, int *tkn_value);
 t_cmd_list	*set_cmd_list(char **tkn, int *tkn_value);
 void		free_list(t_cmd_list **list);
+void		reset_and_free(t_exec *data, t_parsing *parsing);
 
 // REDIRECTION
 void		check_for_redirection(char **tkn, int *tkn_value,
 				t_exec *data, char **envp);
 void		redirect_output(t_exec *data, t_redir *s_redir);
-void		ft_delete_file_heredoc();
 void		heredoc_handling(char *eof, char **g_env);
+
+// Redirection Utils
+void		ft_delete_file_heredoc();
+void		redirect_infile(int *fd, char *path);
 
 #endif

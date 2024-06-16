@@ -9,8 +9,8 @@ t_cmd_list	*create_node(char *tkn, int tkn_value)
 	new->elem = strdup(tkn);
 	if (!new || !new->elem)
 	{
-		perror("set_argv");
-		exit(EXIT_FAILURE);
+		perror("malloc");
+		exit(OUT_OF_MEMORY);
 	}
 	new->pipe = FALSE;
 	new->cmd = FALSE;

@@ -20,7 +20,10 @@ char	*find_cmd_path(t_exec *data, char *cmd)
 	{
 		path = ft_strjoin_fs(data->parsing_ptr->path[j], cmd);
 		if (!path)
-			return (NULL);// error handling
+		{
+			perror("data_init");
+			exit(OUT_OF_MEMORY); // error handling > good
+		}
 		accss = access(path, X_OK);
 		if (accss == 0 && is_cmd(path) == TRUE)
 			return (path);
@@ -44,7 +47,7 @@ void	wait_pidz(t_exec *data)
 		{
 			result = waitpid(data->pidz[i], &status, 0);
 			if (result == -1)
-				perror("waitpid");// error handling
+				perror("waitpid");// error handling > enough?
 			i++;
 		}
 	}
@@ -55,7 +58,7 @@ void	check_err_fork(pid_t pid)
 	if (pid < 0)
 	{
 		perror("fork");
-		exit(EXIT_FAILURE);// error handling
+		exit(FORK_FAILURE);// error handling > good
 	}
 }
 
@@ -75,7 +78,7 @@ void	init_data(t_exec *data, t_redir *s_redir, t_parsing *parsing)
 	if (data->pidz == NULL)
 	{
 		perror("data_init");
-		exit(EXIT_FAILURE); // error handling
+		exit(OUT_OF_MEMORY); // error handling > good
 	}
 	data->pid_i = -1;
 	data->fds[0] = 0;

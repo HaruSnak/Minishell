@@ -25,7 +25,7 @@ void	redirect_output(t_exec *data, t_redir *s_redir)
 	if (!data->outfile)
 	{
 		print_output(data->fds[1]);
-		return ;// error handling
+		return ;
 	}
 	fd_out = -1;
 	if (s_redir->redir_out == TRUE)
@@ -34,32 +34,29 @@ void	redirect_output(t_exec *data, t_redir *s_redir)
 		fd_out = open(data->outfile, O_WRONLY | O_APPEND, 0777);
 	if (fd_out == -1)
 	{
-		perror("outfile");
-		return ;// error handling
+		perror("open outfile");
+		exit(OPEN_FAILURE);// error handling
 	}
 	if (dup2(fd_out, STDOUT_FILENO) == -1)
-		perror_exit("outfile_redir");// error handling
+	{
+		perror_exit("redir outfile");// error handling
+		exit(DUP_FAILURE);
+	}
 	close(fd_out);
 }
 
-void	check_access_infile(t_exec *data, char *infile)
+int	check_access_infile(t_exec *data, char *infile)
 {
 	int	fd;
 
 	if (access(infile, F_OK | R_OK) < 0)
 	{
-		perror("infile");
+		perror("infile access");
 		data->parsing_ptr->exit_value = 1;
-		return ;// error handling
+		return (PERMISSION_DENY);// error handling
 	}
-	fd = open(infile, O_RDONLY);
-	if (fd == -1)
-	{
-		perror("infile");
-		return ;// error handling 
-	}
-	dup2(fd, STDIN_FILENO);
-	close(fd);
+	redirect_infile(&fd, infile);// error handling
+	return (TRUE);
 }
 
 void	check_access_outfile(char *outfile, int	tkn_value, t_exec *data)
@@ -74,15 +71,15 @@ void	check_access_outfile(char *outfile, int	tkn_value, t_exec *data)
 				| O_RDONLY | O_TRUNC, 0777);
 	if (fd == -1)
 	{
-		perror("outfile");
+		perror("outfile open");
 		return ;// error handling
 	}
 	close(fd);
 	data->outfile = malloc((ft_strlen(outfile) + 1) * sizeof(char));
 	if (!data->outfile)
 	{
-		perror("outfile");
-		return ;// error handling
+		perror("malloc");
+		exit(OUT_OF_MEMORY);// error handling
 	}
 	ft_strlcpy(data->outfile, outfile, ft_strlen(outfile) + 1);
 }
@@ -108,6 +105,6 @@ void	check_for_redirection(char **tkn, int *tkn_value,
 			data->redir_ptr->append = TRUE;
 		if ((data->redir_ptr->redir_out == TRUE || data->redir_ptr->append == TRUE)
 			&& !data->outfile)
-			check_access_outfile(tkn[i + 1], tkn_value[i], data); // do this better
+			check_access_outfile(tkn[i + 1], tkn_value[i], data);
 	}
 }

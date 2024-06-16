@@ -1,6 +1,20 @@
 
 #include "../../includes/minishell.h"
 
+void	parent_exec(t_exec *data)
+{
+	close(data->fds[1]);
+	if (data->pipe_cnt)
+	{
+		if(dup2(data->fds[0], STDIN_FILENO) == -1)
+		{
+			perror("dup2");
+			exit(DUP_FAILURE);
+		}
+	}
+	close(data->fds[0]);
+}
+
 void	pipe_handling(t_exec *data)
 {
 	close(data->fds[0]);
