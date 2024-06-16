@@ -55,7 +55,7 @@ void	check_err_fork(pid_t pid)
 	if (pid < 0)
 	{
 		perror("fork");
-		exit(0);// error handling
+		exit(EXIT_FAILURE);// error handling
 	}
 }
 
@@ -74,7 +74,7 @@ void	init_data(t_exec *data, t_redir *s_redir, t_parsing *parsing)
 	data->pidz = malloc(cmd_count(parsing->tkn_value) * sizeof(pid_t)); // protect
 	if (data->pidz == NULL)
 	{
-		perror("malloc");
+		perror("data_init");
 		exit(EXIT_FAILURE); // error handling
 	}
 	data->pid_i = -1;

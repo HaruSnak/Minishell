@@ -41,8 +41,7 @@ void		perror_exit(const char *msg);
 // EXECUTION
 void		execution(char *argv[], char **envp, t_parsing *parsing);
 void		child_exec(char **envp, t_exec *data, t_cmd_list *list, char *path);
-void		single_cmd_execution(t_exec *data, t_redir *s_redir, 
-			char **envp, char *tkn[]);
+void		single_cmd_execution(t_exec *data, char **envp, char *tkn[]);
 
 // Execution Utils
 void		init_data(t_exec *data, t_redir *s_redir, t_parsing *parsing);
@@ -57,6 +56,7 @@ int			is_cmd(char *path);
 int			there_is_pipeline(int *tkn_value);
 t_cmd_list	*set_cmd_list(char **tkn, int *tkn_value);
 t_cmd_list	*set_cmd_list(char **tkn, int *tkn_value);
+void		free_list(t_cmd_list **list);
 
 // REDIRECTION
 void		check_for_redirection(char **tkn, int *tkn_value,

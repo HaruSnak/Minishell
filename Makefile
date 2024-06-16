@@ -14,7 +14,7 @@ SRC_1 = srcs/minishell.c \
 SRC_2 =	srcs/commands/cmds_external.c \
 	srcs/commands/export_unset_cmds.c \
 	srcs/commands/out_cd_cmds.c \
-	srcs/commands/out_env_cmds.c \
+	srcs/commands/builtins_exec.c \
 	srcs/commands/builtins_utils.c \
 	srcs/errors/errors.c \
 	srcs/parsing/verify_operators.c \

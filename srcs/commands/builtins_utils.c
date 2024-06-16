@@ -7,7 +7,7 @@ bool	is_builtins(char *cmd, char **argv, t_parsing *data, char **envp)
 		|| !ft_strncmp(cmd, "export", 6) || !ft_strncmp(cmd, "unset", 5))
 	{
 		builtins_exec(argv, data, envp);
-		// free argv
+		// free argv which is tkn[]
 		return (TRUE);
 	}
 	else
