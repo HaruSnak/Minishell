@@ -5,7 +5,7 @@ FLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
 LIBFTDIR = includes/libft
 OBJ_DIR = obj/
 SRC_DIR = srcs/
-READLINE_PATH = /Users/pcardin/.local/opt/readline
+READLINE_PATH = /Home/pcardin/.local/Homebrew/opt/readline
 CFLAGS = -I$(READLINE_PATH)/include
 LDFLAGS = -L$(READLINE_PATH)/lib -lreadline
 
