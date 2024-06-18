@@ -1,7 +1,7 @@
 
 #include "../../includes/minishell.h"
 
-void perror_exit(const char *msg)// tests
+void perror_exit(const char *msg)// tests remove
 {
 	perror(msg);
 	exit(errno);
@@ -12,14 +12,14 @@ void	command_found(t_exec *data, t_cmd_list *list, char *path, char **envp)
 	if (pipe(data->fds) == -1)
 	{
 		perror("pipe");
-		exit(PIPE_FAILURE);// error handling, fd closing and reprompt?
+		return ;// error handling, fd closing and reprompt?
 	}
 	data->pidz[data->pid_i] = fork();
 	check_err_fork(data->pidz[data->pid_i]);
 	if (data->pidz[data->pid_i] == 0)
 		child_exec(envp, data, list, path);
 	else
-		parent_exec(data);
+		parent_exec(data, list);
 }
 
 void	command_not_found(t_exec *data, char *wrong_cmd)
@@ -30,10 +30,7 @@ void	command_not_found(t_exec *data, char *wrong_cmd)
 	if (data->fds[0])
 	{
 		if(dup2(data->fds[0], STDIN_FILENO) == -1)// error handling,
-		{
 			perror("dup2");
-			exit(DUP_FAILURE);
-		}
 	}
 	close(data->fds[0]);
 }
@@ -47,13 +44,12 @@ void	multi_execution(t_exec *data, char **envp)
 	list = set_cmd_list(data->parsing_ptr->tkn,
 			data->parsing_ptr->tkn_value);
 	list_cpy = list;
-	while (data->pipe_cnt && list)
+	while (list)
 	{
 		if (list->cmd)
 			path = find_cmd_path(data, list->elem);
 		if (path && list->cmd)
 		{
-			data->pipe_cnt--;
 			data->pid_i++;
 			command_found(data, list, path, envp);
 		}
@@ -61,6 +57,8 @@ void	multi_execution(t_exec *data, char **envp)
 			command_not_found(data, list->elem);
 		if (path && list->cmd)
 			free(path);
+		if (list->next)
+			list->next->index = list->index + 1;
 		list = list->next;
 	}
 	free_list(&list_cpy);
@@ -74,8 +72,7 @@ void	execution(char *tkn[], char **envp, t_parsing *parsing)
 	parsing->path = ft_path_envp(envp);
 	init_data(&data, &s_redir, parsing);
 	check_for_redirection(tkn, parsing->tkn_value, &data, envp);
-	data.pipe_cnt = there_is_pipeline(parsing->tkn_value);
-	if (data.pipe_cnt)
+	if (there_is_pipeline(parsing->tkn_value))
 	{
 		multi_execution(&data, envp);
 		wait_pidz(&data);

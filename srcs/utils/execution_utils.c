@@ -20,10 +20,7 @@ char	*find_cmd_path(t_exec *data, char *cmd)
 	{
 		path = ft_strjoin_fs(data->parsing_ptr->path[j], cmd);
 		if (!path)
-		{
-			perror("data_init");
-			exit(OUT_OF_MEMORY); // error handling > good
-		}
+			malloc_error();
 		accss = access(path, X_OK);
 		if (accss == 0 && is_cmd(path) == TRUE)
 			return (path);
@@ -41,7 +38,7 @@ void	wait_pidz(t_exec *data)
 	pid_t	result;
 
 	i = 0;
-	while (data->pidz[i])
+	while (data->pidz[i] > -1)
 	{
 		if (*data->pidz)
 		{
@@ -73,13 +70,10 @@ void	init_data(t_exec *data, t_redir *s_redir, t_parsing *parsing)
 	data->outfile = NULL;
 	data->stdin_cpy = dup(0);
 	data->stdout_cpy = dup(1);
-	data->pipe_cnt = 0;
-	data->pidz = malloc(cmd_count(parsing->tkn_value) * sizeof(pid_t));
+	data->pidz = malloc(cmd_count(parsing->tkn_value) + 1 * sizeof(pid_t));
+	data->pidz[cmd_count(parsing->tkn_value)] = -1;
 	if (data->pidz == NULL)
-	{
-		perror("data_init");
-		exit(OUT_OF_MEMORY); // error handling > good
-	}
+		malloc_error();
 	data->pid_i = -1;
 	data->fds[0] = 0;
 	data->fds[1] = 0;

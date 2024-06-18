@@ -1,9 +1,12 @@
-Makefile
-README.md
 in
-in_000
 includes
+Makefile
 minishell
 obj
+obj_dir
 out
+outg
+outh
+README.md
 srcs
+test

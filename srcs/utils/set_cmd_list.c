@@ -7,11 +7,9 @@ t_cmd_list	*create_node(char *tkn, int tkn_value)
 
 	new = malloc(sizeof(t_cmd_list));
 	new->elem = strdup(tkn);
+	new->index = 0;
 	if (!new || !new->elem)
-	{
-		perror("malloc");
-		exit(OUT_OF_MEMORY);
-	}
+		malloc_error();
 	new->pipe = FALSE;
 	new->cmd = FALSE;
 	new->builtin = FALSE;

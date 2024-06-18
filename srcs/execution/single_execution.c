@@ -26,13 +26,12 @@ char	**set_argv(char *tkn[], int *tkn_value)
 		;
 	argv = malloc((get_argv_len(i, tkn_value) + 1) * sizeof(char *));
 	if (!argv)
-	{
-		perror("set_argv");
-		exit(EXIT_FAILURE);
-	}
+		malloc_error();
 	while (tkn_value[i] && (tkn_value[i] == ARG || tkn_value[i] == CMD))
 	{
-		argv[j] = ft_strdup(tkn[i]);
+		argv[j] = ft_strdup(tkn[i]);// error handling
+		if (!argv)
+			malloc_error();
 		i++;
 		j++;
 	}
@@ -68,33 +67,36 @@ void	exec_cmd(t_exec *data, char **argv, char **envp)
 	char	*path;
 
 	path = find_cmd_path(data, argv[0]);
-	if (data->redir_ptr->redir_out || data->redir_ptr->append)
-		redirect_output(data, data->redir_ptr);
-	else if (path)
-		execve(path, argv, envp);
-	else 
+	if (path && redirect_output(data, data->redir_ptr))
+		execve(path, argv, envp);	
+	else
 	{
-		ft_printf("minishlag: %s: command not found\n", argv[0]);
-		data->parsing_ptr->exit_value = 127;
+		free(path);
+		exit(EXIT_FAILURE);
 	}
 }
 
 void	single_cmd_execution(t_exec *data, char **envp, char *tkn[])
 {
-	pid_t	pid;
-	int		status;
 	char	**argv;
 
+	data->pidz = malloc(2);
+	data->pidz[1] = -1;
 	ft_init_signal_block();
 	if (is_builtins(tkn[0], tkn, data->parsing_ptr, envp))
 		return ;
 	if (there_is_cmds(data, tkn, data->parsing_ptr->tkn_value))
 	{
 		argv = set_argv(tkn, data->parsing_ptr->tkn_value);
-		pid = fork();
-		check_err_fork(pid);
-		if (pid == 0)
+		data->pidz[0] = fork();
+		check_err_fork(data->pidz[0]);
+		if (data->pidz[0] == 0)
 			exec_cmd(data, argv, envp);
-		waitpid(pid, &status, 0);
+		wait_pidz(data);
+	}
+	else 
+	{
+		ft_printf("minishlag: %s: command not found\n", tkn[0]);
+		data->parsing_ptr->exit_value = 127;
 	}
 }

@@ -5,6 +5,8 @@ void	print_output(int fd)
 {
 	char	*line;
 
+	if (!fd)
+		return ;
 	line = NULL;
 	line = get_next_line(fd);
 	while (line)
@@ -18,23 +20,30 @@ void	print_output(int fd)
 	close(fd);
 }
 
-void	redirect_output(t_exec *data, t_redir *s_redir)
+bool	redirect_output(t_exec *data, t_redir *s_redir)
 {
 	int		fd_out;
 
-	if (!data->outfile)
+	if (data->outfile && access(data->outfile, F_OK | R_OK) == -1)
+		return (FALSE);
+	else if (!data->outfile)
 	{
+		PL;
+		if (dup2(data->stdout_cpy, STDOUT_FILENO) == -1)// error handling > good
+		{
+			perror("dup2");
+			exit(DUP_FAILURE);
+		}
 		print_output(data->fds[1]);
-		return ;
+		return (TRUE);
 	}
-	fd_out = -1;
 	if (s_redir->redir_out == TRUE)
 		fd_out = open(data->outfile, O_WRONLY | O_TRUNC, 0777);
 	else if (s_redir->append == TRUE)
 		fd_out = open(data->outfile, O_WRONLY | O_APPEND, 0777);
 	if (fd_out == -1)
 	{
-		perror("open outfile");
+		perror("outfile");
 		exit(OPEN_FAILURE);// error handling
 	}
 	if (dup2(fd_out, STDOUT_FILENO) == -1)
@@ -42,14 +51,20 @@ void	redirect_output(t_exec *data, t_redir *s_redir)
 		perror_exit("redir outfile");// error handling
 		exit(DUP_FAILURE);
 	}
+	if (data->outfile)
+	{
+		free(data->outfile);
+		data->outfile = NULL;
+	}
 	close(fd_out);
+	return (TRUE);
 }
 
 int	check_access_infile(t_exec *data, char *infile)
 {
 	int	fd;
 
-	if (access(infile, F_OK | R_OK) < 0)
+	if (access(infile, F_OK | R_OK) == -1)
 	{
 		perror("infile access");
 		data->parsing_ptr->exit_value = 1;
@@ -70,21 +85,15 @@ void	check_access_outfile(char *outfile, int	tkn_value, t_exec *data)
 		fd = open(outfile, O_CREAT | O_WRONLY
 				| O_RDONLY | O_TRUNC, 0777);
 	if (fd == -1)
-	{
-		perror("outfile open");
-		return ;// error handling
-	}
+		perror("out");
 	close(fd);
 	data->outfile = malloc((ft_strlen(outfile) + 1) * sizeof(char));
 	if (!data->outfile)
-	{
-		perror("malloc");
-		exit(OUT_OF_MEMORY);// error handling
-	}
+		malloc_error();
 	ft_strlcpy(data->outfile, outfile, ft_strlen(outfile) + 1);
 }
 
-void	check_for_redirection(char **tkn, int *tkn_value, 
+void	check_for_redirection(char **tkn, int *tkn_value,
 		t_exec *data, char **envp)
 {
 	int	i;
