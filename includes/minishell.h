@@ -54,7 +54,8 @@ typedef struct s_parsing
 	char	**tkn;
 	int		*tkn_value;
 	char	**path;
-	char	**tmp_env;
+	char	**tmp_env; // modifier name
+	char	**tmp_setenv;
 	char	*tkn_cpy; //delete ?
 	char	*n_senv;
 	char	*v_senv;
@@ -68,14 +69,13 @@ typedef struct s_parsing
 }	t_parsing;
 
 // PARSING FUNCTIONS 
-int		ft_find_execve(char **envp, t_parsing *parsing);
-int		ft_if_execve_access(t_parsing *parsing, char **envp);
 char	*ft_separe_operator(char *input);
 char	*ft_replace_espace(char *input, t_parsing *parsing);
 void	ft_delete_espace(t_parsing *parsing);
 void	ft_interpret_envp(char **envp, t_parsing *parsing);
 int		ft_token_value(t_parsing *parsing);
 int		ft_check_odd_quote(char *input);
+int		ft_return_value_echo(t_parsing *parsing, int k);
 
 // SIGNALS FUNCTIONS
 void	ft_signal_handler(int signo);
@@ -84,12 +84,12 @@ void	ft_signal_return(int signum);
 void	ft_init_signal(struct sigaction *sa, struct sigaction *sa_quit);
 void	ft_init_signal_block(void);
 
-// COMMANDS FUNCTIONS
-int		ft_external_cmds(t_parsing *parsing, char **envp);
+// BUILTINS FUNCTIONS
+int		builtins_exec(t_parsing *parsing, char **envp);
 char	*ft_split_input(char *input, char *c);
 int		ft_setenv(char **envp, t_parsing *parsing);
 
-// COMMANDS CD FUNCTIONS
+// BUILTINS CD FUNCTIONS
 void	ft_handle_cd_home(t_parsing *parsing, char **envp);
 void	ft_handle_cd_previous(t_parsing *parsing, char **envp);
 void	ft_handle_cd_root(t_parsing *parsing, char **envp);
@@ -97,13 +97,14 @@ void	ft_handle_cd_oldpwd(t_parsing *parsing,
 			char **envp, char *path, char *oldpwd);
 void	ft_handle_cd_path(t_parsing *parsing, char **envp);
 
-// COMMANDS EXPORT UNSET FUNCTIONS
-int		ft_external_cmds_bis(t_parsing *parsing, char **envp);
+// BUILTINS EXPORT UNSET FUNCTIONS
+int		ft_handle_unset(t_parsing *parsing, char **envp);
+void	ft_handle_export(t_parsing *parsing, char **envp);
 
-// COMMANDS EXTERNALS FUNCTIONS
+// BUILTINS EXTERNALS FUNCTIONS
 int		ft_handle_empty_cmd(char **input);
 int		ft_handle_exit(t_parsing *parsing);
-int		ft_handle_echo(t_parsing *parsing);
+bool	is_builtins(char *cmd, t_parsing *data, char **envp);
 
 // REDIRECTION FUNCTIONS SHELL
 int		ft_handle_verify(char **input, t_parsing *parsing, char **envp);
@@ -112,7 +113,7 @@ int		ft_exec_cmd_redirects(char **tmp, t_parsing *parsing);
 // ERRORS FUNCTIONS
 void	ft_end_verify(t_parsing *parsing);
 void	ft_free_and_compact(char **str, int index, int size);
-void	ft_free_data(t_exec *data, t_redir *s_redir, t_parsing *parsing);
+void	ft_free_data(t_exec *data, t_parsing *parsing);
 void	ft_free_d_ptr(void ***ptr);
 int		ft_error_operator(t_parsing *parsing);
 

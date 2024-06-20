@@ -3,7 +3,7 @@
 
 // Cette fonction sert à trouver le chemin d'accès d'une commande
 // sous forme de tableau de chaînes de caractères.
-char	**ft_path_envp(char **envp)
+/*char	**ft_path_envp(char **envp)
 {
 	int		i;
 	char	*path;
@@ -23,4 +23,4 @@ char	**ft_path_envp(char **envp)
 	path_f = ft_split(path, ':');
 	free(path);
 	return (path_f);
-}
+}*/

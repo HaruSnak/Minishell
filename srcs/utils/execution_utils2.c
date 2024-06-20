@@ -4,7 +4,7 @@
 int	cmd_count(int *tkn_value)
 {
 	int	cmd;
-	int i;
+	int	i;
 
 	cmd = 0;
 	i = -1;
@@ -79,7 +79,7 @@ char	**set_argv_lst(t_cmd_list *list, char *cmd)
 	if (!argv)
 	{
 		perror("set_argv:");
-		return (NULL);//      gestion d'erreur
+		return (NULL);// error handling
 	}
 	argv = iter_through_list(list, argv);
 	return (argv);

@@ -2,9 +2,32 @@
 
 #include "../../includes/minishell.h"
 
-void	ft_cmd_clear(void)
+int	ft_check_error(t_parsing *parsing)
 {
-	printf("\033[H\033[J");
+	int	i;
+
+	i = -1;
+	if (ft_strchr(parsing->tkn[1], '=') != NULL)
+	{
+		while (parsing->tkn[1][++i] != '=')
+		{
+			if (!ft_isalnum(parsing->tkn[1][i]) && parsing->tkn[1][i] != '_')
+				return (printf
+					("minishell: export: `%s': not a valid identifier\n",
+						parsing->tkn[1]), -1);
+		}
+	}
+	else
+	{
+		while (parsing->tkn[1][++i] != '\0')
+		{
+			if (!ft_isalnum(parsing->tkn[1][i]) && parsing->tkn[1][i] != '_')
+				return (printf
+					("minishell: export: `%s': not a valid identifier\n",
+						parsing->tkn[1]), -1);
+		}
+	}
+	return (0);
 }
 
 int	ft_handle_unset(t_parsing *parsing, char **envp)
@@ -47,40 +70,18 @@ void	ft_handle_export(t_parsing *parsing, char **envp)
 			printf("declare -x %s\n", envp[i]);
 		}
 	}
-	else if (ft_strchr(parsing->tkn[1], '=') != NULL)
+	else if (ft_strchr(parsing->tkn[1], '=') && ft_check_error(parsing) == 0)
 	{
 		tmp2 = ft_split(parsing->tkn[1], '=');
 		parsing->n_senv = tmp2[0];
 		parsing->v_senv = tmp2[1];
 		ft_setenv(envp, parsing);
-		//ft_free_d_ptr((void ***)tmp2);
+		ft_free_d_ptr((void ***)&tmp2);
 	}
-	else if (ft_strchr(parsing->tkn[1], '=') == NULL)
+	else if (!ft_strchr(parsing->tkn[1], '=') && ft_check_error(parsing) == 0)
 	{
 		parsing->n_senv = parsing->tkn[1];
 		parsing->v_senv = NULL;
 		ft_setenv(envp, parsing);
 	}
-}
-
-int	ft_external_cmds_bis(t_parsing *parsing, char **envp)
-{
-	if (ft_strncmp(parsing->tkn[0], "export", ft_strlen(parsing->tkn[0])) == 0)
-	{
-		ft_handle_export(parsing, envp);
-		return (0);
-	}
-	if (ft_strncmp(parsing->tkn[0], "unset", ft_strlen(parsing->tkn[0])) == 0)
-	{
-		ft_handle_unset(parsing, envp);
-		return (0);
-	}
-	if (ft_strncmp(parsing->tkn[0], "clear", ft_strlen(parsing->tkn[0])) == 0)
-	{
-		ft_cmd_clear();
-		return (0);
-	}
-	if (ft_handle_echo(parsing) == 0 && !ft_strncmp(parsing->tkn[0], "echo", 4))
-		return (0);
-	return (-1);
 }

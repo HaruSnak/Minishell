@@ -1,23 +1,17 @@
 
 #include "../../includes/minishell.h"
 
-void	redirect_heredoc(char *path, char *argv[], char **envp)
+void	ft_delete_file_heredoc()
 {
-	int		fd_out;
+	pid_t	pid;
+	char	**envp;
+	int		status;
 
-	fd_out = open("heredoc.txt", O_RDWR, 0777);
-	if (fd_out == -1)
-	{
-		perror("outfile");
-		return ;
-	}
-	if (dup2(fd_out, STDIN_FILENO) == -1)
-	{
-		close(fd_out);
-		perror_exit("dup2");
-	}
-	execve(path, argv, envp);
-	close(fd_out);
+	envp = NULL;
+	pid = fork();
+	if (pid == 0)
+		execve("/bin/rm", (char *[]){"rm", "obj/srcs/redirections/heredoc.txt", NULL}, envp);
+	waitpid(pid, &status, 0);
 }
 
 char	*ft_find_null(char *line, char *env_var, int *i)
@@ -86,24 +80,29 @@ char	*ft_var_env(char **envp, char *line)
 	return (line);
 }
 
-int	heredoc_handling(char *eof, char **g_env)
+void	heredoc_handling(char *eof, char **g_env)
 {
-	char		*line;
-	int			heredoc;
+	char	*line;
+	int		heredoc;
 
-	heredoc = open("heredoc.txt",
-				O_CREAT | O_RDWR | O_TRUNC, 0777); /// VERIF FLAGS
-	line = readline(">");
+	heredoc = open("obj/srcs/redirections/heredoc.txt", O_CREAT | O_WRONLY | O_TRUNC, 0777); /// VERIF FLAGS
 	while (1)
 	{
+		line = readline(">");
 		if (ft_strncmp(line, eof, ft_strlen(line)) == 0)
 			break ;
 		line = ft_var_env(g_env, line);
 		write(heredoc, line, ft_strlen(line));
 		write(heredoc, "\n", 1);
 		free(line);
-		line = readline(">");
 	}
 	close(heredoc);
-	return (heredoc);
+	heredoc = open("obj/srcs/redirections/heredoc.txt", O_CREAT | O_RDONLY, 0777); /// VERIF FLAGS
+	if (dup2(heredoc, STDIN_FILENO) == -1)
+	{
+		perror("redir_heredoc");
+		close(heredoc);
+		return ; // error handling
+	}
+	close(heredoc);
 }
