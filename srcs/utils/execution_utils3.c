@@ -35,17 +35,16 @@ char	**ft_path_envp(char **envp)
 
 void	reset_and_free(t_exec *data, t_parsing *parsing)
 {
-	if (dup2(data->stdin_cpy, STDIN_FILENO) == -1)// error handling > good
+	if (dup2(data->stdin_cpy, STDIN_FILENO) == -1)// error handling
 	{
 		perror("dup2");
-		exit(DUP_FAILURE);
+		// return ;
 	}
-	if (dup2(data->stdout_cpy, STDOUT_FILENO) == -1)// error handling > good
+	if (dup2(data->stdout_cpy, STDOUT_FILENO) == -1)// error handling
 	{
 		perror("dup2");
-		exit(DUP_FAILURE);
+		// return ;
 	}
-	PL;
 	close(data->stdin_cpy);
 	close(data->stdout_cpy);
 	ft_free_data(data, parsing);

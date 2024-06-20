@@ -9,6 +9,7 @@ void perror_exit(const char *msg)// tests remove
 
 void	command_found(t_exec *data, t_cmd_list *list, char *path, char **envp)
 {
+	data->pid_i++;
 	if (pipe(data->fds) == -1)
 	{
 		perror("pipe");
@@ -19,7 +20,7 @@ void	command_found(t_exec *data, t_cmd_list *list, char *path, char **envp)
 	if (data->pidz[data->pid_i] == 0)
 		child_exec(envp, data, list, path);
 	else
-		parent_exec(data, list);
+		parent_exec(data);
 }
 
 void	command_not_found(t_exec *data, char *wrong_cmd)
@@ -49,16 +50,14 @@ void	multi_execution(t_exec *data, char **envp)
 		if (list->cmd)
 			path = find_cmd_path(data, list->elem);
 		if (path && list->cmd)
-		{
-			data->pid_i++;
 			command_found(data, list, path, envp);
-		}
 		else if (list->cmd)
 			command_not_found(data, list->elem);
 		if (path && list->cmd)
 			free(path);
 		if (list->next)
 			list->next->index = list->index + 1;
+		check_and_reset_outfile(data, list->index);
 		list = list->next;
 	}
 	free_list(&list_cpy);

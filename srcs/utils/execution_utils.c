@@ -11,19 +11,21 @@ int	is_cmd(char *path)
 char	*find_cmd_path(t_exec *data, char *cmd)
 {
 	char	*path;
-	int		accss;
 	int		j;
 
 	j = 0;
-
+	if (access(cmd, X_OK) == 0 && is_cmd(cmd) == TRUE)
+		return (cmd);
 	while (j < 8)
 	{
 		path = ft_strjoin_fs(data->parsing_ptr->path[j], cmd);
 		if (!path)
 			malloc_error();
-		accss = access(path, X_OK);
-		if (accss == 0 && is_cmd(path) == TRUE)
+		if (access(path, X_OK) == 0 && is_cmd(path) == TRUE)
+		{
+			PS2("path", path);
 			return (path);
+		}
 		else
 			free(path);
 		j++;

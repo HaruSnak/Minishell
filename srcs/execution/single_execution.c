@@ -39,54 +39,50 @@ char	**set_argv(char *tkn[], int *tkn_value)
 	return (argv);
 }
 
-bool	there_is_cmds(t_exec *data, char *tkn[], int *tkn_value)
-{
-	int		i;
-	char	*path;
-
-	i = -1;
-	while (tkn_value[++i])
-	{
-		if (tkn_value[i] == CMD)
-		{
-			path = find_cmd_path(data, tkn[i]);
-			if (!path)
-				return (FALSE);
-			else
-			{
-				free(path);
-				return (TRUE);
-			}
-		}
-	}
-	return (FALSE);
-}
-
 void	exec_cmd(t_exec *data, char **argv, char **envp)
 {
 	char	*path;
 
 	path = find_cmd_path(data, argv[0]);
-	if (path && redirect_output(data, data->redir_ptr))
-		execve(path, argv, envp);	
+	if (data->outfile)
+		redirect_output(data, data->redir_ptr);
+	if (path)
+		execve(path, argv, envp);
 	else
 	{
 		free(path);
+		perror("execve");
 		exit(EXIT_FAILURE);
 	}
+}
+
+char	*find_command(int *tkn_value, char **tkn)
+{
+	int		i;	
+
+	i = -1;
+	while (tkn[++i])
+	{
+		if (tkn_value[i] == CMD)
+			return (tkn[i]);
+	}
+	return (NULL);
 }
 
 void	single_cmd_execution(t_exec *data, char **envp, char *tkn[])
 {
 	char	**argv;
+	char	*cmd;
 
 	data->pidz = malloc(2);
 	data->pidz[1] = -1;
 	ft_init_signal_block();
 	if (is_builtins(tkn[0], tkn, data->parsing_ptr, envp))
 		return ;
-	if (there_is_cmds(data, tkn, data->parsing_ptr->tkn_value))
+	cmd = find_command(data->parsing_ptr->tkn_value, tkn);
+	if (find_cmd_path(data, cmd))
 	{
+		PS2("tkn[0]", tkn[0]);
 		argv = set_argv(tkn, data->parsing_ptr->tkn_value);
 		data->pidz[0] = fork();
 		check_err_fork(data->pidz[0]);

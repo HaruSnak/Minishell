@@ -7,9 +7,9 @@ t_cmd_list	*create_node(char *tkn, int tkn_value)
 
 	new = malloc(sizeof(t_cmd_list));
 	new->elem = strdup(tkn);
-	new->index = 0;
 	if (!new || !new->elem)
 		malloc_error();
+	new->index = 0;
 	new->pipe = FALSE;
 	new->cmd = FALSE;
 	new->builtin = FALSE;
@@ -62,6 +62,7 @@ void	free_list(t_cmd_list **list)
 	while (*list)
 	{
 		next_node = (*list)->next;
+		PS2("elem", (*list)->elem);
 		free((*list)->elem);
 		free(*list);
 		*list = next_node;

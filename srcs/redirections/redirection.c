@@ -1,7 +1,7 @@
 
 #include "../../includes/minishell.h"
 
-void	print_output(int fd)
+void	print_output(int fd) // to remove
 {
 	char	*line;
 
@@ -20,22 +20,14 @@ void	print_output(int fd)
 	close(fd);
 }
 
-bool	redirect_output(t_exec *data, t_redir *s_redir)
+void	redirect_output(t_exec *data, t_redir *s_redir)
 {
 	int		fd_out;
 
 	if (data->outfile && access(data->outfile, F_OK | R_OK) == -1)
-		return (FALSE);
-	else if (!data->outfile)
 	{
-		PL;
-		if (dup2(data->stdout_cpy, STDOUT_FILENO) == -1)// error handling > good
-		{
-			perror("dup2");
-			exit(DUP_FAILURE);
-		}
-		print_output(data->fds[1]);
-		return (TRUE);
+		perror("access");
+		return ;
 	}
 	if (s_redir->redir_out == TRUE)
 		fd_out = open(data->outfile, O_WRONLY | O_TRUNC, 0777);
@@ -44,20 +36,15 @@ bool	redirect_output(t_exec *data, t_redir *s_redir)
 	if (fd_out == -1)
 	{
 		perror("outfile");
-		exit(OPEN_FAILURE);// error handling
+		return ;// error handling
 	}
 	if (dup2(fd_out, STDOUT_FILENO) == -1)
 	{
 		perror_exit("redir outfile");// error handling
-		exit(DUP_FAILURE);
-	}
-	if (data->outfile)
-	{
-		free(data->outfile);
-		data->outfile = NULL;
+		close(fd_out);
+		return ;
 	}
 	close(fd_out);
-	return (TRUE);
 }
 
 int	check_access_infile(t_exec *data, char *infile)

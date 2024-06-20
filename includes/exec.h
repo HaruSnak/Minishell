@@ -50,7 +50,7 @@ void		perror_exit(const char *msg);
 // EXECUTION
 void		execution(char *argv[], char **envp, t_parsing *parsing);
 void		child_exec(char **envp, t_exec *data, t_cmd_list *list, char *path);
-void		parent_exec(t_exec *data, t_cmd_list *list);
+void		parent_exec(t_exec *data);
 void		single_cmd_execution(t_exec *data, char **envp, char *tkn[]);
 
 // Execution Utils
@@ -75,8 +75,10 @@ t_cmd_list	*set_cmd_list(char **tkn, int *tkn_value);
 // REDIRECTION
 void		check_for_redirection(char **tkn, int *tkn_value,
 				t_exec *data, char **envp);
-bool		redirect_output(t_exec *data, t_redir *s_redir);
+void		redirect_output(t_exec *data, t_redir *s_redir);
 void		heredoc_handling(char *eof, char **g_env);
+void		check_and_reset_outfile(t_exec *data, int i);
+void		print_output(int fd);
 
 // Redirection Utils
 void		ft_delete_file_heredoc();
