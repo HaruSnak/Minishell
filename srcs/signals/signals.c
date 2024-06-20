@@ -6,39 +6,11 @@
 /*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 13:10:38 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/06/07 15:19:47 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/06/19 11:52:02 by shmoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-// Handle signals for the minishell program
-void	ft_signal_handler(int signum)
-{
-	if (signum == SIGINT)
-	{
-		ft_putstr_fd("\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
-}
-
-void	ft_signal_quit(int signum)
-{
-	if (signum == SIGQUIT)
-	{
-		ft_putstr_fd("Quit\n", 1);
-	}
-}
-
-void	ft_signal_return(int signum)
-{
-	if (signum == SIGINT)
-	{
-		ft_putstr_fd("\n", 1);
-	}
-}
 
 void	ft_init_signal(struct sigaction *sa, struct sigaction *sa_quit)
 {

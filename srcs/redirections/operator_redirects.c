@@ -100,3 +100,4 @@ int	ft_exec_cmd_redirects(char **tmp, t_parsing *parsing)
 	}
 	return (0);
 }
+

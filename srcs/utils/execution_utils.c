@@ -1,4 +1,5 @@
 
+
 #include "../../includes/minishell.h"
 
 int	is_cmd(char *path)
@@ -20,7 +21,7 @@ char	*find_cmd_path(t_exec *data, char *cmd)
 	{
 		path = ft_strjoin_fs(data->parsing_ptr->path[j], cmd);
 		if (!path)
-			return (NULL);
+			return (NULL);// error handling
 		accss = access(path, X_OK);
 		if (accss == 0 && is_cmd(path) == TRUE)
 			return (path);
@@ -55,7 +56,7 @@ void	check_err_fork(pid_t pid)
 	if (pid < 0)
 	{
 		perror("fork");
-		exit(0);// error handling
+		exit(EXIT_FAILURE);// error handling
 	}
 }
 
@@ -71,10 +72,10 @@ void	init_data(t_exec *data, t_redir *s_redir, t_parsing *parsing)
 	data->stdin_cpy = dup(0);
 	data->stdout_cpy = dup(1);
 	data->pipe_cnt = 0;
-	data->pidz = malloc(cmd_count(parsing->tkn_value) * sizeof(pid_t)); // protect
+	data->pidz = malloc(cmd_count(parsing->tkn_value) * sizeof(pid_t));
 	if (data->pidz == NULL)
 	{
-		perror("malloc");
+		perror("data_init");
 		exit(EXIT_FAILURE); // error handling
 	}
 	data->pid_i = -1;

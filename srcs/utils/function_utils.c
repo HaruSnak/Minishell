@@ -9,7 +9,7 @@ int	ft_count_index(char **input)
 
 	i = 0;
 	count = 0;
-	while (input[i] != NULL && input[i][0] != '\0')
+	while (input[i] != NULL)
 	{
 		count++;
 		i++;
