@@ -9,6 +9,7 @@ void	ft_init_main(t_parsing *parsing, t_quote *quote, char **envp, int argc)
 	parsing->pwd = getenv("PWD");
 	parsing->tmp = NULL;
 	parsing->tmp_env = NULL;
+	parsing->tmp_setenv = NULL;
 	parsing->n_senv = "OLDPWD";
 	parsing->v_senv = "";
 	quote->check_d = false;
@@ -41,5 +42,7 @@ int	main(int argc, char **argv, char **envp)
 		ft_handle_verify(&input, &parsing, envp);
 		free(input);
 	}
+	if (parsing.tmp_setenv != NULL)
+		ft_free_d_ptr((void ***)&parsing.tmp_setenv);
 	return (0);
 }

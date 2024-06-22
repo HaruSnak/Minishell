@@ -33,9 +33,9 @@ void	ft_condit_quote(char *tmp_redir, int *i, int *k, char *tmp_quote)
 void	ft_condit_redirect(char *input, int *i, int *k, char *tmp)
 {
 	if (((input[*i] == '>' || input[*i] == '<' || input[*i] == '|')
-			&& (input[*i + 1] != ' ' && *i > 0 && (input[*i - 1] != ' ')))
-		|| (input[*i] == '<' && input[*i + 1] == '<'
-			&& input[*i + 2] != ' ' && *i > 0 && input[*i - 1] != ' ')
+			&& (input[*i + 1] != ' ' || (*i > 0 && input[*i - 1] != ' ')))
+		|| ((input[*i] == '<' && input[*i + 1] == '<'
+				&& input[*i + 2] != ' ' && *i > 0 && input[*i - 1] != ' '))
 		|| (input[*i] == '>' && input[*i + 1] == '>'
 			&& input[*i + 2] != ' ' && *i > 0 && input[*i - 1] != ' '))
 	{

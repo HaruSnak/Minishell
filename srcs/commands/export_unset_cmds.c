@@ -108,3 +108,4 @@ int	ft_external_cmds_bis(char **input, t_parsing *parsing, char **envp)
 		return (0);
 	return (-1);
 }
+

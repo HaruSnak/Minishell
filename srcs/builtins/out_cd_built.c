@@ -82,12 +82,9 @@ void	ft_handle_cd_oldpwd(t_parsing *parsing,
 		printf("minishell: cd: %s: No such file or directory\n", oldpwd);
 }
 
-void	ft_handle_cd_path(t_parsing *parsing, char **envp, char **input)
+void	ft_handle_cd_path(t_parsing *parsing, char **envp)
 {
-	char	*path;
-
-	path = ft_strdup(*input + 3);
-	if (chdir(path) == 0)
+	if (chdir(parsing->tkn[1]) == 0)
 	{
 		parsing->n_senv = "OLDPWD";
 		parsing->v_senv = parsing->pwd;
@@ -99,6 +96,6 @@ void	ft_handle_cd_path(t_parsing *parsing, char **envp, char **input)
 		free(parsing->v_senv);
 	}
 	else
-		printf("minishell: cd: %s: No such file or directory\n", path);
-	free(path);
+		printf("minishell: cd: %s: No such file or directory\n",
+			parsing->tkn[1]);
 }

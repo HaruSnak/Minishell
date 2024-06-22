@@ -20,8 +20,3 @@ void	child_exec(char **envp, t_exec *data, t_cmd_list *list, char *path)
 	execve(path, argv, envp);
 	perror_exit("execve");
 }
-
-	// int i = -1;
-	// while (argv[++i])
-	// 	fprintf(stderr, "argv[%i]: %s, pid: %d\n", i, argv[i], getpid());
-	// fprintf(stderr, "path: %s\n", path);
