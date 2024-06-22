@@ -7,7 +7,7 @@ void perror_exit(const char *msg)// tests remove
 	exit(errno);
 }
 
-void	command_found(t_exec *data, t_cmd_list *list, char *path, char **envp)
+void	command_found(t_exec *data, t_cmd_list *list, char **envp)
 {
 	data->pid_i++;
 	if (pipe(data->fds) == -1)
@@ -18,9 +18,9 @@ void	command_found(t_exec *data, t_cmd_list *list, char *path, char **envp)
 	data->pidz[data->pid_i] = fork();
 	check_err_fork(data->pidz[data->pid_i]);
 	if (data->pidz[data->pid_i] == 0)
-		child_exec(envp, data, list, path);
+		child_exec(envp, data, list, list->elem);
 	else
-		parent_exec(data);
+		parent_exec(data, list, list->elem);
 }
 
 void	command_not_found(t_exec *data, char *wrong_cmd)
@@ -36,47 +36,49 @@ void	command_not_found(t_exec *data, char *wrong_cmd)
 	close(data->fds[0]);
 }
 
-void	multi_execution(t_exec *data, char **envp)
+void	multi_execution(t_cmd_list *list, t_exec *data, char **envp)
 {
-	t_cmd_list	*list;
 	t_cmd_list	*list_cpy;
-	char		*path;
 
-	list = set_cmd_list(data->parsing_ptr->tkn,
-			data->parsing_ptr->tkn_value);
 	list_cpy = list;
 	while (list)
 	{
 		if (list->cmd)
-			path = find_cmd_path(data, list->elem);
-		if (path && list->cmd)
-			command_found(data, list, path, envp);
+			command_found(data, list, envp);
 		else if (list->cmd)
 			command_not_found(data, list->elem);
-		if (path && list->cmd)
-			free(path);
 		if (list->next)
 			list->next->index = list->index + 1;
-		check_and_reset_outfile(data, list->index);
+		reset_outfile(data, list->index);
 		list = list->next;
 	}
-	free_list(&list_cpy);
+	free_list(list_cpy);	
 }
 
 void	execution(char *tkn[], char **envp, t_parsing *parsing)
 {
-	t_exec	data;
-	t_redir	s_redir;
+	t_exec		data;
+	t_redir		s_redir;
+	t_cmd_list	*list;
+	int			out_index;
 
-	parsing->path = ft_path_envp(envp);
 	init_data(&data, &s_redir, parsing);
-	check_for_redirection(tkn, parsing->tkn_value, &data, envp);
-	if (there_is_pipeline(parsing->tkn_value))
+	data.paths = ft_path_envp(envp);
+	list = set_cmd_list(&data, data.parsing_ptr->tkn,
+			data.parsing_ptr->tkn_value);
+	out_index = check_for_redirection(list, &data, envp);
+	if (there_is_pipeline(parsing->tkn_value)) // pb if ie. echo "hello|"
 	{
-		multi_execution(&data, envp);
+		multi_execution(list, &data, envp);
 		wait_pidz(&data);
+		free_strs(data.paths);
 	}
 	else if (*tkn)
-		single_cmd_execution(&data, envp, tkn);
-	reset_and_free(&data, parsing);
+	{
+		single_cmd_execution(list, &data, envp, tkn);
+		reset_outfile(&data, out_index);
+		free_strs(data.paths);
+		free_single_list(list);
+	}
+	reset_and_free(&data);
 }

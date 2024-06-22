@@ -9,13 +9,12 @@ void	ft_error_cmd_ext(char *error, int status)
 	exit(status);
 }
 
-void	ft_free_data(t_exec *data, t_parsing *parsing)
+void	ft_free_data(t_exec *data)
 {
 	if (data->redir_ptr->here_doc)
 		ft_delete_file_heredoc();
-	ft_free_d_ptr((void ***)&parsing->path);
-	free(data->outfile);
-	free(data->pidz);
+	if (data->outfile)
+		free(data->outfile);
 }
 
 // Free a double pointer and set it to NULL
@@ -29,6 +28,7 @@ void	ft_free_d_ptr(void ***ptr)
 	while (i < count)
 	{
 		free((*ptr)[i]);
+		(*ptr)[i] = NULL;
 		i++;
 	}
 	free(*ptr);

@@ -55,7 +55,7 @@ typedef struct s_parsing
 {
 	char	**tkn;
 	int		*tkn_value;
-	char	**path;
+	char	**path; // swapped for t_exec
 	char	**tmp_env;
 	char	*tkn_cpy; //delete ?
 	char	*n_senv;
@@ -108,12 +108,11 @@ int		ft_handle_echo(char *input, t_parsing *parsing);
 
 // REDIRECTION FUNCTIONS SHELL
 int		ft_handle_verify(char **input, t_parsing *parsing, char **envp);
-int		ft_exec_cmd_redirects(char **tmp, t_parsing *parsing);
 
 // ERRORS FUNCTIONS
 void	ft_end_verify(t_parsing *parsing);
 void	ft_free_and_compact(char **str, int index, int size);
-void	ft_free_data(t_exec *data, t_parsing *parsing);
+void	ft_free_data(t_exec *data);
 void	ft_free_d_ptr(void ***ptr);
 
 // QUOTE FUNCTIONS SHELL

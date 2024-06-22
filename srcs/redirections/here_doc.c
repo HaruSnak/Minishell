@@ -80,18 +80,19 @@ char	*ft_var_env(char **envp, char *line)
 	return (line);
 }
 
-void	heredoc_handling(char *eof, char **g_env)
+void	heredoc_handling(t_exec *data, char *eof, char **g_env)
 {
 	char	*line;
 	int		heredoc;
 
 	heredoc = open("obj/srcs/redirections/heredoc.txt",
-				O_CREAT | O_WRONLY | O_TRUNC, 0777);// error handling
+				O_CREAT | O_WRONLY | O_TRUNC, 0644);// error handling
 	if (heredoc == -1)
 	{
 		perror("outfile open");
+		data->parsing_ptr->exit_value = PERMISSION_DENY;
 		return ;// error handling
-	}	
+	}
 	while (1)
 	{
 		line = readline(">");
@@ -103,5 +104,5 @@ void	heredoc_handling(char *eof, char **g_env)
 		free(line);
 	}
 	close(heredoc);
-	redirect_infile(&heredoc, "obj/srcs/redirections/heredoc.txt");
+	redirect_infile(data, &heredoc, "obj/srcs/redirections/heredoc.txt");
 }

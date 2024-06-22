@@ -20,10 +20,10 @@ SRC_2 =	srcs/commands/cmds_external.c \
 	srcs/parsing/verify_operators.c \
 	srcs/parsing/token_value.c \
 	srcs/parsing/redirect_quote.c \
-	srcs/parsing/quote.c \
+	srcs/parsing/quote.c srcs/quote/quote.c \
 	srcs/parsing/var_env.c \
     srcs/signals/signals.c \
-	srcs/quote/quote.c srcs/utils/set_cmd_list.c \
+	srcs/utils/free_utils.c srcs/utils/set_cmd_list.c \
 	srcs/utils/function_utils.c srcs/utils/execution_utils2.c \
 	srcs/utils/execution_utils.c srcs/execution/execution.c \
 	srcs/execution/sub_exec.c srcs/execution/single_execution.c \

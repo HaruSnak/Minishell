@@ -1,8 +1,10 @@
 
 #include "../../includes/minishell.h"
 
-void	parent_exec(t_exec *data)
+void	parent_exec(t_exec *data, t_cmd_list *list, char *path)
 {
+	if (data->redir_ptr->redir_denied == TRUE)
+		data->redir_ptr->redir_denied = FALSE;
 	close(data->fds[1]);
 	if(dup2(data->fds[0], STDIN_FILENO) == -1)
 	{
@@ -10,6 +12,8 @@ void	parent_exec(t_exec *data)
 		return ;
 	}
 	close(data->fds[0]);
+	if (list->relative_path)
+		free(path);
 }
 
 bool	pipe_handling(t_exec *data, t_cmd_list *list)
@@ -25,7 +29,11 @@ bool	pipe_handling(t_exec *data, t_cmd_list *list)
 	else if (!list->next)
 		print_output(data->fds[1]);
 	else
-		dup2(data->fds[1], STDOUT_FILENO);// error handling
+	if(dup2(data->fds[1], STDOUT_FILENO) == -1)
+	{
+		perror("dup2");// error handling
+		return ;
+	}
 	close(data->fds[1]);
 	return (TRUE);
 }
@@ -34,6 +42,8 @@ void	child_exec(char **envp, t_exec *data, t_cmd_list *list, char *path)
 {
 	char	**argv;
 
+	if (data->redir_ptr->redir_denied)
+		exit(PERMISSION_DENY);
 	if (pipe_handling(data, list))
 	{
 		argv = set_argv_lst(list, list->elem);
@@ -41,5 +51,5 @@ void	child_exec(char **envp, t_exec *data, t_cmd_list *list, char *path)
 		perror_exit("execve");// test to remove
 	}
 	else
-		data->parsing_ptr->exit_value = 1;
+		data->parsing_ptr->exit_value = EXIT_FAILURE;
 }
