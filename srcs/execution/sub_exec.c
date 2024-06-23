@@ -30,10 +30,7 @@ bool	pipe_handling(t_exec *data, t_cmd_list *list)
 		print_output(data->fds[1]);
 	else
 	if(dup2(data->fds[1], STDOUT_FILENO) == -1)
-	{
 		perror("dup2");// error handling
-		return ;
-	}
 	close(data->fds[1]);
 	return (TRUE);
 }
