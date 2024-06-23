@@ -5,7 +5,7 @@ FLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
 LIBFTDIR = includes/libft
 OBJ_DIR = obj/
 SRC_DIR = srcs/
-READLINE_PATH = /Users/pcardin/.local/opt/readline
+READLINE_PATH = /Home/pcardin/.local/Homebrew/opt/readline
 CFLAGS = -I$(READLINE_PATH)/include
 LDFLAGS = -L$(READLINE_PATH)/lib -lreadline
 
@@ -21,16 +21,16 @@ SRC_2 =	srcs/builtins/built_external.c \
 	srcs/parsing/verify_operators.c \
 	srcs/parsing/token_value.c \
 	srcs/parsing/redirect_quote.c \
-	srcs/parsing/quote.c \
+	srcs/parsing/quote.c srcs/quote/quote.c \
 	srcs/parsing/var_env.c \
     srcs/signals/signals.c \
 	srcs/signals/signals_handle.c \
-	srcs/quote/quote.c srcs/utils/set_cmd_list.c \
+	srcs/utils/free_utils.c srcs/utils/set_cmd_list.c \
 	srcs/utils/function_utils.c srcs/utils/execution_utils2.c \
 	srcs/utils/execution_utils.c srcs/execution/execution.c \
-	srcs/execution/child_exec.c srcs/execution/single_execution.c \
+	srcs/execution/sub_exec.c srcs/execution/single_execution.c \
 	srcs/redirections/redirection.c srcs/redirections/here_doc.c \
-	srcs/utils/execution_utils3.c srcs/errors/free.c\
+	srcs/redirections/redirection_utils.c srcs/utils/execution_utils3.c srcs/errors/free.c\
 	srcs/utils/builtins_utils.c \
 
 OBJ_1 = $(patsubst %.c,$(OBJ_DIR)%.o,$(SRC_1))
