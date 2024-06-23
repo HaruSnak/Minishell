@@ -25,8 +25,10 @@
 # include "exec.h"
 
 # define PL fprintf(stderr, "file: %s line: %d pid: %i\n", __FILE__, __LINE__, getpid())
-# define PI(s, x) fprintf(stderr, "%s: %d\n", (s), (x));
-# define PS(s, x) fprintf(stderr, "%s: %s\n", (s), (x));
+# define PI(x) fprintf(stderr, "PI: %d\n", (x));
+# define PI2(s, x) fprintf(stderr, "%s: %d\n", (s), (x));
+# define PS(x) fprintf(stderr, "PS: %s\n", (x));
+# define PS2(s, x) fprintf(stderr, "%s: %s\n", (s), (x));
 
 # define PROMPT "\001\033[0;32m\002minishell\001\033[0m\002\xF0\x9F\x90\x9A "
 
@@ -53,8 +55,8 @@ typedef struct s_parsing
 {
 	char	**tkn;
 	int		*tkn_value;
-	char	**path;
-	char	**tmp_env; // modifier name
+	char	**path; // swapped for t_exec
+	char	**tmp_env;
 	char	**tmp_setenv;
 	char	*tkn_cpy; //delete ?
 	char	*n_senv;
@@ -68,7 +70,7 @@ typedef struct s_parsing
 	t_quote	*quote;
 }	t_parsing;
 
-// PARSING FUNCTIONS 
+// PARSING FUNCTIONS
 char	*ft_separe_operator(char *input);
 char	*ft_replace_espace(char *input, t_parsing *parsing);
 void	ft_delete_espace(t_parsing *parsing);
@@ -84,8 +86,8 @@ void	ft_signal_return(int signum);
 void	ft_init_signal(struct sigaction *sa, struct sigaction *sa_quit);
 void	ft_init_signal_block(void);
 
-// BUILTINS FUNCTIONS
-int		builtins_exec(t_parsing *parsing, char **envp);
+// COMMANDS FUNCTIONS
+int		builtins_exec(char **input, t_parsing *parsing, char **envp);
 char	*ft_split_input(char *input, char *c);
 int		ft_setenv(char **envp, t_parsing *parsing);
 
@@ -108,12 +110,11 @@ bool	is_builtins(char *cmd, t_parsing *data, char **envp);
 
 // REDIRECTION FUNCTIONS SHELL
 int		ft_handle_verify(char **input, t_parsing *parsing, char **envp);
-int		ft_exec_cmd_redirects(char **tmp, t_parsing *parsing);
 
 // ERRORS FUNCTIONS
 void	ft_end_verify(t_parsing *parsing);
 void	ft_free_and_compact(char **str, int index, int size);
-void	ft_free_data(t_exec *data, t_parsing *parsing);
+void	ft_free_data(t_exec *data);
 void	ft_free_d_ptr(void ***ptr);
 int		ft_error_operator(t_parsing *parsing);
 

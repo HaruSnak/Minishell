@@ -9,31 +9,27 @@ void	ft_error_cmd_ext(char *error, int status)
 	exit(status);
 }
 
-int	error_operator_redic(t_parsing *parsing, int i, int k)
+void	ft_free_data(t_exec *data)
 {
-	if ((parsing->tkn[i][k] == '<' || parsing->tkn[i][k] == '>')
-	&& (parsing->tkn[i + 1] == NULL || parsing->tkn[i + 1][k] == '\0'
-	|| parsing->tkn[i][k + 1] == ' ' || parsing->tkn[i + 1][k] == '\0'
-	|| parsing->tkn[i + 1][k] == '>' || parsing->tkn[i + 1][k] == '<'
-	|| parsing->tkn[i + 1][k] == '|' || parsing->tkn[i + 1][k] == ')'
-	|| parsing->tkn[i + 1][k] == '(' || parsing->tkn[i + 1][k] == ';'
-	|| parsing->tkn[i + 1][k] == '&'))
+	if (data->redir_ptr->here_doc)
+		ft_delete_file_heredoc();
+	if (data->outfile)
+		free(data->outfile);
+}
+
+// Free a double pointer and set it to NULL
+void	ft_free_d_ptr(void ***ptr)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = ft_count_index((char **)*ptr);
+	while (i < count)
 	{
-		printf("minishell: syntax error near unexpected token `%c'\n",
-			parsing->tkn[i + 1][k]);
-		return (parsing->exit_value = 2, -1);
-	}
-	else if (parsing->tkn[i][k] == '|' && (parsing->tkn[0][0] == '|'
-	|| parsing->tkn[i - 1] == NULL || parsing->tkn[i + 1] == NULL
-	|| parsing->tkn[i][k + 1] == ' ' || parsing->tkn[i + 1][k] == '\0'
-	|| parsing->tkn[i + 1][k] == '>' || parsing->tkn[i + 1][k] == '<'
-	|| parsing->tkn[i + 1][k] == '|' || parsing->tkn[i + 1][k] == ')'
-	|| parsing->tkn[i + 1][k] == '(' || parsing->tkn[i + 1][k] == ';'
-	|| parsing->tkn[i + 1][k] == '&'))
-	{
-		printf("minishell: syntax error near unexpected token `%c'\n",
-			parsing->tkn[i + 1][k]);
-		return (parsing->exit_value = 2, -1);
+		free((*ptr)[i]);
+		(*ptr)[i] = NULL;
+		i++;
 	}
 	return (0);
 }

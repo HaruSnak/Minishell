@@ -11,27 +11,24 @@ LDFLAGS = -L$(READLINE_PATH)/lib -lreadline
 
 SRC_1 = srcs/minishell.c \
 
-SRC_2 =	srcs/builtins/built_external.c \
-	srcs/builtins/export_unset_built.c \
-	srcs/builtins/out_cd_built.c \
-	srcs/builtins/out_env_built.c \
-	srcs/builtins/builtins_base.c \
-	srcs/builtins/builtins_utils.c \
+SRC_2 =	srcs/commands/cmds_external.c \
+	srcs/commands/export_unset_cmds.c \
+	srcs/commands/out_cd_cmds.c \
+	srcs/commands/builtins_exec.c \
+	srcs/commands/builtins_utils.c \
 	srcs/errors/errors.c \
 	srcs/parsing/verify_operators.c \
 	srcs/parsing/token_value.c \
 	srcs/parsing/redirect_quote.c \
-	srcs/parsing/quote.c \
+	srcs/parsing/quote.c srcs/quote/quote.c \
 	srcs/parsing/var_env.c \
     srcs/signals/signals.c \
-	srcs/signals/signals_handle.c \
-	srcs/quote/quote.c srcs/utils/set_cmd_list.c \
+	srcs/utils/free_utils.c srcs/utils/set_cmd_list.c \
 	srcs/utils/function_utils.c srcs/utils/execution_utils2.c \
 	srcs/utils/execution_utils.c srcs/execution/execution.c \
-	srcs/execution/child_exec.c srcs/execution/single_execution.c \
+	srcs/execution/sub_exec.c srcs/execution/single_execution.c \
 	srcs/redirections/redirection.c srcs/redirections/here_doc.c \
-	srcs/utils/execution_utils3.c srcs/errors/free.c\
-	srcs/utils/builtins_utils.c \
+	srcs/redirections/redirection_utils.c srcs/utils/execution_utils3.c \
 
 OBJ_1 = $(patsubst %.c,$(OBJ_DIR)%.o,$(SRC_1))
 OBJ_2 = $(patsubst %.c,$(OBJ_DIR)%.o,$(SRC_2))

@@ -16,21 +16,17 @@ int	cmd_count(int *tkn_value)
 	return (cmd + 1);
 }
 
-int	there_is_pipeline(int *tkn_value)
+bool	there_is_pipeline(int *tkn_value)
 {
 	int	i;
-	int	pipe_cnt;
 
 	i = -1;
-	pipe_cnt = 0;
 	while (tkn_value[++i])
 	{
 		if (tkn_value[i] == PIPE)
-			pipe_cnt++;
+			return (TRUE);
 	}
-	if (pipe_cnt > 0)
-		pipe_cnt++;
-	return (pipe_cnt);
+	return (FALSE);
 }
 
 int	get_argv_cnt(t_cmd_list *list)
@@ -60,7 +56,9 @@ char	**iter_through_list(t_cmd_list *list, char **argv)
 		if (list->cmd == TRUE || list->arg == TRUE)
 		{
 			i++;
-			argv[i] = ft_strdup(list->elem);
+			argv[i] = ft_strdup(list->elem);// error handling
+			if(!argv[i])
+				malloc_error();
 		}
 		list = list->next;
 	}
@@ -77,10 +75,7 @@ char	**set_argv_lst(t_cmd_list *list, char *cmd)
 		list = list->next;
 	argv = malloc((get_argv_cnt(list) + 1) * sizeof(char *));
 	if (!argv)
-	{
-		perror("set_argv:");
-		return (NULL);// error handling
-	}
+		malloc_error();
 	argv = iter_through_list(list, argv);
 	return (argv);
 }
