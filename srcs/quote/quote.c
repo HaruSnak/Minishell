@@ -50,17 +50,15 @@ void	ft_find_env(t_parsing *parsing, char **envp, int i, char *env_var)
 void	ft_pre_find(t_parsing *parsing, char **envp, int i, int k)
 {
 	char	*env_var;
-	//char	*tmp;
 
 	if (parsing->tkn[i][0] == '\"' && parsing->tkn[i][k] == '$')
 	{
 		env_var = ft_substr(parsing->tkn[i], k + 1,
 				ft_strlen_quote(parsing->tkn[i], ' ', k + 1));
-		printf("env_var = %s\n", env_var);
-		if (ft_strchr(env_var, '\"') != NULL)
+		/*if (ft_strchr(env_var, '\"') != NULL)
 			env_var = ft_strtrim(env_var, "\"");
 		else if (ft_strchr(env_var, ' ') != NULL)
-			env_var = ft_strtrim(env_var, " ");
+			env_var = ft_strtrim(env_var, " ");*/
 		if (ft_strlen(parsing->tkn[i]) == (ft_strlen(env_var) + 3))
 		{
 			free(parsing->tkn[i]);
@@ -70,7 +68,10 @@ void	ft_pre_find(t_parsing *parsing, char **envp, int i, int k)
 		}
 		parsing->quote->p = k;
 		if (ft_return_value_echo(parsing, i) == 1)
+		{
+			free(env_var);
 			return ;
+		}
 		ft_find_env(parsing, envp, i, env_var);
 		free(env_var);
 	}
@@ -94,6 +95,15 @@ int	ft_env_quote(char **envp, t_parsing *parsing)
 	return (0);
 }
 
+void	check_quote_heredoc(t_parsing *parsing, int i)
+{
+	if (i > 0 && parsing->tkn[i - 1][0] == '<' && parsing->tkn[i - 1][1] == '<')
+	{
+		PL;
+		parsing->quote_heredoc = true;
+	}
+}
+
 // Check the quotes in the input
 // Delete the quotes in the input and set the token value
 int	ft_check_quote(char **envp, t_parsing *parsing)
@@ -110,11 +120,14 @@ int	ft_check_quote(char **envp, t_parsing *parsing)
 		{
 			free(parsing->tkn[i]);
 			parsing->tkn[i] = ft_strtrim(tmp, "\'");
+			check_quote_heredoc(parsing, i);
 		}
 		else if (parsing->tkn[i][0] == '\"')
 		{
 			free(parsing->tkn[i]);
 			parsing->tkn[i] = ft_strtrim(tmp, "\"");
+			check_quote_heredoc(parsing, i);
+			printf("parsing->tkn = %s\n", parsing->tkn[i - 1]);
 		}
 		free(tmp);
 	}

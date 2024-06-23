@@ -12,6 +12,7 @@ void	ft_init_main(t_parsing *parsing, t_quote *quote, char **envp, int argc)
 	parsing->tmp_setenv = NULL;
 	parsing->n_senv = "OLDPWD";
 	parsing->v_senv = "";
+	parsing->quote_heredoc = false;
 	quote->check_d = false;
 	quote->check_s = false;
 	quote->p = 0;
@@ -33,14 +34,18 @@ int	main(int argc, char **argv, char **envp)
 	input = NULL;
 	while (1)
 	{
+		PL;
 		sigaction(SIGINT, &sa, NULL);
 		sigaction(SIGQUIT, &sa_quit, NULL);
+		PL;
 		input = readline(PROMPT);
+		PL;
 		if (!input)
 			break ;
 		add_history(input);
 		ft_handle_verify(&input, &parsing, envp);
 		free(input);
+		PL;
 	}
 	if (parsing.tmp_setenv != NULL)
 		ft_free_d_ptr((void ***)&parsing.tmp_setenv);

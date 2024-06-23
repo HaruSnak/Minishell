@@ -76,6 +76,12 @@ void	execution(char *tkn[], char **envp, t_parsing *parsing)
 	parsing->path = ft_path_envp(envp);
 	init_data(&data, &s_redir, parsing);
 	check_for_redirection(tkn, parsing->tkn_value, &data, envp);
+	printf("signal_heredoc: %d\n", g_signal_heredoc);
+	if (g_signal_heredoc == 1)
+	{
+		return ;
+	}
+	PL;
 	data.pipe_cnt = there_is_pipeline(parsing->tkn_value);
 	if (data.pipe_cnt)
 	{

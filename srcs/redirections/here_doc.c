@@ -1,6 +1,8 @@
 
 #include "../../includes/minishell.h"
 
+int g_signal_heredoc = 0;
+
 void	ft_delete_file_heredoc()
 {
 	pid_t	pid;
@@ -80,24 +82,46 @@ char	*ft_var_env(char **envp, char *line)
 	return (line);
 }
 
-void	heredoc_handling(char *eof, char **g_env)
+void	heredoc_handling(char *eof, char **g_env, t_exec *data)
 {
+
 	char	*line;
 	int		heredoc;
+	int		count;
 
-	heredoc = open("obj/srcs/redirections/heredoc.txt", O_CREAT | O_WRONLY | O_TRUNC, 0777); /// VERIF FLAGS
+	count = 0;
+	heredoc = open("obj/srcs/redirections/heredoc.txt", O_CREAT | O_WRONLY | O_TRUNC, 0777); /// VERIF
+	ft_init_signal_heredoc();
 	while (1)
 	{
 		line = readline(">");
-		if (ft_strncmp(line, eof, ft_strlen(line)) == 0)
+		count++;
+		if (g_signal_heredoc == 1)
+		{
+			free(line);
+			close(heredoc);
+			ft_delete_file_heredoc();
+			return ;
+		}
+		printf("interrupted: %d\n", g_signal_heredoc);
+		if (line == NULL)
+		{
+			printf("minishell: warning: here-document at line %d delimited by end-of-file (wanted `EOF')\n", count);
 			break ;
-		line = ft_var_env(g_env, line);
+		}
+		if (ft_strncmp(line, eof, ft_strlen(eof)) == 0)
+			break ;
+		if (data->parsing_ptr->quote_heredoc == false)
+			line = ft_var_env(g_env, line);
+		else
+			data->parsing_ptr->quote_heredoc = false;
 		write(heredoc, line, ft_strlen(line));
 		write(heredoc, "\n", 1);
 		free(line);
 	}
 	close(heredoc);
 	heredoc = open("obj/srcs/redirections/heredoc.txt", O_CREAT | O_RDONLY, 0777); /// VERIF FLAGS
+	PL;
 	if (dup2(heredoc, STDIN_FILENO) == -1)
 	{
 		perror("redir_heredoc");

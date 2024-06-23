@@ -9,6 +9,23 @@ void	ft_error_cmd_ext(char *error, int status)
 	exit(status);
 }
 
+int	error_operator_pipe(t_parsing *parsing, int i, int k)
+{
+	if (parsing->tkn[i][k] == '|' && (parsing->tkn[0][0] == '|'
+	|| parsing->tkn[i - 1] == NULL || parsing->tkn[i + 1] == NULL
+	|| parsing->tkn[i][k + 1] == ' ' || parsing->tkn[i + 1][k] == '\0'
+	|| parsing->tkn[i + 1][k] == '>' || parsing->tkn[i + 1][k] == '<'
+	|| parsing->tkn[i + 1][k] == '|' || parsing->tkn[i + 1][k] == ')'
+	|| parsing->tkn[i + 1][k] == '(' || parsing->tkn[i + 1][k] == ';'
+	|| parsing->tkn[i + 1][k] == '&'))
+	{
+		printf("minishell: syntax error near unexpected token `%c'\n",
+			parsing->tkn[i][k]);
+		return (parsing->exit_value = 2, -1);
+	}
+	return (0);
+}
+
 int	error_operator_redic(t_parsing *parsing, int i, int k)
 {
 	if ((parsing->tkn[i][k] == '<' || parsing->tkn[i][k] == '>')
@@ -19,20 +36,11 @@ int	error_operator_redic(t_parsing *parsing, int i, int k)
 	|| parsing->tkn[i + 1][k] == '(' || parsing->tkn[i + 1][k] == ';'
 	|| parsing->tkn[i + 1][k] == '&'))
 	{
-		printf("minishell: syntax error near unexpected token `%c'\n",
-			parsing->tkn[i + 1][k]);
-		return (parsing->exit_value = 2, -1);
-	}
-	else if (parsing->tkn[i][k] == '|' && (parsing->tkn[0][0] == '|'
-	|| parsing->tkn[i - 1] == NULL || parsing->tkn[i + 1] == NULL
-	|| parsing->tkn[i][k + 1] == ' ' || parsing->tkn[i + 1][k] == '\0'
-	|| parsing->tkn[i + 1][k] == '>' || parsing->tkn[i + 1][k] == '<'
-	|| parsing->tkn[i + 1][k] == '|' || parsing->tkn[i + 1][k] == ')'
-	|| parsing->tkn[i + 1][k] == '(' || parsing->tkn[i + 1][k] == ';'
-	|| parsing->tkn[i + 1][k] == '&'))
-	{
-		printf("minishell: syntax error near unexpected token `%c'\n",
-			parsing->tkn[i + 1][k]);
+		if (parsing->tkn[i + 1] == NULL)
+			printf("minishell: syntax error near unexpected token `newline'\n");
+		else
+			printf("minishell: syntax error near unexpected token `%c'\n",
+				parsing->tkn[i + 1][k]);
 		return (parsing->exit_value = 2, -1);
 	}
 	return (0);
@@ -75,6 +83,8 @@ int	ft_error_operator(t_parsing *parsing)
 			if (error_operator_redic(parsing, i, k) == -1)
 				return (-1);
 			if (error_operator_other(parsing, i, k) == -1)
+				return (-1);
+			if (error_operator_pipe(parsing, i, k) == -1)
 				return (-1);
 		}
 		k = -1;

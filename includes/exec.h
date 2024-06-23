@@ -22,6 +22,7 @@ typedef struct s_exec
 	int			stdout_cpy;
 	int			pipe_cnt;
 	int			fds[2];
+	int			check_signal;
 	pid_t		*pidz;
 	int			pid_i;
 }	t_exec;
@@ -63,6 +64,6 @@ void		check_for_redirection(char **tkn, int *tkn_value,
 				t_exec *data, char **envp);
 void		redirect_output(t_exec *data, t_redir *s_redir);
 void		ft_delete_file_heredoc();
-void		heredoc_handling(char *eof, char **g_env);
+void		heredoc_handling(char *eof, char **g_env, t_exec *data);
 
 #endif

@@ -97,7 +97,7 @@ void	check_for_redirection(char **tkn, int *tkn_value,
 	{
 		if (tkn_value[i] == HEREDOC)
 		{
-			heredoc_handling(tkn[i + 1], envp);
+			heredoc_handling(tkn[i + 1], envp, data);
 			data->redir_ptr->here_doc = TRUE;
 		}
 		else if (tkn_value[i] == IN)

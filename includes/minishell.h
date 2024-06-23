@@ -42,6 +42,8 @@
 # define ARG 7
 # define FILE 8
 
+extern int g_signal_heredoc;
+
 typedef struct s_quote
 {
 	bool	check_s;
@@ -49,12 +51,18 @@ typedef struct s_quote
 	int		p;
 }	t_quote;
 
+typedef struct s_heredoc_state
+{
+	int		active;
+	int		interrupted;
+}	t_heredoc_state;
+
 typedef struct s_parsing
 {
+	bool	quote_heredoc;
 	char	**tkn;
-	int		*tkn_value;
 	char	**path;
-	char	**tmp_env; // modifier name
+	char	**tmp_env; // modifier name last
 	char	**tmp_setenv;
 	char	*tkn_cpy; //delete ?
 	char	*n_senv;
@@ -63,6 +71,7 @@ typedef struct s_parsing
 	char	*input;
 	char	*pwd;
 	char	*tmp;
+	int		*tkn_value;
 	int		exit_value;
 	int		status;
 	t_quote	*quote;
@@ -83,6 +92,7 @@ void	ft_signal_quit(int signum);
 void	ft_signal_return(int signum);
 void	ft_init_signal(struct sigaction *sa, struct sigaction *sa_quit);
 void	ft_init_signal_block(void);
+void	ft_init_signal_heredoc(void);
 
 // BUILTINS FUNCTIONS
 int		builtins_exec(t_parsing *parsing, char **envp);

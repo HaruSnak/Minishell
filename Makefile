@@ -26,6 +26,7 @@ SRC_2 =	srcs/builtins/built_external.c \
 	srcs/parsing/var_env.c \
     srcs/signals/signals.c \
 	srcs/signals/signals_handle.c \
+	srcs/signals/signals_heredoc.c \
 	srcs/quote/quote.c srcs/utils/set_cmd_list.c \
 	srcs/utils/function_utils.c srcs/utils/execution_utils2.c \
 	srcs/utils/execution_utils.c srcs/execution/execution.c \
