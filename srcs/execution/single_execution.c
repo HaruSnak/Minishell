@@ -94,7 +94,10 @@ void	single_cmd_execution(t_exec *data, char **envp, char *tkn[])
 		pid = fork();
 		check_err_fork(pid);
 		if (pid == 0)
+		{
 			exec_cmd(data, argv, envp);
+			ft_g_signal(data->parsing_ptr);
+		}
 		waitpid(pid, &status, 0);
 	}
 }

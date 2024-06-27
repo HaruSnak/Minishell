@@ -63,7 +63,13 @@ void		free_list(t_cmd_list **list);
 void		check_for_redirection(char **tkn, int *tkn_value,
 				t_exec *data, char **envp);
 void		redirect_output(t_exec *data, t_redir *s_redir);
-void		ft_delete_file_heredoc();
+void		ft_delete_file_heredoc(void);
 void		heredoc_handling(char *eof, char **g_env, t_exec *data);
+void		ft_dup_heredoc(int heredoc);
+int			ft_g_signal_exit(char *line, int heredoc);
+void		ft_write_heredoc(int heredoc, char *line,
+				char **g_env, t_exec *data);
+int			ft_line_null_msg(char *line, int count);
+char		*ft_var_env(char **envp, char *line);
 
 #endif

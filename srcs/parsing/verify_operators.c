@@ -34,12 +34,14 @@ int	ft_handle_verify(char **input, t_parsing *parsing, char **envp)
 	{
 		printf("parsing->tkn[%d] = %s | FLAG: %d\n", k, parsing->tkn[k], parsing->tkn_value[k]);
 	}
+	PL;
 	if (builtins_exec(parsing, envp) == 0)
+	{
+		PL;
 		return (ft_end_verify(parsing), -1);
+	}
 	else
 		execution(parsing->tkn, envp, parsing);
-	PL;
 	ft_end_verify(parsing);
-	PL;
 	return (0);
 }

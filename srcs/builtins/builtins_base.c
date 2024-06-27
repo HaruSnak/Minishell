@@ -56,7 +56,10 @@ int	builtins_exec_bis(t_parsing *parsing, char **envp)
 int	builtins_exec(t_parsing *parsing, char **envp)
 {
 	if (!ft_strncmp(parsing->tkn[0], "exit", ft_strlen(parsing->tkn[0])))
+	{
 		ft_handle_exit(parsing);
+		return (0);
+	}
 	if (!ft_strncmp(parsing->tkn[0], "cd", ft_strlen(parsing->tkn[0]))
 		&& ft_cmd_cd(envp, parsing) == 0)
 	{

@@ -99,7 +99,6 @@ void	check_quote_heredoc(t_parsing *parsing, int i)
 {
 	if (i > 0 && parsing->tkn[i - 1][0] == '<' && parsing->tkn[i - 1][1] == '<')
 	{
-		PL;
 		parsing->quote_heredoc = true;
 	}
 }

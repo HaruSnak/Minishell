@@ -10,6 +10,7 @@ int	ft_return_value_echo(t_parsing *parsing, int k)
 	int		i;
 
 	i = -1;
+	printf("parsing->exit_value = %d\n", parsing->exit_value);
 	while (parsing->tkn[k][++i] != '\0')
 	{
 		if (parsing->tkn[k][i] == '$' && parsing->tkn[k][i + 1] == '?'

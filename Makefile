@@ -17,6 +17,7 @@ SRC_2 =	srcs/builtins/built_external.c \
 	srcs/builtins/out_env_built.c \
 	srcs/builtins/builtins_base.c \
 	srcs/builtins/builtins_utils.c \
+	srcs/errors/errors_operators.c \
 	srcs/errors/errors.c \
 	srcs/parsing/parsing.c \
 	srcs/parsing/verify_operators.c \
@@ -33,7 +34,7 @@ SRC_2 =	srcs/builtins/built_external.c \
 	srcs/execution/child_exec.c srcs/execution/single_execution.c \
 	srcs/redirections/redirection.c srcs/redirections/here_doc.c \
 	srcs/utils/execution_utils3.c srcs/errors/free.c\
-	srcs/utils/builtins_utils.c \
+	srcs/utils/builtins_utils.c srcs/redirections/here_doc_bis.c\
 
 OBJ_1 = $(patsubst %.c,$(OBJ_DIR)%.o,$(SRC_1))
 OBJ_2 = $(patsubst %.c,$(OBJ_DIR)%.o,$(SRC_2))

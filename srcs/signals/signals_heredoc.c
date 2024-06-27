@@ -3,12 +3,10 @@
 
 void	ft_signal_heredoc(int signum)
 {
-	if (signum == SIGINT)
-	{
-		g_signal_heredoc = 1;
-		ft_putstr_fd("\n", 1);
-
-	}
+	g_signal_number = signum;
+	ft_putstr_fd("\n", 1);
+	rl_done = 1;
+	close(0);
 }
 
 void	ft_init_signal_heredoc(void)

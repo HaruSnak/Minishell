@@ -1,9 +1,7 @@
 
 #include "../../includes/minishell.h"
 
-int g_signal_heredoc = 0;
-
-void	ft_delete_file_heredoc()
+void	ft_delete_file_heredoc(void)
 {
 	pid_t	pid;
 	char	**envp;
@@ -12,7 +10,8 @@ void	ft_delete_file_heredoc()
 	envp = NULL;
 	pid = fork();
 	if (pid == 0)
-		execve("/bin/rm", (char *[]){"rm", "obj/srcs/redirections/heredoc.txt", NULL}, envp);
+		execve("/bin/rm", (char *[]){"rm", "obj/srcs/redirections/heredoc.txt",
+			NULL}, envp);
 	waitpid(pid, &status, 0);
 }
 
@@ -84,49 +83,30 @@ char	*ft_var_env(char **envp, char *line)
 
 void	heredoc_handling(char *eof, char **g_env, t_exec *data)
 {
-
 	char	*line;
 	int		heredoc;
 	int		count;
 
 	count = 0;
-	heredoc = open("obj/srcs/redirections/heredoc.txt", O_CREAT | O_WRONLY | O_TRUNC, 0777); /// VERIF
+	heredoc = open("obj/srcs/redirections/heredoc.txt",
+			O_CREAT | O_WRONLY | O_TRUNC, 0777);
+	if (ft_error_cmd_ext(heredoc, "heredoc") == -1)
+		return ;
 	ft_init_signal_heredoc();
 	while (1)
 	{
-		line = readline(">");
+		line = readline("> ");
 		count++;
-		if (g_signal_heredoc == 1)
-		{
-			free(line);
-			close(heredoc);
-			ft_delete_file_heredoc();
+		if (ft_g_signal_exit(line, heredoc) == 1)
 			return ;
-		}
-		printf("interrupted: %d\n", g_signal_heredoc);
-		if (line == NULL)
-		{
-			printf("minishell: warning: here-document at line %d delimited by end-of-file (wanted `EOF')\n", count);
+		if (ft_line_null_msg(line, count) == 1)
 			break ;
-		}
 		if (ft_strncmp(line, eof, ft_strlen(eof)) == 0)
 			break ;
-		if (data->parsing_ptr->quote_heredoc == false)
-			line = ft_var_env(g_env, line);
-		else
-			data->parsing_ptr->quote_heredoc = false;
-		write(heredoc, line, ft_strlen(line));
-		write(heredoc, "\n", 1);
+		ft_write_heredoc(heredoc, line, g_env, data);
 		free(line);
 	}
 	close(heredoc);
-	heredoc = open("obj/srcs/redirections/heredoc.txt", O_CREAT | O_RDONLY, 0777); /// VERIF FLAGS
-	PL;
-	if (dup2(heredoc, STDIN_FILENO) == -1)
-	{
-		perror("redir_heredoc");
-		close(heredoc);
-		return ; // error handling
-	}
-	close(heredoc);
+	ft_dup_heredoc(heredoc);
+	data->parsing_ptr->exit_value = 0;
 }

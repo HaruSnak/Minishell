@@ -15,9 +15,13 @@ void	ft_handle_cd_home(t_parsing *parsing,
 		parsing->v_senv = ft_strdup(getenv("HOME"));
 		ft_setenv(envp, parsing);
 		free(parsing->v_senv);
+		parsing->exit_value = 0;
 	}
 	else
+	{
 		printf("minishell: cd: ~: No such file or directory\n");
+		parsing->exit_value = 1;
+	}
 }
 
 void	ft_handle_cd_previous(t_parsing *parsing,
@@ -40,9 +44,13 @@ void	ft_handle_cd_previous(t_parsing *parsing,
 		ft_setenv(envp, parsing);
 		free(parsing->v_senv);
 		free(path);
+		parsing->exit_value = 0;
 	}
 	else
+	{
 		printf("minishell: cd: ..: No such file or directory\n");
+		parsing->exit_value = 1;
+	}
 }
 
 void	ft_handle_cd_root(t_parsing *parsing,
@@ -56,9 +64,13 @@ void	ft_handle_cd_root(t_parsing *parsing,
 		parsing->n_senv = "PWD";
 		parsing->v_senv = "/";
 		ft_setenv(envp, parsing);
+		parsing->exit_value = 0;
 	}
 	else
+	{
 		printf("minishell: cd: /: No such file or directory\n");
+		parsing->exit_value = 1;
+	}
 }
 
 void	ft_handle_cd_oldpwd(t_parsing *parsing,
@@ -77,9 +89,13 @@ void	ft_handle_cd_oldpwd(t_parsing *parsing,
 		ft_setenv(envp, parsing);
 		free(path);
 		free(oldpwd);
+		parsing->exit_value = 0;
 	}
 	else
+	{
 		printf("minishell: cd: %s: No such file or directory\n", oldpwd);
+		parsing->exit_value = 1;
+	}
 }
 
 void	ft_handle_cd_path(t_parsing *parsing, char **envp)
@@ -94,8 +110,12 @@ void	ft_handle_cd_path(t_parsing *parsing, char **envp)
 		getcwd(parsing->v_senv, 1000);
 		ft_setenv(envp, parsing);
 		free(parsing->v_senv);
+		parsing->exit_value = 0;
 	}
 	else
+	{
 		printf("minishell: cd: %s: No such file or directory\n",
 			parsing->tkn[1]);
+		parsing->exit_value = 1;
+	}
 }

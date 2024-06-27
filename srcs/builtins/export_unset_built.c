@@ -7,24 +7,15 @@ int	ft_check_error(t_parsing *parsing)
 	int	i;
 
 	i = -1;
-	if (ft_strchr(parsing->tkn[1], '=') != NULL)
+	while (parsing->tkn[1][++i] != '\0')
 	{
-		while (parsing->tkn[1][++i] != '=')
+		if (parsing->tkn[1][i] == '=')
+			break ;
+		if (!ft_isalnum(parsing->tkn[1][i]) && parsing->tkn[1][i] != '_')
 		{
-			if (!ft_isalnum(parsing->tkn[1][i]) && parsing->tkn[1][i] != '_')
-				return (printf
-					("minishell: export: `%s': not a valid identifier\n",
-						parsing->tkn[1]), -1);
-		}
-	}
-	else
-	{
-		while (parsing->tkn[1][++i] != '\0')
-		{
-			if (!ft_isalnum(parsing->tkn[1][i]) && parsing->tkn[1][i] != '_')
-				return (printf
-					("minishell: export: `%s': not a valid identifier\n",
-						parsing->tkn[1]), -1);
+			printf("minishell: export: `%s': not a valid identifier\n",
+				parsing->tkn[1]);
+			return (parsing->exit_value = 1, -1);
 		}
 	}
 	return (0);
@@ -66,9 +57,8 @@ void	ft_handle_export(t_parsing *parsing, char **envp)
 	if (parsing->tkn[1] == NULL)
 	{
 		while (envp[++i] != NULL)
-		{
 			printf("declare -x %s\n", envp[i]);
-		}
+		parsing->exit_value = 0;
 	}
 	else if (ft_strchr(parsing->tkn[1], '=') && ft_check_error(parsing) == 0)
 	{

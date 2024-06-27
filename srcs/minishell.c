@@ -1,18 +1,20 @@
 
 #include "../includes/minishell.h"
-#include <signal.h>
+
+int g_signal_number = 0;
 
 void	ft_init_main(t_parsing *parsing, t_quote *quote, char **envp, int argc)
 {
 	parsing->quote = quote;
 	parsing->exit_value = 0;
 	parsing->pwd = getenv("PWD");
-	parsing->tmp = NULL;
 	parsing->tmp_env = NULL;
 	parsing->tmp_setenv = NULL;
 	parsing->n_senv = "OLDPWD";
 	parsing->v_senv = "";
 	parsing->quote_heredoc = false;
+	parsing->count_envp = ft_check_envp(envp);
+	parsing->signal_heredoc = 0;
 	quote->check_d = false;
 	quote->check_s = false;
 	quote->p = 0;
@@ -34,18 +36,14 @@ int	main(int argc, char **argv, char **envp)
 	input = NULL;
 	while (1)
 	{
-		PL;
-		sigaction(SIGINT, &sa, NULL);
-		sigaction(SIGQUIT, &sa_quit, NULL);
-		PL;
+		ft_exec_signals_main(sa, sa_quit);
 		input = readline(PROMPT);
-		PL;
+		ft_g_signal(&parsing);
 		if (!input)
 			break ;
 		add_history(input);
 		ft_handle_verify(&input, &parsing, envp);
 		free(input);
-		PL;
 	}
 	if (parsing.tmp_setenv != NULL)
 		ft_free_d_ptr((void ***)&parsing.tmp_setenv);
