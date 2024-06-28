@@ -114,7 +114,7 @@ int		ft_handle_verify(char **input, t_parsing *parsing, char **envp);
 // ERRORS FUNCTIONS
 void	ft_end_verify(t_parsing *parsing);
 void	ft_free_and_compact(char **str, int index, int size);
-void	ft_free_data(t_exec *data);
+void	ft_free_data(t_exec *data, t_parsing *parsing);
 void	ft_free_d_ptr(void ***ptr);
 int		ft_error_operator(t_parsing *parsing);
 

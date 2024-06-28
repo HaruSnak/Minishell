@@ -39,6 +39,7 @@ void	check_access_outfile(char *outfile, int	tkn_value, t_exec *data)
 	{
 		perror("out");
 		data->parsing_ptr->exit_value = PERMISSION_DENY;
+		data->redir_ptr->redir_denied = TRUE;
 		return ;
 	}
 	close(fd);
@@ -66,8 +67,8 @@ int	check_for_redirection(t_cmd_list *list,	t_exec *data, char **envp)
 		else if (data->parsing_ptr->tkn_value[i] == APPEND)
 			data->redir_ptr->append = TRUE;
 		if ((data->redir_ptr->redir_out == TRUE || data->redir_ptr->append == TRUE)
-			&& !data->outfile)
-		{	
+			&& !data->outfile && !data->redir_ptr->redir_denied)
+		{
 			check_access_outfile(data->parsing_ptr->tkn[i + 1],
 				data->parsing_ptr->tkn_value[i], data);
 			outfile_index = i;

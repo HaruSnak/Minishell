@@ -30,10 +30,9 @@ int	ft_handle_verify(char **input, t_parsing *parsing, char **envp)
 	ft_token_value(parsing);
 	if (ft_error_operator(parsing) == -1)
 		return (ft_end_verify(parsing), -1);
-	for (int k = 1; parsing->tkn[k] != NULL; k++)
-	{
-		printf("parsing->tkn[%d] = %s | FLAG: %d\n", k, parsing->tkn[k], parsing->tkn_value[k]);
-	}
+	// int i = -1;
+	// while (parsing->tkn[++i])
+	// 	PS2("tkn after extract", parsing->tkn[i]);
 	if (builtins_exec(parsing, envp) == 0)
 		return (ft_end_verify(parsing), -1);
 	else

@@ -8,7 +8,10 @@ char	*extract_tkn(t_cmd_list *list, t_exec *data, char *tkn)
 	// set the bultins flag, strcmp tkn
 	path = find_cmd_path(list, data, tkn);
 	if (path)
+	{
+		list->cmd_found = TRUE;
 		return (path);
+	}
 	else
 		return (tkn);
 }
@@ -17,15 +20,15 @@ t_cmd_list	*create_node(t_exec *data, char *tkn, int tkn_value)
 {
 	t_cmd_list	*new;
 
-	new = malloc(sizeof(t_cmd_list));
+	new = (t_cmd_list *)ft_calloc(1, sizeof(t_cmd_list));
+	new->builtin = FALSE;
 	if (!new)
 		malloc_error();
-	new->builtin = FALSE;
 	new->elem = extract_tkn(new, data, tkn);
 	new->index = 0;
 	new->pipe = FALSE;
-	new->cmd = FALSE;
 	new->arg = FALSE;
+	new->cmd = FALSE;
 	if (tkn_value == PIPE)
 		new->pipe = TRUE;
 	else if (tkn_value == CMD)

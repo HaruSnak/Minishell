@@ -3,9 +3,9 @@ CC = gcc
 RM = rm -f
 FLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
 LIBFTDIR = includes/libft
+LIBFT_OBJ = includes/libft/includes/obj
 OBJ_DIR = obj/
-SRC_DIR = srcs/
-READLINE_PATH = /Home/pcardin/.local/Homebrew/opt/readline
+READLINE_PATH = /Home/.local/Homebrew/opt/readline
 CFLAGS = -I$(READLINE_PATH)/include
 LDFLAGS = -L$(READLINE_PATH)/lib -lreadline
 
@@ -25,13 +25,13 @@ SRC_2 =	srcs/builtins/built_external.c \
 	srcs/parsing/var_env.c \
     srcs/signals/signals.c \
 	srcs/signals/signals_handle.c \
-	srcs/utils/free_utils.c srcs/utils/set_cmd_list.c \
+	srcs/utils/free_utils.c srcs/utils/init_list.c srcs/utils/list_utils.c \
 	srcs/utils/function_utils.c srcs/utils/execution_utils2.c \
 	srcs/utils/execution_utils.c srcs/execution/execution.c \
 	srcs/execution/sub_exec.c srcs/execution/single_execution.c \
 	srcs/redirections/redirection.c srcs/redirections/here_doc.c \
-	srcs/redirections/redirection_utils.c srcs/utils/execution_utils3.c srcs/errors/free.c\
-	srcs/utils/builtins_utils.c \
+	srcs/redirections/redirection_utils.c srcs/utils/execution_utils3.c \
+	srcs/utils/builtins_utils.c srcs/errors/free.c \
 
 OBJ_1 = $(patsubst %.c,$(OBJ_DIR)%.o,$(SRC_1))
 OBJ_2 = $(patsubst %.c,$(OBJ_DIR)%.o,$(SRC_2))
@@ -63,9 +63,10 @@ fclean: clean
 	@echo "Cleaning executable..."
 	@${RM} ${NAME}
 	@rm -rf ${OBJ_DIR}
+	@rm -rf ${LIBFT_OBJ}
 	@clear
 	@echo "Executable cleaned."
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re	

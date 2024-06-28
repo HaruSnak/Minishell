@@ -1,10 +1,10 @@
 
 #include "../../includes/minishell.h"
 
-void	reset_outfile(t_exec *data, int i)
+void	reset_outfile(t_exec *data, int tkn_i)
 {
-	if (!ft_strncmp(data->parsing_ptr->tkn[i], ">", 1)
-	|| !ft_strncmp(data->parsing_ptr->tkn[i], ">>", 2))
+	if (!ft_strncmp(data->parsing_ptr->tkn[tkn_i], ">", 1)
+	|| !ft_strncmp(data->parsing_ptr->tkn[tkn_i], ">>", 2))
 	{
 		free(data->outfile);
 		data->outfile = NULL;
@@ -32,7 +32,7 @@ void	print_output(int fd)
 
 void	redirect_infile(t_exec *data, int *fd, char *path)
 {
-	*fd = open(path, O_CREAT | O_RDONLY, 0777);
+	*fd = open(path, O_CREAT | O_RDONLY, 0644);
 	if (*fd == -1)
 	{
 		perror("outfile open");
@@ -67,7 +67,7 @@ void	redirect_output(t_exec *data, t_redir *s_redir)
 	}
 	if (dup2(fd_out, STDOUT_FILENO) == -1)
 	{
-		perror_exit("redir outfile");// error handling
+		perror("redir outfile");// error handling
 		data->parsing_ptr->exit_value = DUP_FAILURE;
 	}
 	close(fd_out);

@@ -1,11 +1,10 @@
 
-
 #include "../../includes/minishell.h"
 
 void	check_err_fork(pid_t pid)
 {
 	if (pid < 0)
-	{
+		{
 		perror("fork");
 		exit(FORK_FAILURE);// error handling > good
 	}
@@ -47,23 +46,15 @@ void	wait_pidz(t_exec *data)
 {
 	int		i;
 	int		status;
-	pid_t	result;
 
-	i = 0;
-	while (data->pidz[i] > -1)
-	{
-		if (*data->pidz)
-		{
-			result = waitpid(data->pidz[i], &status, 0);
-			if (result == -1)
-				perror("waitpid");// error handling > enough?
-			i++;
-		}
-	}
+	i = -1;
+	while (data->pidz[++i] > -1)
+		waitpid(data->pidz[i], &status, 0);
 	free(data->pidz);
 }
 
-void	init_data(t_exec *data, t_redir *s_redir, t_parsing *parsing)
+void	init_data(t_exec *data, t_redir *s_redir,
+			t_parsing *parsing, char **envp)
 {
 	s_redir->redir_in = FALSE;
 	s_redir->redir_denied = FALSE;
@@ -76,11 +67,16 @@ void	init_data(t_exec *data, t_redir *s_redir, t_parsing *parsing)
 	data->outfile = NULL;
 	data->stdin_cpy = dup(0);
 	data->stdout_cpy = dup(1);
-	data->pidz = malloc((cmd_count(parsing->tkn_value) + 1) * sizeof(pid_t));
-	if (data->pidz == NULL)
-		malloc_error();
-	data->pidz[cmd_count(parsing->tkn_value)] = -1;
-	data->pid_i = -1;
 	data->fds[0] = 0;
 	data->fds[1] = 0;
+	data->cmd_count = cmd_count(parsing->tkn, parsing->tkn_value, envp);
+	if (data->cmd_count)
+	{
+		data->pidz = (pid_t *)ft_calloc(1,
+			(data->cmd_count + 1) * sizeof(pid_t));
+		if (data->pidz == NULL)
+			malloc_error();
+		data->pidz[data->cmd_count] = -1;
+	}
+	data->pid_i = -1;
 }

@@ -3,6 +3,8 @@
 
 # include "minishell.h"
 
+# define READ 0
+# define WRIT 1
 # define CMD_NOT_FOUND 127
 # define CMD_NOT_EXECUTABLE 126
 # define OUT_OF_MEMORY 3
@@ -29,6 +31,7 @@ typedef struct s_exec
 	t_parsing	*parsing_ptr;
 	char		**paths;
 	char		*outfile;
+	int			cmd_count;
 	int			stdin_cpy;
 	int			stdout_cpy;
 	int			fds[2];
@@ -41,40 +44,42 @@ typedef struct s_cmd_list
 	char				*elem;
 	int					index;
 	bool				relative_path;
-	bool				pipe;
 	bool				cmd;
+	bool				cmd_found;
+	bool				pipe;
 	bool				builtin;
 	bool				arg;
 	struct s_cmd_list	*next;
 }	t_cmd_list;
-
-void		perror_exit(const char *msg);
 
 // EXECUTION
 void		execution(char *argv[], char **envp, t_parsing *parsing);
 void		child_exec(char **envp, t_exec *data, t_cmd_list *list, char *path);
 void		parent_exec(t_exec *data, t_cmd_list *list, char *path);
 void		single_cmd_execution(t_cmd_list *list, t_exec *data, char **envp, char *tkn[]);
+char		**set_argv(char *tkn[], int *tkn_value);
+char		**ft_path_envp(char **envp);
+void		init_data(t_exec *data, t_redir *s_redir,
+				t_parsing *parsing, char **envp);
 
 // Execution Utils
-void		init_data(t_exec *data, t_redir *s_redir, t_parsing *parsing);
 void		check_err_fork(pid_t pid);
 void		malloc_error();
 void		wait_pidz(t_exec *data);
+void		handle_input();
 void		reset_and_free(t_exec *data);
+void		free_data(t_exec *data);
 void		free_list(t_cmd_list *list);
 void		free_single_list(t_cmd_list *list);
 void		free_strs(char **strs);
 
-char		**set_argv(char *tkn[], int *tkn_value);
-char		**ft_path_envp(char **envp);
+// LISTS
+t_cmd_list	*set_cmd_list(t_exec *data, char **tkn, int *tkn_value);
 char		**set_argv_lst(t_cmd_list *list, char *cmd);
 char		*find_cmd_path(t_cmd_list *list, t_exec *data, char *cmd);
-
-int			cmd_count(int *tkn_value);
+int			cmd_count(char **tkn, int *tkn_value, char **envp);
 int			is_cmd(char *path);
 bool		there_is_pipeline(int *tkn_value);
-t_cmd_list	*set_cmd_list(t_exec *data, char **tkn, int *tkn_value);
 
 // REDIRECTION
 int			check_for_redirection(t_cmd_list *list, t_exec *data, char **envp);
