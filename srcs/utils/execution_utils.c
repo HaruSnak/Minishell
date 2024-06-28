@@ -4,7 +4,7 @@
 void	check_err_fork(pid_t pid)
 {
 	if (pid < 0)
-		{
+	{
 		perror("fork");
 		exit(FORK_FAILURE);// error handling > good
 	}

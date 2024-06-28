@@ -1,5 +1,4 @@
 
-
 #include "../../includes/minishell.h"
 
 void	ft_dup_heredoc(int heredoc)

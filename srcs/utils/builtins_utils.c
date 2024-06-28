@@ -1,5 +1,4 @@
 
-
 #include "../../includes/minishell.h"
 
 // fonction qui split le path en fonction du /

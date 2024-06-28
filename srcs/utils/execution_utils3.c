@@ -7,19 +7,6 @@ void	malloc_error()
 	exit(OUT_OF_MEMORY);
 }
 
-bool	there_is_pipeline(int *tkn_value)
-{
-	int	i;
-
-	i = -1;
-	while (tkn_value[++i])
-	{
-		if (tkn_value[i] == PIPE)
-			return (TRUE);
-	}
-	return (FALSE);
-}
-
 char	**ft_path_envp(char **envp)
 {
 	int		i;

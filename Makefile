@@ -18,6 +18,7 @@ SRC_2 =	srcs/builtins/built_external.c \
 	srcs/builtins/out_env_built.c \
 	srcs/builtins/builtins_base.c \
 	srcs/utils/builtins_utils.c \
+	srcs/utils/builtins_utils.c \
 	srcs/errors/errors_operators.c \
 	srcs/errors/errors.c \
 	srcs/parsing/verify_operators.c \
@@ -29,6 +30,7 @@ SRC_2 =	srcs/builtins/built_external.c \
 	srcs/signals/signals_handle.c \
 	srcs/signals/signals_heredoc.c \
 	srcs/quote/quote.c \
+	srcs/quote/quote.c \
 	srcs/utils/free_utils.c srcs/utils/init_list.c srcs/utils/list_utils.c \
 	srcs/utils/function_utils.c srcs/utils/execution_utils2.c \
 	srcs/utils/execution_utils.c srcs/execution/execution.c \
@@ -36,7 +38,6 @@ SRC_2 =	srcs/builtins/built_external.c \
 	srcs/redirections/redirection.c srcs/redirections/here_doc.c \
 	srcs/utils/execution_utils3.c srcs/errors/free.c \
 	srcs/redirections/here_doc_bis.c srcs/redirections/redirection_utils.c \
-
 
 OBJ_1 = $(patsubst %.c,$(OBJ_DIR)%.o,$(SRC_1))
 OBJ_2 = $(patsubst %.c,$(OBJ_DIR)%.o,$(SRC_2))
