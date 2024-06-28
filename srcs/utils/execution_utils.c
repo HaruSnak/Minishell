@@ -83,4 +83,5 @@ void	init_data(t_exec *data, t_redir *s_redir, t_parsing *parsing)
 	data->pid_i = -1;
 	data->fds[0] = 0;
 	data->fds[1] = 0;
+	data->check_signal = 0;
 }

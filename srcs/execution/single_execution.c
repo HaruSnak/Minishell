@@ -96,7 +96,10 @@ void	single_cmd_execution(t_cmd_list *list, t_exec *data, char **envp, char *tkn
 		data->pidz[0] = fork();
 		check_err_fork(data->pidz[0]);
 		if (data->pidz[0] == 0)
+		{
 			exec_cmd(list, data, argv, envp);
+			ft_g_signal(data->parsing_ptr);
+		}
 		wait_pidz(data);
 		free_strs(argv);
 	}

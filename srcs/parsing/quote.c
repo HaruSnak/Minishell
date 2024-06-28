@@ -65,8 +65,7 @@ char	*ft_replace_espace(char *input, t_parsing *parsing)
 		ft_copy_var(parsing, input, i, k);
 	}
 	tmp[++j] = '\0';
-	parsing->tmp_env[parsing->quote->p] = NULL;
-	return (tmp);
+	return (parsing->tmp_env[parsing->quote->p] = NULL, tmp);
 }
 
 void	ft_delete_espace(t_parsing *parsing)

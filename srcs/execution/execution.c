@@ -67,6 +67,8 @@ void	execution(char *tkn[], char **envp, t_parsing *parsing)
 	list = set_cmd_list(&data, data.parsing_ptr->tkn,
 			data.parsing_ptr->tkn_value);
 	out_index = check_for_redirection(list, &data, envp);
+	if (ft_g_signal(parsing) == 1)
+		return ;
 	if (there_is_pipeline(parsing->tkn_value)) // pb if ie. echo "hello|"
 	{
 		multi_execution(list, &data, envp);

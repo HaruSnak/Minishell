@@ -32,6 +32,7 @@ typedef struct s_exec
 	int			stdin_cpy;
 	int			stdout_cpy;
 	int			fds[2];
+	int			check_signal;
 	pid_t		*pidz;
 	int			pid_i;
 }	t_exec;
@@ -80,11 +81,17 @@ t_cmd_list	*set_cmd_list(t_exec *data, char **tkn, int *tkn_value);
 int			check_for_redirection(t_cmd_list *list, t_exec *data, char **envp);
 void		redirect_output(t_exec *data, t_redir *s_redir);
 void		heredoc_handling(t_exec *data, char *eof, char **g_env);
+void		ft_dup_heredoc(int heredoc);
+int			ft_g_signal_exit(char *line, int heredoc);
+void		ft_write_heredoc(int heredoc, char *line,
+				char **g_env, t_exec *data);
+int			ft_line_null_msg(char *line, int count);
+char		*ft_var_env(char **envp, char *line);
 void		reset_outfile(t_exec *data, int i);
 void		print_output(int fd);
 
 // Redirection Utils
-void		ft_delete_file_heredoc();
+void		ft_delete_file_heredoc(void);
 void		redirect_infile(t_exec *data, int *fd, char *path);
 
 #endif

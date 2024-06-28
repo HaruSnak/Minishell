@@ -30,3 +30,15 @@ int	ft_strlen_quote(char *str, char c, int i)
 	}
 	return (count);
 }
+
+int	ft_check_envp(char **envp)
+{
+	int		i;
+
+	i = 0;
+	while (envp[i] != NULL)
+	{
+		i++;
+	}
+	return (i);
+}

@@ -3,7 +3,7 @@
 
 void	free_single_list(t_cmd_list *list)
 {
-	t_cmd_list *next_node;
+	t_cmd_list	*next_node;
 
 	while (list)
 	{
@@ -17,7 +17,7 @@ void	free_single_list(t_cmd_list *list)
 
 void	free_list(t_cmd_list *list)
 {
-	t_cmd_list *next_node;
+	t_cmd_list	*next_node;
 
 	while (list)
 	{

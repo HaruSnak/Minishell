@@ -18,10 +18,8 @@ int	ft_return_value_echo(t_parsing *parsing, int k)
 			tmp_after = ft_substr(parsing->tkn[k], 0, i);
 			tmp = ft_itoa(parsing->exit_value);
 			tmp_env = ft_strjoin(tmp_after, tmp);
-			printf("tmp_env = %s\n", tmp_env);
 			free(tmp);
 			tmp = ft_strjoin(tmp_env, parsing->tkn[k] + ft_strlen(tmp_env) + 1);
-			printf("tmp = %s\n", tmp);
 			free(parsing->tkn[k]);
 			parsing->tkn[k] = ft_strdup(tmp);
 			free(tmp_after);
@@ -62,6 +60,19 @@ void	ft_interpret_bis(t_parsing *parsing, int k, char **envp)
 	free(env_cmd);
 }
 
+void	ft_simple_quote(t_parsing *parsing, int i)
+{
+	char	*tmp;
+
+	if (parsing->tkn[i][0] == '\'')
+	{
+		tmp = ft_strdup(parsing->tkn[i]);
+		free(parsing->tkn[i]);
+		parsing->tkn[i] = ft_strtrim(tmp, "\'");
+		free(tmp);
+	}
+}
+
 // Interpret the environment variable in the input
 // Replace the environment variable with the value in the input
 // Function replace token not in quote
@@ -84,6 +95,7 @@ void	ft_interpret_envp(char **envp, t_parsing *parsing)
 			{
 				ft_interpret_bis(parsing, k, envp);
 			}
+			ft_simple_quote(parsing, k);
 		}
 		i = -1;
 	}

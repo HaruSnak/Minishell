@@ -44,6 +44,9 @@
 # define ARG 7
 # define FILE 8
 
+// Variable globale
+extern int g_signal_number;
+
 typedef struct s_quote
 {
 	bool	check_s;
@@ -51,22 +54,27 @@ typedef struct s_quote
 	int		p;
 }	t_quote;
 
+typedef struct s_heredoc_state
+{
+	int		active;
+	int		interrupted;
+}	t_heredoc_state;
+
 typedef struct s_parsing
 {
+	bool	quote_heredoc;
 	char	**tkn;
-	int		*tkn_value;
-	char	**path; // swapped for t_exec
-	char	**tmp_env;
+	char	**path;
+	char	**tmp_env; // modifier name last
 	char	**tmp_setenv;
 	char	*tkn_cpy; //delete ?
 	char	*n_senv;
 	char	*v_senv;
-	char	*cmd_path;
-	char	*input;
 	char	*pwd;
-	char	*tmp;
+	int		*tkn_value;
+	int		count_envp;
 	int		exit_value;
-	int		status;
+	int		signal_heredoc;
 	t_quote	*quote;
 }	t_parsing;
 
@@ -80,14 +88,20 @@ int		ft_check_odd_quote(char *input);
 int		ft_return_value_echo(t_parsing *parsing, int k);
 
 // SIGNALS FUNCTIONS
-void	ft_signal_handler(int signo);
+void	ft_signal_handler(int signum);
 void	ft_signal_quit(int signum);
 void	ft_signal_return(int signum);
 void	ft_init_signal(struct sigaction *sa, struct sigaction *sa_quit);
 void	ft_init_signal_block(void);
+void	ft_init_signal_heredoc(void);
+void	ft_signal_heredoc(int signum);
+void	ft_exec_signals_main(struct sigaction sa, struct sigaction sa_quit);
+void	ft_exec_signals_block(struct sigaction sa_return,
+			struct sigaction sa_quit, t_exec *data);
+int		ft_g_signal(t_parsing *parsing);
 
 // COMMANDS FUNCTIONS
-int		builtins_exec(char **input, t_parsing *parsing, char **envp);
+int		builtins_exec(t_parsing *parsing, char **envp);
 char	*ft_split_input(char *input, char *c);
 int		ft_setenv(char **envp, t_parsing *parsing);
 
@@ -106,7 +120,7 @@ void	ft_handle_export(t_parsing *parsing, char **envp);
 // BUILTINS EXTERNALS FUNCTIONS
 int		ft_handle_empty_cmd(char **input);
 int		ft_handle_exit(t_parsing *parsing);
-bool	is_builtins(char *cmd, t_parsing *data, char **envp);
+bool	is_builtins(char *cmd, t_exec *data, char **envp);
 
 // REDIRECTION FUNCTIONS SHELL
 int		ft_handle_verify(char **input, t_parsing *parsing, char **envp);
@@ -117,6 +131,7 @@ void	ft_free_and_compact(char **str, int index, int size);
 void	ft_free_data(t_exec *data);
 void	ft_free_d_ptr(void ***ptr);
 int		ft_error_operator(t_parsing *parsing);
+int		ft_error_cmd_ext(int fd, char *str);
 
 // QUOTE FUNCTIONS SHELL
 int		ft_check_quote(char **envp, t_parsing *parsing);
@@ -124,5 +139,6 @@ int		ft_check_quote(char **envp, t_parsing *parsing);
 // UTILS FUNCTIONS
 int		ft_count_index(char **input);
 int		ft_strlen_quote(char *str, char c, int i);
+int		ft_check_envp(char **envp);
 
 #endif

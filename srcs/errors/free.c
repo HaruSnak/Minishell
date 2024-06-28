@@ -2,36 +2,35 @@
 
 #include "../../includes/minishell.h"
 
-void	ft_free_data(t_exec *data, t_parsing *parsing)
+void	ft_free_data(t_exec *data)
 {
 	if (data->redir_ptr->here_doc)
 		ft_delete_file_heredoc();
-	ft_free_d_ptr((void ***)&parsing->path);
-	free(data->outfile);
-	free(data->pidz);
+	if (data->outfile)
+		free(data->outfile);
 }
 
 // Free a double pointer and set it to NULL
 void	ft_free_d_ptr(void ***ptr)
 {
 	int	i;
-	//int	count;
+	int	count;
 
 	i = 0;
-	//count = ft_count_index((char **)*ptr);
-	while ((*ptr)[i] != NULL)
+	count = ft_count_index((char **)*ptr);
+	while (i < count)
 	{
 		free((*ptr)[i]);
+		(*ptr)[i] = NULL;
 		i++;
 	}
-	free(*ptr);
-	*ptr = NULL;
+	return ;
 }
 
 // verify_operations function commands free
 void	ft_end_verify(t_parsing *parsing)
 {
-	ft_free_d_ptr((void ***)&parsing->tkn);
+	//ft_free_d_ptr((void ***)&parsing->tkn);
 	//ft_free_d_ptr((void ***)&parsing->tmp_setenv);
 	free(parsing->tkn_value);
 	free(parsing->tkn_cpy);
