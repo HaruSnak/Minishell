@@ -2,9 +2,9 @@ NAME = minishell
 CC = gcc
 RM = rm -f
 FLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
+FLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
 LIBFTDIR = includes/libft
 LIBFT_OBJ = includes/libft/includes/obj
-LIBFT_LIB = includes/libft/libft.a
 OBJ_DIR = obj/
 READLINE_PATH = /Home/.local/Homebrew/opt/readline
 CFLAGS = -I$(READLINE_PATH)/include
@@ -61,6 +61,8 @@ ${NAME}: ${OBJ_1} ${OBJ_2}
 all: ${NAME}
 
 clean:
+	@echo "Cleaning object files..."
+	@${RM} ${OBJ_1} ${OBJ_2}
 	@echo "Cleaning libft object files..."
 	@make -C $(LIBFTDIR) clean
 	@rm -rf ${LIBFT_OBJ}
@@ -75,8 +77,6 @@ fclean: clean
 	@make -C $(LIBFTDIR) fclean
 	@echo "Cleaning executable..."
 	@${RM} ${NAME}
-	@rm -rf ${LIBFT_LIB}
-	@rm -rf ${NAME}
 	@rm -rf ${OBJ_DIR}
 	@rm -rf ${LIBFT_OBJ}
 	@clear
