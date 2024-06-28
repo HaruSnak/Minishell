@@ -4,6 +4,7 @@ RM = rm -f
 FLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
 LIBFTDIR = includes/libft
 LIBFT_OBJ = includes/libft/includes/obj
+LIBFT_LIB = includes/libft/libft.a
 OBJ_DIR = obj/
 READLINE_PATH = /Home/.local/Homebrew/opt/readline
 CFLAGS = -I$(READLINE_PATH)/include
@@ -16,7 +17,7 @@ SRC_2 =	srcs/builtins/built_external.c \
 	srcs/builtins/out_cd_built.c \
 	srcs/builtins/out_env_built.c \
 	srcs/builtins/builtins_base.c \
-	srcs/builtins/builtins_utils.c \
+	srcs/utils/builtins_utils.c \
 	srcs/errors/errors_operators.c \
 	srcs/errors/errors.c \
 	srcs/parsing/verify_operators.c \
@@ -34,8 +35,8 @@ SRC_2 =	srcs/builtins/built_external.c \
 	srcs/execution/sub_exec.c srcs/execution/single_execution.c \
 	srcs/redirections/redirection.c srcs/redirections/here_doc.c \
 	srcs/utils/execution_utils3.c srcs/errors/free.c \
-	srcs/utils/builtins_utils.c srcs/redirections/here_doc_bis.c \
-	srcs/redirections/redirection_utils.c \
+	srcs/redirections/here_doc_bis.c srcs/redirections/redirection_utils.c \
+
 
 OBJ_1 = $(patsubst %.c,$(OBJ_DIR)%.o,$(SRC_1))
 OBJ_2 = $(patsubst %.c,$(OBJ_DIR)%.o,$(SRC_2))
@@ -64,6 +65,8 @@ clean:
 	@rm -rf ${LIBFT_OBJ}
 	@rm -rf ${OBJ_DIR}
 	@echo "Cleaning project object files..."
+	@echo "Cleaning object files..."
+	@rm -rf ${OBJ_1} ${OBJ_2}
 	@echo "Object files cleaned."
 
 fclean: clean
@@ -71,6 +74,10 @@ fclean: clean
 	@make -C $(LIBFTDIR) fclean
 	@echo "Cleaning executable..."
 	@${RM} ${NAME}
+	@rm -rf ${LIBFT_LIB}
+	@rm -rf ${NAME}
+	@rm -rf ${OBJ_DIR}
+	@rm -rf ${LIBFT_OBJ}
 	@clear
 	@echo "Executable and libft cleaned."
 
