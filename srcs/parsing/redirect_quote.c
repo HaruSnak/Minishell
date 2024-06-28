@@ -71,16 +71,12 @@ char	*ft_separe_operator(char *input)
 	tmp_redir = malloc(sizeof(char) * ft_strlen(input) + 100);
 	tmp_quote = malloc(sizeof(char) * ft_strlen(input) + 100);
 	while (input[++i] != '\0')
-	{
 		ft_condit_redirect(input, &i, &k, tmp_redir);
-	}
 	tmp_redir[k] = '\0';
 	i = -1;
 	k = 0;
 	while (tmp_redir[++i] != '\0')
-	{
 		ft_condit_quote(tmp_redir, &i, &k, tmp_quote);
-	}
 	tmp_quote[k] = '\0';
 	free(input);
 	input = ft_strdup(tmp_quote);

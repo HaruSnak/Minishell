@@ -115,13 +115,7 @@ int	ft_check_quote(char **envp, t_parsing *parsing)
 	while (parsing->tkn[++i] != NULL)
 	{
 		tmp = ft_strdup(parsing->tkn[i]);
-		if (parsing->tkn[i][0] == '\'')
-		{
-			free(parsing->tkn[i]);
-			parsing->tkn[i] = ft_strtrim(tmp, "\'");
-			check_quote_heredoc(parsing, i);
-		}
-		else if (parsing->tkn[i][0] == '\"')
+		if (parsing->tkn[i][0] == '\"')
 		{
 			free(parsing->tkn[i]);
 			parsing->tkn[i] = ft_strtrim(tmp, "\"");

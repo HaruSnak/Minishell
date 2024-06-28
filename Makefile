@@ -58,16 +58,21 @@ ${NAME}: ${OBJ_1} ${OBJ_2}
 all: ${NAME}
 
 clean:
-	@echo "Cleaning object files..."
+	@echo "Cleaning libft object files..."
+	@make -C $(LIBFTDIR) clean
+	@echo "Cleaning project object files..."
 	@${RM} ${OBJ_1} ${OBJ_2}
+	@clear
 	@echo "Object files cleaned."
 
 fclean: clean
+	@echo "Cleaning libft..."
+	@make -C $(LIBFTDIR) fclean
 	@echo "Cleaning executable..."
 	@${RM} ${NAME}
 	@rm -rf ${OBJ_DIR}
 	@clear
-	@echo "Executable cleaned."
+	@echo "Executable and libft cleaned."
 
 re: fclean all
 
