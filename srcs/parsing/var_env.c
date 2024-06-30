@@ -64,12 +64,13 @@ void	ft_simple_quote(t_parsing *parsing, int i)
 {
 	char	*tmp;
 
-	if (parsing->tkn[i][0] == '\'')
+	if (parsing->tkn[i][0] == '\'' && parsing->double_quote)
 	{
 		tmp = ft_strdup(parsing->tkn[i]);
 		free(parsing->tkn[i]);
 		parsing->tkn[i] = ft_strtrim(tmp, "\'");
 		free(tmp);
+		parsing->double_quote = false;
 	}
 }
 

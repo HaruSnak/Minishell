@@ -122,6 +122,10 @@ int	ft_check_quote(char **envp, t_parsing *parsing)
 			check_quote_heredoc(parsing, i);
 			printf("parsing->tkn = %s\n", parsing->tkn[i - 1]);
 		}
+		else if (parsing->tkn[i][0] == '\'')
+		{
+			parsing->double_quote = true;
+		}
 		free(tmp);
 	}
 	return (0);

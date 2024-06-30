@@ -55,12 +55,13 @@ void		perror_exit(const char *msg);
 void		execution(char *argv[], char **envp, t_parsing *parsing);
 void		child_exec(char **envp, t_exec *data, t_cmd_list *list, char *path);
 void		parent_exec(t_exec *data, t_cmd_list *list, char *path);
-void		single_cmd_execution(t_cmd_list *list, t_exec *data, char **envp, char *tkn[]);
+void		single_cmd_execution(t_cmd_list *list, t_exec *data, char **envp,
+				char *tkn[]);
 
 // Execution Utils
 void		init_data(t_exec *data, t_redir *s_redir, t_parsing *parsing);
 void		check_err_fork(pid_t pid);
-void		malloc_error();
+void		malloc_error(void);
 void		wait_pidz(t_exec *data);
 void		reset_and_free(t_exec *data);
 void		free_list(t_cmd_list *list);
