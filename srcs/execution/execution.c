@@ -32,7 +32,7 @@ void	multi_execution(t_cmd_list *list, t_exec *data, char **envp)
 	list_cpy = list;
 	while (list)
 	{
-		if (list->cmd_found || list->relative_path)
+		if (list->cmd_found || list->absolute_path)
 			command_found(data, list, envp);
 		else if (list->cmd)
 			command_not_found(data, list->elem);

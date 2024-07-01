@@ -68,7 +68,7 @@ char	**find_path_set_argv(t_exec *data, t_cmd_list *list, int *tkn_value, char *
 	while (tkn[++i])
 	{
 		if (tkn_value[i] == CMD)
-			cmd_path = ft_strdup(find_cmd_path(list, data, tkn[i]));
+			cmd_path = find_cmd_path(list, data, tkn[i]);
 	}
 	if (!cmd_path)
 		malloc_error();

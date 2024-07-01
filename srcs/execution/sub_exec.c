@@ -17,7 +17,7 @@ void	parent_exec(t_exec *data, t_cmd_list *list, char *path)
 		close(data->fds[READ]);
 		data->fds[READ] = -1;
 	}
-	if (list->relative_path)
+	if (list->absolute_path)
 		free(path);
 }
 

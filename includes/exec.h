@@ -43,7 +43,7 @@ typedef struct s_cmd_list
 {
 	char				*elem;
 	int					index;
-	bool				relative_path;
+	bool				absolute_path;
 	bool				cmd;
 	bool				cmd_found;
 	bool				pipe;

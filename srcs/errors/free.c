@@ -32,7 +32,7 @@ void	ft_free_d_ptr(void ***ptr)
 void	ft_end_verify(t_parsing *parsing)
 {
 	ft_free_d_ptr((void ***)&parsing->tkn);
-	//ft_free_d_ptr((void ***)&parsing->tmp_setenv);
+	// ft_free_d_ptr((void ***)&parsing->tmp_setenv);
 	free(parsing->tkn_value);
 	free(parsing->tkn_cpy);
 }

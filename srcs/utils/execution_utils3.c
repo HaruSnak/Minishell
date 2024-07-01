@@ -45,33 +45,3 @@ char	**ft_path_envp(char **envp)
 	free(path);
 	return (path_f);
 }
-
-void	free_strs(char **strs)
-{
-	int	i;
-
-	i = -1;
-	while (strs[++i])
-	{
-		free(strs[i]);
-		strs[i] = NULL;
-	}
-	free(strs);
-}
-
-void	reset_and_free(t_exec *data)
-{
-	if (dup2(data->stdin_cpy, STDIN_FILENO) == -1)// error handling
-	{
-		perror("dup22");
-		// return ;
-	}
-	if (dup2(data->stdout_cpy, STDOUT_FILENO) == -1)// error handling
-	{
-		perror("dup222");
-		// return ;
-	}
-	close(data->stdin_cpy);
-	close(data->stdout_cpy);
-	free_data(data);
-}

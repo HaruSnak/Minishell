@@ -69,3 +69,4 @@ t_cmd_list	*set_cmd_list(t_exec *data, char **tkn, int *tkn_value)
 	}
 	return (cmd);
 }
+

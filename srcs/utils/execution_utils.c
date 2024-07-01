@@ -25,8 +25,8 @@ char	*find_cmd_path(t_cmd_list *list, t_exec *data, char *cmd)
 	j = 0;
 	if (access(cmd, X_OK) == 0 && is_cmd(cmd) == TRUE)
 	{
-		list->relative_path = TRUE;
-		return (cmd);
+		list->absolute_path = TRUE;
+		return (ft_strdup(cmd));
 	}
 	while (j < 8)
 	{
