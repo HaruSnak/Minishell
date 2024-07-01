@@ -7,6 +7,19 @@ void	malloc_error()
 	exit(OUT_OF_MEMORY);
 }
 
+bool	there_is_pipeline(int *tkn_value)
+{
+	int	i;
+
+	i = -1;
+	while (tkn_value[++i])
+	{
+		if (tkn_value[i] == PIPE)
+			return (TRUE);
+	}
+	return (FALSE);
+}
+
 char	**ft_path_envp(char **envp)
 {
 	int		i;
@@ -31,34 +44,4 @@ char	**ft_path_envp(char **envp)
 		malloc_error();
 	free(path);
 	return (path_f);
-}
-
-void	free_strs(char **strs)
-{
-	int	i;
-
-	i = -1;
-	while (strs[++i])
-	{
-		free(strs[i]);
-		strs[i] = NULL;
-	}
-	free(strs);
-}
-
-void	reset_and_free(t_exec *data)
-{
-	if (dup2(data->stdin_cpy, STDIN_FILENO) == -1)// error handling
-	{
-		perror("dup2");
-		// return ;
-	}
-	if (dup2(data->stdout_cpy, STDOUT_FILENO) == -1)// error handling
-	{
-		perror("dup2");
-		// return ;
-	}
-	close(data->stdin_cpy);
-	close(data->stdout_cpy);
-	ft_free_data(data);
 }

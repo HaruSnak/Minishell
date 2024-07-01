@@ -5,36 +5,34 @@ void	parent_exec(t_exec *data, t_cmd_list *list, char *path)
 {
 	if (data->redir_ptr->redir_denied == TRUE)
 		data->redir_ptr->redir_denied = FALSE;
-	close(data->fds[1]);
-	if(dup2(data->fds[0], STDIN_FILENO) == -1)
+	if (data->fds[WRIT] != -1)
 	{
-		perror("dup2");// error handling
-		return ;
+		close(data->fds[WRIT]);
+		data->fds[WRIT] = -1;
 	}
-	close(data->fds[0]);
-	if (list->relative_path)
+	if(dup2(data->fds[READ], STDIN_FILENO) == -1)
+		perror("dup2 parent");// error handling
+	if (data->fds[READ] != -1)
+	{
+		close(data->fds[READ]);
+		data->fds[READ] = -1;
+	}
+	if (list->absolute_path)
 		free(path);
 }
 
-bool	pipe_handling(t_exec *data, t_cmd_list *list)
+bool	redir_handling(t_exec *data)
 {
-	close(data->fds[0]);
-	if (data->outfile && 
-		(!ft_strncmp(data->parsing_ptr->tkn[list->index + 1], ">", 1)
-		|| !ft_strncmp(data->parsing_ptr->tkn[list->index + 1], ">>", 2)))
-	{
+	close(data->fds[READ]);
+	data->fds[READ] = -1;
+	if (data->outfile && !data->cmd_count)
 		redirect_output(data, data->redir_ptr);
-		close(data->fds[1]);
-	}
-	else if (!list->next)
-		print_output(data->fds[1]);
-	else
-	if(dup2(data->fds[1], STDOUT_FILENO) == -1)
-	{
-		perror("dup2");// error handling
-		return (DUP_FAILURE);
-	}
-	close(data->fds[1]);
+	else if (!data->cmd_count && !data->redir_ptr->redir_out)
+		print_output(data->fds[WRIT]);
+	else if(dup2(data->fds[WRIT], STDOUT_FILENO) == -1)
+		perror("dup2 child"); // error handling
+	close(data->fds[WRIT]);
+	data->fds[WRIT] = -1;
 	return (TRUE);
 }
 
@@ -44,11 +42,10 @@ void	child_exec(char **envp, t_exec *data, t_cmd_list *list, char *path)
 
 	if (data->redir_ptr->redir_denied)
 		exit(PERMISSION_DENY);
-	if (pipe_handling(data, list))
+	if (redir_handling(data))
 	{
 		argv = set_argv_lst(list, list->elem);
 		execve(path, argv, envp);
-		perror_exit("execve");// test to remove
 	}
 	else
 		data->parsing_ptr->exit_value = EXIT_FAILURE;

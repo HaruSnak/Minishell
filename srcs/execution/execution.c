@@ -1,15 +1,10 @@
 
 #include "../../includes/minishell.h"
 
-void perror_exit(const char *msg)// tests remove
-{
-	perror(msg);
-	exit(errno);
-}
-
 void	command_found(t_exec *data, t_cmd_list *list, char **envp)
 {
 	data->pid_i++;
+	data->cmd_count--;
 	if (pipe(data->fds) == -1)
 	{
 		perror("pipe");
@@ -27,13 +22,7 @@ void	command_not_found(t_exec *data, char *wrong_cmd)
 {
 	ft_printf("minishlag: %s: command not found\n", wrong_cmd);
 	data->parsing_ptr->exit_value = 127;
-	close(data->fds[1]);
-	if (data->fds[0])
-	{
-		if(dup2(data->fds[0], STDIN_FILENO) == -1)// error handling,
-			perror("dup2");
-	}
-	close(data->fds[0]);
+	handle_input();
 }
 
 void	multi_execution(t_cmd_list *list, t_exec *data, char **envp)
@@ -43,7 +32,7 @@ void	multi_execution(t_cmd_list *list, t_exec *data, char **envp)
 	list_cpy = list;
 	while (list)
 	{
-		if (list->cmd)
+		if (list->cmd_found || list->absolute_path)
 			command_found(data, list, envp);
 		else if (list->cmd)
 			command_not_found(data, list->elem);
@@ -52,7 +41,9 @@ void	multi_execution(t_cmd_list *list, t_exec *data, char **envp)
 		reset_outfile(data, list->index);
 		list = list->next;
 	}
+	free_strs(data->paths);
 	free_list(list_cpy);	
+	wait_pidz(data);
 }
 
 void	execution(char *tkn[], char **envp, t_parsing *parsing)
@@ -62,7 +53,7 @@ void	execution(char *tkn[], char **envp, t_parsing *parsing)
 	t_cmd_list	*list;
 	int			out_index;
 
-	init_data(&data, &s_redir, parsing);
+	init_data(&data, &s_redir, parsing, envp);
 	data.paths = ft_path_envp(envp);
 	list = set_cmd_list(&data, data.parsing_ptr->tkn,
 			data.parsing_ptr->tkn_value);
@@ -70,11 +61,7 @@ void	execution(char *tkn[], char **envp, t_parsing *parsing)
 	if (ft_g_signal(parsing) == 1)
 		return ;
 	if (there_is_pipeline(parsing->tkn_value)) // pb if ie. echo "hello|"
-	{
 		multi_execution(list, &data, envp);
-		wait_pidz(&data);
-		free_strs(data.paths);
-	}
 	else if (*tkn)
 	{
 		single_cmd_execution(list, &data, envp, tkn);

@@ -43,7 +43,7 @@ void	exec_cmd(t_cmd_list *list, t_exec *data, char **argv, char **envp)
 {
 	char	*path;
 
-	path = find_cmd_path(list, data, argv[0]);
+	path = find_cmd_path(list, data, argv[0]); // argv[0] bad
 	if (data->outfile)
 		redirect_output(data, data->redir_ptr);
 	if (path)
@@ -70,25 +70,23 @@ char	**find_path_set_argv(t_exec *data, t_cmd_list *list, int *tkn_value, char *
 		if (tkn_value[i] == CMD)
 			cmd_path = find_cmd_path(list, data, tkn[i]);
 	}
-	if (cmd_path)
+	if (!cmd_path)
+		malloc_error();
+	else
 	{
+		free(cmd_path);
 		argv = set_argv(tkn, tkn_value);
-		if (cmd_path)
-			free(cmd_path);
 		return (argv);
 	}
-	else
-		return (NULL);
+	return (NULL);
 }
 
 void	single_cmd_execution(t_cmd_list *list, t_exec *data, char **envp, char *tkn[])
 {
-	char	**argv; // to refactor
+	char	**argv;
 
 	ft_init_signal_block();
 	if (data->redir_ptr->redir_denied)
-		return ;
-	if (is_builtins(tkn[0], data, envp)) // tkn[0] bad
 		return ;
 	argv = find_path_set_argv(data, list, data->parsing_ptr->tkn_value, tkn);
 	if (argv)

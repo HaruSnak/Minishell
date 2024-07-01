@@ -107,6 +107,5 @@ void	heredoc_handling(t_exec *data, char *eof, char **g_env)
 		free(line);
 	}
 	close(heredoc);
-	ft_dup_heredoc(heredoc);
-	data->parsing_ptr->exit_value = 0;
+	redirect_infile(data, &heredoc, "obj/srcs/redirections/heredoc.txt");
 }
