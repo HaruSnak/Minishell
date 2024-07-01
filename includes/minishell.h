@@ -30,7 +30,7 @@
 # define PS(x) fprintf(stderr, "PS: %s\n", (x));
 # define PS2(s, x) fprintf(stderr, "%s: %s\n", (s), (x));
 
-# define PROMPT "\001\033[0;32m\002minishell\001\033[0m\002\xF0\x9F\x90\x9A "
+# define PROMPT "\001\033[0;32m\002minishell \001\033[0m\002\xF0\x9F\x90\x9A "
 
 # define TRUE 1
 # define FALSE 0
@@ -63,6 +63,7 @@ typedef struct s_heredoc_state
 typedef struct s_parsing
 {
 	bool	quote_heredoc;
+	bool	double_quote;
 	char	**tkn;
 	char	**path;
 	char	**tmp_env; // modifier name last

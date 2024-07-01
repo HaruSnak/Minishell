@@ -13,7 +13,8 @@ int	ft_return_value_echo(t_parsing *parsing, int k)
 	while (parsing->tkn[k][++i] != '\0')
 	{
 		if (parsing->tkn[k][i] == '$' && parsing->tkn[k][i + 1] == '?'
-		&& (parsing->tkn[k][i + 2] == '\0' || parsing->tkn[k][i + 2] == ' '))
+		&& (parsing->tkn[k][i + 2] == '\0' || parsing->tkn[k][i + 2] == ' '
+		|| parsing->tkn[k][i + 2] == '\''))
 		{
 			tmp_after = ft_substr(parsing->tkn[k], 0, i);
 			tmp = ft_itoa(parsing->exit_value);
@@ -24,8 +25,7 @@ int	ft_return_value_echo(t_parsing *parsing, int k)
 			parsing->tkn[k] = ft_strdup(tmp);
 			free(tmp_after);
 			free(tmp_env);
-			free(tmp);
-			return (1);
+			return (free(tmp), 1);
 		}
 	}
 	return (0);
@@ -64,12 +64,13 @@ void	ft_simple_quote(t_parsing *parsing, int i)
 {
 	char	*tmp;
 
-	if (parsing->tkn[i][0] == '\'')
+	if (parsing->tkn[i][0] == '\'' && parsing->double_quote)
 	{
 		tmp = ft_strdup(parsing->tkn[i]);
 		free(parsing->tkn[i]);
 		parsing->tkn[i] = ft_strtrim(tmp, "\'");
 		free(tmp);
+		parsing->double_quote = false;
 	}
 }
 

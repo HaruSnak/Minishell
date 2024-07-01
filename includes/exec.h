@@ -57,7 +57,8 @@ typedef struct s_cmd_list
 void		execution(char *argv[], char **envp, t_parsing *parsing);
 void		child_exec(char **envp, t_exec *data, t_cmd_list *list, char *path);
 void		parent_exec(t_exec *data, t_cmd_list *list, char *path);
-void		single_cmd_execution(t_cmd_list *list, t_exec *data, char **envp, char *tkn[]);
+void		single_cmd_execution(t_cmd_list *list, t_exec *data, char **envp,
+				char *tkn[]);
 char		**set_argv(char *tkn[], int *tkn_value);
 char		**ft_path_envp(char **envp);
 void		init_data(t_exec *data, t_redir *s_redir,
@@ -65,9 +66,9 @@ void		init_data(t_exec *data, t_redir *s_redir,
 
 // Execution Utils
 void		check_err_fork(pid_t pid);
-void		malloc_error();
+void		malloc_error(void);
 void		wait_pidz(t_exec *data);
-void		handle_input();
+void		handle_input(void);
 void		reset_and_free(t_exec *data);
 void		free_data(t_exec *data);
 void		free_list(t_cmd_list *list);

@@ -13,6 +13,7 @@ void	ft_init_main(t_parsing *parsing, t_quote *quote, char **envp, int argc)
 	parsing->n_senv = "OLDPWD";
 	parsing->v_senv = "";
 	parsing->quote_heredoc = false;
+	parsing->double_quote = false;
 	parsing->count_envp = ft_check_envp(envp);
 	parsing->signal_heredoc = 0;
 	quote->check_d = false;
@@ -33,6 +34,7 @@ int	main(int argc, char **argv, char **envp)
 	ft_init_main(&parsing, &quote, envp, argc);
 	(void)argv;
 	ft_init_signal(&sa, &sa_quit);
+	write(1, "\033[H\033[J", 6);
 	input = NULL;
 	while (1)
 	{

@@ -72,6 +72,8 @@ int	ft_error_operator(t_parsing *parsing)
 	{
 		while (parsing->tkn[i][++k] != '\0')
 		{
+			if (parsing->tkn[i][0] == '\'' || parsing->tkn[i][0] == '\"')
+				break ;
 			if (error_operator_redic(parsing, i, k) == -1)
 				return (-1);
 			if (error_operator_other(parsing, i, k) == -1)
