@@ -1,5 +1,4 @@
 
-
 #include "../../includes/minishell.h"
 
 void	ft_free_data(t_exec *data)
@@ -24,6 +23,8 @@ void	ft_free_d_ptr(void ***ptr)
 		(*ptr)[i] = NULL;
 		i++;
 	}
+	free(*ptr);
+	*ptr = NULL;
 	return ;
 }
 
@@ -33,7 +34,9 @@ void	ft_end_verify(t_parsing *parsing)
 	ft_free_d_ptr((void ***)&parsing->tkn);
 	// ft_free_d_ptr((void ***)&parsing->tmp_setenv);
 	free(parsing->tkn_value);
+	parsing->tkn_value = NULL;
 	free(parsing->tkn_cpy);
+	parsing->tkn_cpy = NULL;
 }
 
 void	ft_free_and_compact(char **str, int index, int size)

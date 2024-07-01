@@ -35,7 +35,7 @@ int	ft_handle_verify(char **input, t_parsing *parsing, char **envp)
 		return (ft_end_verify(parsing), -1);
 	}
 	else*/
-		execution(parsing->tkn, envp, parsing);
+	execution(parsing->tkn, envp, parsing);
 	ft_end_verify(parsing);
 	return (0);
 }
