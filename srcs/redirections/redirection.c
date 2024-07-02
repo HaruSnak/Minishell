@@ -45,7 +45,7 @@ void	check_access_outfile(char *outfile, int	tkn_value, t_exec *data)
 	close(fd);
 	data->outfile = malloc((ft_strlen(outfile) + 1) * sizeof(char));
 	if (!data->outfile)
-		malloc_error();
+		malloc_error("malloc : access_outfile");
 	ft_strlcpy(data->outfile, outfile, ft_strlen(outfile) + 1);
 }
 

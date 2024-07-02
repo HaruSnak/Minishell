@@ -3,7 +3,6 @@
 
 void	command_found(t_exec *data, t_cmd_list *list, char **envp)
 {
-	data->pid_i++;
 	data->cmd_count--;
 	if (pipe(data->fds) == -1)
 	{
@@ -15,7 +14,8 @@ void	command_found(t_exec *data, t_cmd_list *list, char **envp)
 	if (data->pidz[data->pid_i] == 0)
 		child_exec(envp, data, list, list->elem);
 	else
-		parent_exec(data, list, list->elem);
+		parent_exec(data);
+	data->pid_i++;
 }
 
 void	command_not_found(t_exec *data, char *wrong_cmd)
@@ -42,7 +42,7 @@ void	multi_execution(t_cmd_list *list, t_exec *data, char **envp)
 		list = list->next;
 	}
 	free_strs(data->paths);
-	free_list(list_cpy);	
+	free_list(list_cpy);
 	wait_pidz(data);
 }
 

@@ -8,8 +8,11 @@ void	free_single_list(t_cmd_list *list)
 	while (list)
 	{
 		next_node = list->next;
-		if (list->cmd && list->absolute_path == FALSE)
+		if (list->cmd_found && list->absolute_path == FALSE)
+		{
 			free(list->elem);
+			list->elem = NULL;
+		}
 		free(list);
 		list = next_node;
 	}

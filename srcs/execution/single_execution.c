@@ -26,12 +26,12 @@ char	**set_argv(char *tkn[], int *tkn_value)
 		;
 	argv = malloc((get_argv_len(i, tkn_value) + 1) * sizeof(char *));
 	if (!argv)
-		malloc_error();
+		malloc_error("malloc : set_argv");
 	while (tkn_value[i] && (tkn_value[i] == ARG || tkn_value[i] == CMD))
 	{
 		argv[j] = ft_strdup(tkn[i]);// error handling
 		if (!argv)
-			malloc_error();
+			malloc_error("malloc : set_argv");
 		i++;
 		j++;
 	}
@@ -50,7 +50,9 @@ void	exec_cmd(t_cmd_list *list, t_exec *data, char **argv, char **envp)
 		execve(path, argv, envp);
 	else
 	{
-		free(path);
+		if (path)
+			free(path);
+		path = NULL;
 		perror("execve");
 	}
 }
@@ -70,15 +72,14 @@ char	**find_path_set_argv(t_exec *data, t_cmd_list *list, int *tkn_value, char *
 		if (tkn_value[i] == CMD)
 			cmd_path = find_cmd_path(list, data, tkn[i]);
 	}
-	if (!cmd_path)
-		malloc_error();
-	else
+	if (cmd_path)
 	{
 		free(cmd_path);
 		argv = set_argv(tkn, tkn_value);
 		return (argv);
 	}
-	return (NULL);
+	else
+		return (NULL);
 }
 
 void	single_cmd_execution(t_cmd_list *list, t_exec *data, char **envp, char *tkn[])
@@ -98,7 +99,7 @@ void	single_cmd_execution(t_cmd_list *list, t_exec *data, char **envp, char *tkn
 			exec_cmd(list, data, argv, envp);
 			ft_g_signal(data->parsing_ptr);
 		}
-		wait_pidz(data);
+		waitpid(data->pidz[0], 0, 0);
 		free_strs(argv);
 	}
 	else if (data->parsing_ptr->tkn_value[list->index] == CMD)

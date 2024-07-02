@@ -1,7 +1,7 @@
 
 #include "../../includes/minishell.h"
 
-void	parent_exec(t_exec *data, t_cmd_list *list, char *path)
+void	parent_exec(t_exec *data)
 {
 	if (data->redir_ptr->redir_denied == TRUE)
 		data->redir_ptr->redir_denied = FALSE;
@@ -17,8 +17,6 @@ void	parent_exec(t_exec *data, t_cmd_list *list, char *path)
 		close(data->fds[READ]);
 		data->fds[READ] = -1;
 	}
-	if (list->absolute_path)
-		free(path);
 }
 
 bool	redir_handling(t_exec *data)

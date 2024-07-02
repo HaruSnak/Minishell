@@ -15,7 +15,7 @@ char	*find_small_path(char *cmd, char **envp)
 	{
 		path = ft_strjoin_fs(bin_paths[j], cmd);
 		if (!path)
-			malloc_error();
+			malloc_error("malloc : find small path");
 		if (access(path, X_OK) == 0 && is_cmd(path) == TRUE)
 		{
 			free_strs(bin_paths);
@@ -42,9 +42,11 @@ int	cmd_count(char **tkn, int *tkn_value, char **envp)
 		if (tkn_value[i] == CMD)
 		{
 			path = find_small_path(tkn[i], envp);
-			if (access(path, X_OK) == 0)
+			if (path && access(path, X_OK) == 0)
+			{
 				cmd++;
-			free(path);
+				free(path);
+			}
 		}
 	}
 	return (cmd);
@@ -64,4 +66,3 @@ void	handle_input()
 	free(line);
 	line = NULL;
 }
-

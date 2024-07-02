@@ -30,7 +30,7 @@ char	**iter_through_list(t_cmd_list *list, char **argv)
 			i++;
 			argv[i] = ft_strdup(list->elem);// error handling
 			if(!argv[i])
-				malloc_error();
+				malloc_error("malloc : iter_list");
 		}
 		list = list->next;
 	}
@@ -47,7 +47,7 @@ char	**set_argv_lst(t_cmd_list *list, char *cmd)
 		list = list->next;
 	argv = malloc((get_argv_cnt(list) + 1) * sizeof(char *));
 	if (!argv)
-		malloc_error();
+		malloc_error("malloc : set_argv_list");
 	argv = iter_through_list(list, argv);
 	return (argv);
 }

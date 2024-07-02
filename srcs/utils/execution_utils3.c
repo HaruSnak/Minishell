@@ -1,9 +1,9 @@
 
 #include "../../includes/minishell.h"
 
-void	malloc_error()
+void	malloc_error(char *str)
 {
-	perror("malloc");
+	perror(str);
 	exit(OUT_OF_MEMORY);
 }
 
@@ -34,14 +34,14 @@ char	**ft_path_envp(char **envp)
 		{
 			path = ft_strjoin(envp[i] + 5, "/usr/bin:/bin");// error handling > good
 			if (!path)
-				malloc_error();
+				malloc_error("malloc : path_envp");
 			break ;
 		}
 		i++;
 	}
 	path_f = ft_split(path, ':');// error handling > good
 	if (!path_f)
-		malloc_error();
+		malloc_error("malloc : path_f_envp");
 	free(path);
 	return (path_f);
 }

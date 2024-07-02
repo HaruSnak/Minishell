@@ -32,7 +32,7 @@ char	*find_cmd_path(t_cmd_list *list, t_exec *data, char *cmd)
 	{
 		path = ft_strjoin_fs(data->paths[j], cmd);
 		if (!path)
-			malloc_error();
+			malloc_error("malloc : find cmd path");
 		if (access(path, X_OK) == 0 && is_cmd(path) == TRUE)
 			return (path);
 		else
@@ -47,9 +47,13 @@ void	wait_pidz(t_exec *data)
 	int		i;
 	int		status;
 
-	i = -1;
-	while (data->pidz[++i] > -1)
+	i = 0;
+	while (data->pid_i)
+	{
 		waitpid(data->pidz[i], &status, 0);
+		data->pid_i--;
+		i++;
+	}
 	free(data->pidz);
 }
 
@@ -73,11 +77,11 @@ void	init_data(t_exec *data, t_redir *s_redir,
 	if (data->cmd_count)
 	{
 		data->pidz = (pid_t *)ft_calloc(1,
-			(data->cmd_count + 1) * sizeof(pid_t));
+				(data->cmd_count + 1) * sizeof(pid_t));
 		if (data->pidz == NULL)
-			malloc_error();
+			malloc_error("malloc: init data");
 		data->pidz[data->cmd_count] = -1;
 	}
-	data->pid_i = -1;
+	data->pid_i = 0;
 	data->check_signal = 0;
 }
