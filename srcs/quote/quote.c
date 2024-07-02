@@ -55,6 +55,7 @@ void	ft_pre_find(t_parsing *parsing, char **envp, int i, int k)
 	{
 		env_var = ft_substr(parsing->tkn[i], k + 1,
 				ft_strlen_quote(parsing->tkn[i], ' ', k + 1));
+		printf("1parsing->tkn[i] = %s\n", parsing->tkn[i]);
 		/*if (ft_strchr(env_var, '\"') != NULL)
 			env_var = ft_strtrim(env_var, "\"");
 		else if (ft_strchr(env_var, ' ') != NULL)
@@ -67,6 +68,7 @@ void	ft_pre_find(t_parsing *parsing, char **envp, int i, int k)
 			return ;
 		}
 		parsing->quote->p = k;
+		printf("2parsing->tkn[i] = %s\n", parsing->tkn[i]);
 		if (ft_return_value_echo(parsing, i) == 1)
 		{
 			free(env_var);
@@ -121,6 +123,10 @@ int	ft_check_quote(char **envp, t_parsing *parsing)
 			parsing->tkn[i] = ft_strtrim(tmp, "\"");
 			check_quote_heredoc(parsing, i);
 			printf("parsing->tkn = %s\n", parsing->tkn[i - 1]);
+		}
+		else if (parsing->tkn[i][0] == '\'')
+		{
+			parsing->double_quote = true;
 		}
 		free(tmp);
 	}

@@ -67,6 +67,7 @@ void		check_err_fork(pid_t pid);
 void		malloc_error(char *str);
 void		wait_pidz(t_exec *data);
 void		handle_input(void);
+void		handle_input(void);
 void		reset_and_free(t_exec *data);
 void		free_data(t_exec *data);
 void		free_list(t_cmd_list *list);

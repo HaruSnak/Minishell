@@ -52,9 +52,9 @@ int	cmd_count(char **tkn, int *tkn_value, char **envp)
 	return (cmd);
 }
 
-void	handle_input()
+void	handle_input(void)
 {
-	char *line;
+	char	*line;
 
 	line = get_next_line(STDIN_FILENO);
 	while (line)

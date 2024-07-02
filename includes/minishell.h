@@ -63,6 +63,7 @@ typedef struct s_heredoc_state
 typedef struct s_parsing
 {
 	bool	quote_heredoc;
+	bool	double_quote;
 	char	**tkn;
 	char	**path;
 	char	**tmp_env; // modifier name last
