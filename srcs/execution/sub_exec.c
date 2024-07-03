@@ -46,5 +46,8 @@ void	child_exec(char **envp, t_exec *data, t_cmd_list *list, char *path)
 		execve(path, argv, envp);
 	}
 	else
-		data->parsing_ptr->exit_value = EXIT_FAILURE;
+	{
+		data->parsing_ptr->exit_value = CMD_NOT_EXECUTABLE;
+		exit(CMD_NOT_EXECUTABLE);
+	}
 }

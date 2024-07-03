@@ -3,7 +3,7 @@
 
 void	ignore_first_cmd(t_cmd_list *list)
 {
-	while (list && !list->cmd)
+	while (list && !list->is_cmd)
 		list = list->next;
 	free(list->elem);
 	free(list);

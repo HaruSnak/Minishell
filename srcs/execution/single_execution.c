@@ -65,7 +65,7 @@ char	**find_path_set_argv(t_exec *data, t_cmd_list *list, int *tkn_value, char *
 
 	i = -1;
 	cmd_path = NULL;
-	while(list && !list->cmd)
+	while(list && !list->is_cmd)
 		list = list->next;
 	while (tkn[++i])
 	{

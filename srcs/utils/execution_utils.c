@@ -10,38 +10,6 @@ void	check_err_fork(pid_t pid)
 	}
 }
 
-int	is_cmd(char *path)
-{
-	if (path[ft_strlen(path) - 1] == '/')
-		return (FALSE);
-	return (TRUE);
-}
-
-char	*find_cmd_path(t_cmd_list *list, t_exec *data, char *cmd)
-{
-	char	*path;
-	int		j;
-
-	j = 0;
-	if (access(cmd, X_OK) == 0 && is_cmd(cmd) == TRUE)
-	{
-		list->absolute_path = TRUE;
-		return (ft_strdup(cmd));
-	}
-	while (j < 8)
-	{
-		path = ft_strjoin_fs(data->paths[j], cmd);
-		if (!path)
-			malloc_error("malloc : find cmd path");
-		if (access(path, X_OK) == 0 && is_cmd(path) == TRUE)
-			return (path);
-		else
-			free(path);
-		j++;
-	}
-	return (NULL);
-}
-
 void	wait_pidz(t_exec *data)
 {
 	int		i;
@@ -54,7 +22,15 @@ void	wait_pidz(t_exec *data)
 		data->pid_i--;
 		i++;
 	}
-	free(data->pidz);
+}
+
+void	init_pidz(t_exec *data, int cmd_count)
+{
+	data->pidz = (pid_t *)ft_calloc(1,
+			(cmd_count + 1) * sizeof(pid_t));
+	if (data->pidz == NULL)
+		malloc_error("malloc: init data");
+	data->pidz[cmd_count] = -1;
 }
 
 void	init_data(t_exec *data, t_redir *s_redir,
@@ -75,13 +51,9 @@ void	init_data(t_exec *data, t_redir *s_redir,
 	data->fds[1] = 0;
 	data->cmd_count = cmd_count(parsing->tkn, parsing->tkn_value, envp);
 	if (data->cmd_count)
-	{
-		data->pidz = (pid_t *)ft_calloc(1,
-				(data->cmd_count + 1) * sizeof(pid_t));
-		if (data->pidz == NULL)
-			malloc_error("malloc: init data");
-		data->pidz[data->cmd_count] = -1;
-	}
+		init_pidz(data, data->cmd_count);
+	else
+		data->pidz = NULL;
 	data->pid_i = 0;
 	data->check_signal = 0;
 }

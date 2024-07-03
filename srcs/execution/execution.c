@@ -1,9 +1,24 @@
 
 #include "../../includes/minishell.h"
 
+bool	is_next_cmd_found(t_cmd_list *list, t_exec *data)
+{
+	while (!list->is_cmd)
+		list = list->next;
+	if (list->cmd_found || list->absolute_path)
+		return (1);
+	else
+	{
+		data->pidz[data->pid_i + 1] = 0;
+		return (0);
+	}
+}
+
 void	command_found(t_exec *data, t_cmd_list *list, char **envp)
 {
 	data->cmd_count--;
+	if (list->next && !is_next_cmd_found(list->next, data))
+		return ;
 	if (pipe(data->fds) == -1)
 	{
 		perror("pipe");
@@ -34,8 +49,8 @@ void	multi_execution(t_cmd_list *list, t_exec *data, char **envp)
 	{
 		if (list->cmd_found || list->absolute_path)
 			command_found(data, list, envp);
-		else if (list->cmd)
-			command_not_found(data, list->elem);
+		else if (list->is_cmd)
+			command_not_found(data, data->parsing_ptr->tkn[list->index]);
 		if (list->next)
 			list->next->index = list->index + 1;
 		reset_outfile(data, list->index);
@@ -51,12 +66,21 @@ void	execution(char *tkn[], char **envp, t_parsing *parsing)
 	t_exec		data;
 	t_redir		s_redir;
 	t_cmd_list	*list;
+	// t_cmd_list	*list_cpy;
 	int			out_index;
 
 	init_data(&data, &s_redir, parsing, envp);
 	data.paths = ft_path_envp(envp);
 	list = set_cmd_list(&data, data.parsing_ptr->tkn,
 			data.parsing_ptr->tkn_value);
+	// list_cpy = list;
+	// while (list_cpy)
+	// {
+	// 	PS(list_cpy->cmd);
+	// 	PI2("arg", list_cpy->arg);
+	// 	PI2("cmd", list_cpy->is_cmd);
+	// 	list_cpy = list_cpy->next;
+	// }
 	out_index = check_for_redirection(list, &data, envp);
 	if (ft_g_signal(parsing) == 1)
 		return ;

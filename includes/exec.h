@@ -1,3 +1,4 @@
+
 #ifndef EXEC_H
 # define EXEC_H
 
@@ -45,7 +46,7 @@ typedef struct s_cmd_list
 	char				*elem;
 	int					index;
 	bool				absolute_path;
-	bool				cmd;
+	bool				is_cmd;
 	bool				cmd_found;
 	bool				pipe;
 	bool				arg;
@@ -79,7 +80,6 @@ t_cmd_list	*set_cmd_list(t_exec *data, char **tkn, int *tkn_value);
 char		**set_argv_lst(t_cmd_list *list, char *cmd);
 char		*find_cmd_path(t_cmd_list *list, t_exec *data, char *cmd);
 int			cmd_count(char **tkn, int *tkn_value, char **envp);
-int			is_cmd(char *path);
 bool		there_is_pipeline(int *tkn_value);
 
 // REDIRECTION

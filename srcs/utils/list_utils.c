@@ -8,7 +8,7 @@ int	get_argv_cnt(t_cmd_list *list)
 
 	argv_cnt = 0;
 	temp = list;
-	while (temp && (temp->cmd == TRUE || temp->arg == TRUE))
+	while (temp && (temp->is_cmd == TRUE || temp->arg == TRUE))
 	{
 		argv_cnt++;
 		temp = temp->next;
@@ -25,12 +25,10 @@ char	**iter_through_list(t_cmd_list *list, char **argv)
 	{
 		if (list->pipe)
 			break ;
-		if (list->cmd == TRUE || list->arg == TRUE)
+		if (list->is_cmd == TRUE || list->arg == TRUE)
 		{
 			i++;
-			argv[i] = ft_strdup(list->elem);// error handling
-			if(!argv[i])
-				malloc_error("malloc : iter_list");
+			argv[i] = list->elem;
 		}
 		list = list->next;
 	}

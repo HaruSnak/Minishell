@@ -1,6 +1,13 @@
 
 #include "../../includes/minishell.h"
 
+int	is_cmd(char *path)
+{
+	if (path[ft_strlen(path) - 1] == '/')
+		return (FALSE);
+	return (TRUE);
+}
+
 char	*find_small_path(char *cmd, char **envp)
 {
 	char	*path;
@@ -26,6 +33,31 @@ char	*find_small_path(char *cmd, char **envp)
 		j++;
 	}
 	free_strs(bin_paths);
+	return (NULL);
+}
+
+char	*find_cmd_path(t_cmd_list *list, t_exec *data, char *cmd)
+{
+	char	*path;
+	int		j;
+
+	j = 0;
+	if (access(cmd, X_OK) == 0 && is_cmd(cmd) == TRUE)
+	{
+		list->absolute_path = TRUE;
+		return (ft_strdup(cmd));
+	}
+	while (j < 8)
+	{
+		path = ft_strjoin_fs(data->paths[j], cmd);
+		if (!path)
+			malloc_error("malloc : find cmd path");
+		if (access(path, X_OK) == 0 && is_cmd(path) == TRUE)
+			return (path);
+		else
+			free(path);
+		j++;
+	}
 	return (NULL);
 }
 
@@ -56,7 +88,10 @@ void	handle_input(void)
 {
 	char	*line;
 
-	line = get_next_line(STDIN_FILENO);
+	if (STDIN_FILENO)
+		line = get_next_line(STDIN_FILENO);
+	else
+		return ;
 	while (line)
 	{
 		free(line);

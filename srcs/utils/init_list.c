@@ -7,7 +7,7 @@ char	*extract_tkn(t_cmd_list *list, t_exec *data, char *tkn)
 
 	// set the bultins flag, strcmp tkn
 	path = find_cmd_path(list, data, tkn);
-	if (path && list->cmd)
+	if (path && list->is_cmd)
 	{
 		list->cmd_found = TRUE;
 		return (path);
@@ -17,7 +17,7 @@ char	*extract_tkn(t_cmd_list *list, t_exec *data, char *tkn)
 		if (path)
 			free(path);
 		path = NULL;
-		return (tkn);
+		return (ft_strdup(tkn));
 	}
 }
 
@@ -29,7 +29,7 @@ t_cmd_list	*create_node(t_exec *data, char *tkn, int tkn_value)
 	if (tkn_value == PIPE)
 		new->pipe = TRUE;
 	else if (tkn_value == CMD)
-		new->cmd = TRUE;
+		new->is_cmd = TRUE;
 	else if (tkn_value == ARG)
 		new->arg = TRUE;
 	new->index = 0;
