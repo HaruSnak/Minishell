@@ -26,9 +26,9 @@ char	**ft_path_envp(char **envp)
 	char	*path;
 	char	**path_f;
 
-	i = 0;
+	i = -1;
 	path = NULL;
-	while (envp[i] != NULL)
+	while (envp[++i] != NULL)
 	{
 		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
 		{
@@ -37,11 +37,16 @@ char	**ft_path_envp(char **envp)
 				malloc_error("malloc : path_envp");
 			break ;
 		}
-		i++;
 	}
-	path_f = ft_split(path, ':');// error handling > good
-	if (!path_f)
-		malloc_error("malloc : path_f_envp");
-	free(path);
-	return (path_f);
+	if (!path)
+		return (NULL);
+	else
+	{
+		path_f = ft_split(path, ':');// error handling > good
+		if (!path_f)
+			malloc_error("malloc : path_f_envp");
+		free(path);
+		path = NULL;
+		return (path_f);
+	}
 }

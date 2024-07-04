@@ -3,7 +3,7 @@
 
 bool	is_next_cmd_found(t_cmd_list *list, t_exec *data)
 {
-	while (!list->is_cmd)
+	while (list->next && !list->is_cmd)
 		list = list->next;
 	if (list->cmd_found || list->absolute_path)
 		return (1);
@@ -61,29 +61,24 @@ void	multi_execution(t_cmd_list *list, t_exec *data, char **envp)
 	wait_pidz(data);
 }
 
-void	execution(char *tkn[], char **envp, t_parsing *parsing)
+bool	execution(char *tkn[], char **envp, t_parsing *parsing)
 {
 	t_exec		data;
 	t_redir		s_redir;
 	t_cmd_list	*list;
-	// t_cmd_list	*list_cpy;
 	int			out_index;
 
 	init_data(&data, &s_redir, parsing, envp);
 	data.paths = ft_path_envp(envp);
+	if (!data.paths)
+	{		
+		return (FALSE);
+	}
 	list = set_cmd_list(&data, data.parsing_ptr->tkn,
 			data.parsing_ptr->tkn_value);
-	// list_cpy = list;
-	// while (list_cpy)
-	// {
-	// 	PS(list_cpy->cmd);
-	// 	PI2("arg", list_cpy->arg);
-	// 	PI2("cmd", list_cpy->is_cmd);
-	// 	list_cpy = list_cpy->next;
-	// }
 	out_index = check_for_redirection(list, &data, envp);
 	if (ft_g_signal(parsing) == 1)
-		return ;
+		return (FALSE);
 	if (there_is_pipeline(parsing->tkn_value)) // pb if ie. echo "hello|"
 		multi_execution(list, &data, envp);
 	else if (*tkn)
@@ -94,4 +89,5 @@ void	execution(char *tkn[], char **envp, t_parsing *parsing)
 		free_single_list(list);
 	}
 	reset_and_free(&data);
+	return (TRUE);
 }

@@ -54,7 +54,7 @@ typedef struct s_cmd_list
 }	t_cmd_list;
 
 // EXECUTION
-void		execution(char *argv[], char **envp, t_parsing *parsing);
+bool		execution(char *argv[], char **envp, t_parsing *parsing);
 void		child_exec(char **envp, t_exec *data, t_cmd_list *list, char *path);
 void		parent_exec(t_exec *data);
 void		single_cmd_execution(t_cmd_list *list, t_exec *data, char **envp, char *tkn[]);

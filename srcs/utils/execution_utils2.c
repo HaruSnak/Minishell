@@ -18,6 +18,8 @@ char	*find_small_path(char *cmd, char **envp)
 	if (access(cmd, X_OK) == 0 && is_cmd(cmd) == TRUE)
 		return (ft_strdup(cmd));
 	bin_paths = ft_path_envp(envp);
+	if (!bin_paths)
+		return (NULL);
 	while (j < 8)
 	{
 		path = ft_strjoin_fs(bin_paths[j], cmd);
