@@ -7,6 +7,21 @@ void	malloc_error(char *str)
 	exit(OUT_OF_MEMORY);
 }
 
+bool	no_such_file(char *tkn[], int *tkn_value)
+{
+	int	i;
+
+	i = -1;
+	while (tkn[++i])
+	{
+		if (!ft_strncmp(tkn[i], "echo", ft_strlen(tkn[i])))
+			ft_handle_echo(tkn, tkn_value, i);
+		else if (tkn_value[i] == CMD)
+			printf("minishell: %s: no such file or directory\n", tkn[i]);
+	}
+	return (FALSE);
+}
+
 bool	there_is_pipeline(int *tkn_value)
 {
 	int	i;

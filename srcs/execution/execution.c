@@ -71,9 +71,7 @@ bool	execution(char *tkn[], char **envp, t_parsing *parsing)
 	init_data(&data, &s_redir, parsing, envp);
 	data.paths = ft_path_envp(envp);
 	if (!data.paths)
-	{		
-		return (FALSE);
-	}
+		return (no_such_file(tkn, data.parsing_ptr->tkn_value));
 	list = set_cmd_list(&data, data.parsing_ptr->tkn,
 			data.parsing_ptr->tkn_value);
 	out_index = check_for_redirection(list, &data, envp);

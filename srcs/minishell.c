@@ -34,7 +34,7 @@ int	main(int argc, char **argv, char **envp)
 	ft_init_main(&parsing, &quote, envp, argc);
 	(void)argv;
 	ft_init_signal(&sa, &sa_quit);
-	write(1, "\033[H\033[J", 6);
+	// write(1, "\033[H\033[J", 6);
 	input = NULL;
 	while (1)
 	{

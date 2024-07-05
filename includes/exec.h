@@ -62,8 +62,10 @@ char		**set_argv(char *tkn[], int *tkn_value);
 char		**ft_path_envp(char **envp);
 void		init_data(t_exec *data, t_redir *s_redir,
 				t_parsing *parsing, char **envp);
+void		ft_handle_echo(char *tkn[], int *tkn_value, int i);
 
 // Execution Utils
+bool		no_such_file(char *tkn[], int *tkn_value);
 void		check_err_fork(pid_t pid);
 void		malloc_error(char *str);
 void		wait_pidz(t_exec *data);
