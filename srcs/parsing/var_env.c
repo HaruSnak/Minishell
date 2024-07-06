@@ -14,15 +14,17 @@ int	ft_return_value_echo(t_parsing *parsing, int k)
 	{
 		if (parsing->tkn[k][i] == '$' && parsing->tkn[k][i + 1] == '?'
 		&& (parsing->tkn[k][i + 2] == '\0' || parsing->tkn[k][i + 2] == ' '
-		|| parsing->tkn[k][i + 2] == '\''))
+		|| parsing->tkn[k][i + 2] == '\"'))
 		{
+			PL;
 			tmp_after = ft_substr(parsing->tkn[k], 0, i);
 			tmp = ft_itoa(parsing->exit_value);
 			tmp_env = ft_strjoin(tmp_after, tmp);
 			free(tmp);
-			tmp = ft_strjoin(tmp_env, parsing->tkn[k] + ft_strlen(tmp_env) + 1);
+			tmp = ft_strjoin(tmp_env, parsing->tkn[k] + i + 2);
 			free(parsing->tkn[k]);
 			parsing->tkn[k] = ft_strdup(tmp);
+			printf("parsing->tkn[k] = %s\n", parsing->tkn[k]);
 			free(tmp_after);
 			free(tmp_env);
 			return (free(tmp), 1);
@@ -52,10 +54,8 @@ void	ft_interpret_bis(t_parsing *parsing, int k, char **envp)
 	}
 	if (parsing->tkn[k][0] == '$')
 	{
-		free(env_cmd);
-		env_cmd = ft_strdup("");
 		free(parsing->tkn[k]);
-		parsing->tkn[k] = ft_strjoin(parsing->tkn[k], env_cmd);
+		parsing->tkn[k] = ft_strdup("");
 	}
 	free(env_cmd);
 }
@@ -64,13 +64,13 @@ void	ft_simple_quote(t_parsing *parsing, int i)
 {
 	char	*tmp;
 
-	if (parsing->tkn[i][0] == '\'' && parsing->double_quote)
+	if (parsing->tkn[i][0] == '\'' && parsing->simple_quote)
 	{
 		tmp = ft_strdup(parsing->tkn[i]);
 		free(parsing->tkn[i]);
 		parsing->tkn[i] = ft_strtrim(tmp, "\'");
 		free(tmp);
-		parsing->double_quote = false;
+		parsing->simple_quote = false;
 	}
 }
 
@@ -86,18 +86,18 @@ void	ft_interpret_envp(char **envp, t_parsing *parsing)
 	k = -1;
 	while (parsing->tkn[++k] != NULL)
 	{
+		i = -1;
 		while (parsing->tkn[k][++i] != '\0')
 		{
 			if (parsing->tkn[k][0] != '\'' && parsing->tkn[k][0] != '\"'
-				&& parsing->tkn[k][ft_strlen(parsing->tkn[k]) - 1] != '\''
-				&& parsing->tkn[k][ft_strlen(parsing->tkn[k]) - 1] != '\"'
 				&& parsing->tkn[k][i] == '$' && parsing->tkn[k][i + 1] != '\0'
 				&& i + 1 < ft_strlen(parsing->tkn[k]))
 			{
 				ft_interpret_bis(parsing, k, envp);
+				i = -1;
+				continue ;
 			}
 			ft_simple_quote(parsing, k);
 		}
-		i = -1;
 	}
 }

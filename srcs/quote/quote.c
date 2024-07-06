@@ -33,11 +33,12 @@ void	ft_find_env(t_parsing *parsing, char **envp, int i, char *env_var)
 		{
 			tmp_after = ft_substr(parsing->tkn[i], 0, parsing->quote->p);
 			tmp_env = ft_strjoin(tmp_after, envp[p] + ft_strlen(env_var) + 1);
-			tmp = ft_strjoin(tmp_env, parsing->tkn[i] + ft_strlen(tmp_env) + 1);
+			free(tmp_after);
+			tmp = ft_strjoin(tmp_env, parsing->tkn[i]
+					+ parsing->quote->p + ft_strlen(env_var) + 1);
+			free(tmp_env);
 			free(parsing->tkn[i]);
 			parsing->tkn[i] = ft_strdup(tmp);
-			free(tmp_after);
-			free(tmp_env);
 			free(tmp);
 			p = -1;
 			break ;
@@ -55,11 +56,6 @@ void	ft_pre_find(t_parsing *parsing, char **envp, int i, int k)
 	{
 		env_var = ft_substr(parsing->tkn[i], k + 1,
 				ft_strlen_quote(parsing->tkn[i], ' ', k + 1));
-		printf("1parsing->tkn[i] = %s\n", parsing->tkn[i]);
-		/*if (ft_strchr(env_var, '\"') != NULL)
-			env_var = ft_strtrim(env_var, "\"");
-		else if (ft_strchr(env_var, ' ') != NULL)
-			env_var = ft_strtrim(env_var, " ");*/
 		if (ft_strlen(parsing->tkn[i]) == (ft_strlen(env_var) + 3))
 		{
 			free(parsing->tkn[i]);
@@ -68,8 +64,7 @@ void	ft_pre_find(t_parsing *parsing, char **envp, int i, int k)
 			return ;
 		}
 		parsing->quote->p = k;
-		printf("2parsing->tkn[i] = %s\n", parsing->tkn[i]);
-		if (ft_return_value_echo(parsing, i) == 1)
+		if (ft_return_value_quote(parsing, i) == 1)
 		{
 			free(env_var);
 			return ;
@@ -90,19 +85,12 @@ int	ft_env_quote(char **envp, t_parsing *parsing)
 	{
 		while (parsing->tkn[i][++k] != '\0')
 		{
-			ft_pre_find(parsing, envp, i, k);
+			if (parsing->tkn[i][0] == '\"' && parsing->tkn[i][k] == '$')
+				ft_pre_find(parsing, envp, i, k);
 		}
 		k = -1;
 	}
 	return (0);
-}
-
-void	check_quote_heredoc(t_parsing *parsing, int i)
-{
-	if (i > 0 && parsing->tkn[i - 1][0] == '<' && parsing->tkn[i - 1][1] == '<')
-	{
-		parsing->quote_heredoc = true;
-	}
 }
 
 // Check the quotes in the input
@@ -117,17 +105,19 @@ int	ft_check_quote(char **envp, t_parsing *parsing)
 	while (parsing->tkn[++i] != NULL)
 	{
 		tmp = ft_strdup(parsing->tkn[i]);
+		if (ft_quote_empty_pipe(parsing, i) == 1)
+		{
+			free(tmp);
+			continue ;
+		}
 		if (parsing->tkn[i][0] == '\"')
 		{
 			free(parsing->tkn[i]);
 			parsing->tkn[i] = ft_strtrim(tmp, "\"");
 			check_quote_heredoc(parsing, i);
-			printf("parsing->tkn = %s\n", parsing->tkn[i - 1]);
 		}
 		else if (parsing->tkn[i][0] == '\'')
-		{
-			parsing->double_quote = true;
-		}
+			parsing->simple_quote = true;
 		free(tmp);
 	}
 	return (0);

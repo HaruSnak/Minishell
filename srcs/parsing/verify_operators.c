@@ -30,8 +30,6 @@ int	ft_handle_verify(char **input, t_parsing *parsing, char **envp)
 	ft_check_quote(envp, parsing);
 	ft_interpret_envp(envp, parsing);
 	ft_token_value(parsing);
-	if (ft_error_operator(parsing) == -1)
-		return (ft_end_verify(parsing), -1);
 	if (builtins_exec(parsing, envp) == 0)
 		return (ft_end_verify(parsing), -1);
 	else if (execution(parsing->tkn, envp, parsing))
