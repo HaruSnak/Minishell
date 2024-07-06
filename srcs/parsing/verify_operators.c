@@ -1,16 +1,9 @@
 
 #include "../../includes/minishell.h"
 
-// Verify the operators in the input
-// Add the token value to the parsing structure
-// Handle the verify process for the minishell program
-// Return 0 if the process is successful
-int	ft_handle_verify(char **input, t_parsing *parsing, char **envp)
+void	ft_handle_verify_bis(t_parsing *parsing, char **envp,
+	char **input, char *tmp)
 {
-	char	*tmp;
-
-	if (ft_handle_empty_cmd(input) == -1)
-		return (0);
 	parsing->tkn_cpy = ft_strdup(*input);
 	*input = ft_separe_operator(*input);
 	if (ft_check_odd_quote(*input) == -1)
@@ -23,6 +16,19 @@ int	ft_handle_verify(char **input, t_parsing *parsing, char **envp)
 		*input = ft_replace_espace(tmp, parsing);
 		free(tmp);
 	}
+}
+
+// Verify the operators in the input
+// Add the token value to the parsing structure
+// Handle the verify process for the minishell program
+// Return 0 if the process is successful
+int	ft_handle_verify(char **input, t_parsing *parsing, char **envp)
+{
+	char	*tmp;
+
+	if (ft_handle_empty_cmd(input) == -1)
+		return (0);
+	ft_handle_verify_bis(parsing, envp, input, tmp);
 	parsing->tkn = ft_split(*input, ' ');
 	ft_delete_espace(parsing);
 	if (ft_error_operator(parsing) == -1)
