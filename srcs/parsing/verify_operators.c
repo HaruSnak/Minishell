@@ -36,10 +36,6 @@ int	ft_handle_verify(char **input, t_parsing *parsing, char **envp)
 	ft_check_quote(envp, parsing);
 	ft_interpret_envp(envp, parsing);
 	ft_token_value(parsing);
-	for (int i = 0; parsing->tkn[i]; i++)
-	{
-		printf("parsing->tkn[%d] = %s\n", i, parsing->tkn[i]);
-	}
 	if (builtins_exec(parsing, envp) == 0)
 		return (ft_end_verify(parsing), -1);
 	else

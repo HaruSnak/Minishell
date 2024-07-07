@@ -77,7 +77,7 @@ bool	execution(char *tkn[], char **envp, t_parsing *parsing)
 	out_index = check_for_redirection(list, &data, envp);
 	if (ft_g_signal(parsing) == 1)
 		return (FALSE);
-	if (there_is_pipeline(parsing->tkn_value)) // pb if ie. echo "hello|"
+	if (there_is_pipeline(parsing->tkn_value))
 		multi_execution(list, &data, envp);
 	else if (*tkn)
 	{
