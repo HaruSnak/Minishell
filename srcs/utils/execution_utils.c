@@ -47,8 +47,8 @@ void	init_data(t_exec *data, t_redir *s_redir,
 	data->outfile = NULL;
 	data->stdin_cpy = dup(0);
 	data->stdout_cpy = dup(1);
-	data->fds[0] = 0;
-	data->fds[1] = 0;
+	data->fds[0] = -1;
+	data->fds[1] = -1;
 	data->cmd_count = cmd_count(parsing->tkn, parsing->tkn_value, envp);
 	if (data->cmd_count)
 		init_pidz(data, data->cmd_count);
