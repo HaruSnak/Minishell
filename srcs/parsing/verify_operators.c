@@ -1,13 +1,9 @@
 
 #include "../../includes/minishell.h"
 
-void	ft_handle_verify_bis(t_parsing *parsing, char **envp,
-	char **input, char *tmp)
+void	ft_handle_verify_bis(t_parsing *parsing, char **input, char *tmp)
 {
-	parsing->tkn_cpy = ft_strdup(*input);
 	*input = ft_separe_operator(*input);
-	if (ft_check_odd_quote(*input) == -1)
-		return (free(parsing->tkn_cpy), -1);
 	if (ft_strchr(*input, '\'') != ft_strrchr(*input, '\'')
 		|| ft_strchr(*input, '\"') != ft_strrchr(*input, '\"'))
 	{
@@ -26,9 +22,13 @@ int	ft_handle_verify(char **input, t_parsing *parsing, char **envp)
 {
 	char	*tmp;
 
+	tmp = NULL;
 	if (ft_handle_empty_cmd(input) == -1)
 		return (0);
-	ft_handle_verify_bis(parsing, envp, input, tmp);
+	parsing->tkn_cpy = ft_strdup(*input);
+	if (ft_check_odd_quote(*input) == -1)
+		return (free(parsing->tkn_cpy), -1);
+	ft_handle_verify_bis(parsing, input, tmp);
 	parsing->tkn = ft_split(*input, ' ');
 	ft_delete_espace(parsing);
 	if (ft_error_operator(parsing) == -1)
@@ -36,6 +36,10 @@ int	ft_handle_verify(char **input, t_parsing *parsing, char **envp)
 	ft_check_quote(envp, parsing);
 	ft_interpret_envp(envp, parsing);
 	ft_token_value(parsing);
+	for (int i = 0; parsing->tkn[i]; i++)
+	{
+		printf("parsing->tkn[%d] = %s\n", i, parsing->tkn[i]);
+	}
 	if (builtins_exec(parsing, envp) == 0)
 		return (ft_end_verify(parsing), -1);
 	else if (execution(parsing->tkn, envp, parsing))
