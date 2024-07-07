@@ -13,7 +13,7 @@ void	ft_init_main(t_parsing *parsing, t_quote *quote, char **envp, int argc)
 	parsing->n_senv = "OLDPWD";
 	parsing->v_senv = "";
 	parsing->quote_heredoc = false;
-	parsing->double_quote = false;
+	parsing->simple_quote = false;
 	parsing->count_envp = ft_check_envp(envp);
 	parsing->signal_heredoc = 0;
 	quote->check_d = false;

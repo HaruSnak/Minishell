@@ -63,7 +63,7 @@ typedef struct s_heredoc_state
 typedef struct s_parsing
 {
 	bool	quote_heredoc;
-	bool	double_quote;
+	bool	simple_quote;
 	char	**tkn;
 	char	**path;
 	char	**tmp_env; // modifier name last
@@ -136,6 +136,9 @@ int		ft_error_cmd_ext(int fd, char *str);
 
 // QUOTE FUNCTIONS SHELL
 int		ft_check_quote(char **envp, t_parsing *parsing);
+void	check_quote_heredoc(t_parsing *parsing, int i);
+int		ft_return_value_quote(t_parsing *parsing, int k);
+int		ft_quote_empty_pipe(t_parsing *parsing, int i);
 
 // UTILS FUNCTIONS
 int		ft_count_index(char **input);
