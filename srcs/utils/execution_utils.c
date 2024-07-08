@@ -41,6 +41,7 @@ void	init_data(t_exec *data, t_redir *s_redir,
 	s_redir->redir_out = FALSE;
 	s_redir->here_doc = FALSE;
 	s_redir->append = FALSE;
+	parsing->exit_value = 0;
 	data->redir_ptr = s_redir;
 	data->parsing_ptr = parsing;
 	data->paths = NULL;

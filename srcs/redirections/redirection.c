@@ -10,21 +10,18 @@ void	ignore_first_cmd(t_cmd_list *list)
 	list = NULL;
 }
 
-int	check_access_infile(t_cmd_list *list, t_exec *data, char *infile)
+void	check_access_infile(t_exec *data, char *infile)
 {
 	int	fd;
 
-	(void)list;
 	if (access(infile, F_OK | R_OK) == -1)
 	{
 		perror("infile access");
 		data->parsing_ptr->exit_value = PERMISSION_DENY;
 		data->redir_ptr->redir_denied = TRUE;
-		// ignore_first_cmd(list);
-		return (PERMISSION_DENY);// error handling
+		return ;
 	}
 	redirect_infile(data, &fd, infile);// error handling
-	return (TRUE);
 }
 
 void	check_access_outfile(char *outfile, int	tkn_value, t_exec *data)
@@ -49,7 +46,7 @@ void	check_access_outfile(char *outfile, int	tkn_value, t_exec *data)
 	ft_strlcpy(data->outfile, outfile, ft_strlen(outfile) + 1);
 }
 
-int	check_for_redirection(t_cmd_list *list,	t_exec *data, char **envp)
+int	check_for_redirection(t_exec *data, char **envp)
 {
 	int	i;
 	int	outfile_index;
@@ -61,7 +58,7 @@ int	check_for_redirection(t_cmd_list *list,	t_exec *data, char **envp)
 		if (data->parsing_ptr->tkn_value[i] == HEREDOC)
 			heredoc_handling(data, data->parsing_ptr->tkn[i + 1], envp);
 		else if (data->parsing_ptr->tkn_value[i] == IN)
-			check_access_infile(list, data, data->parsing_ptr->tkn[i + 1]);
+			check_access_infile(data, data->parsing_ptr->tkn[i + 1]);
 		if (data->parsing_ptr->tkn_value[i] == OUT)
 			data->redir_ptr->redir_out = TRUE;
 		else if (data->parsing_ptr->tkn_value[i] == APPEND)

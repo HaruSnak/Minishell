@@ -28,7 +28,7 @@ void	command_found(t_exec *data, t_cmd_list *list, char **envp)
 	if (pipe(data->fds) == -1)
 	{
 		perror("pipe");
-		return ;// error handling, fd closing and reprompt?
+		return ;// error handling
 	}
 	data->pidz[data->pid_i] = fork();
 	check_err_fork(data->pidz[data->pid_i]);
@@ -39,9 +39,9 @@ void	command_found(t_exec *data, t_cmd_list *list, char **envp)
 	data->pid_i++;
 }
 
-void	command_not_found(t_exec *data, char *wrong_cmd)
+void	command_not_found(t_exec *data, char *wrong_path)
 {
-	ft_printf("minishlag: %s: command not found\n", wrong_cmd);
+	ft_printf("minishlag: %s: command not found\n", wrong_path);
 	data->parsing_ptr->exit_value = 127;
 	handle_input();
 }
@@ -53,7 +53,10 @@ void	multi_execution(t_cmd_list *list, t_exec *data, char **envp)
 	list_cpy = list;
 	while (list)
 	{
-		if (list->cmd_found || list->absolute_path)
+		if (!ft_strncmp(list->elem, "/usr/bin/echo", 13))
+			ft_handle_echo(data->parsing_ptr, data->parsing_ptr->tkn,
+				data->parsing_ptr->tkn_value, list->index);
+		else if (list->cmd_found || list->absolute_path)
 			command_found(data, list, envp);
 		else if (list->is_cmd)
 			command_not_found(data, data->parsing_ptr->tkn[list->index]);
@@ -77,10 +80,10 @@ bool	execution(char *tkn[], char **envp, t_parsing *parsing)
 	init_data(&data, &s_redir, parsing, envp);
 	data.paths = ft_path_envp(envp);
 	if (!data.paths)
-		return (no_such_file(tkn, data.parsing_ptr->tkn_value));
+		return (no_such_file(parsing, tkn, data.parsing_ptr->tkn_value));
 	list = set_cmd_list(&data, data.parsing_ptr->tkn,
 			data.parsing_ptr->tkn_value);
-	out_index = check_for_redirection(list, &data, envp);
+	out_index = check_for_redirection(&data, envp);
 	if (ft_g_signal(parsing) == 1)
 		return (FALSE);
 	if (there_is_pipeline(parsing->tkn_value))

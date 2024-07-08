@@ -8,8 +8,8 @@
 # define WRIT 1
 # define CMD_NOT_FOUND 127
 # define CMD_NOT_EXECUTABLE 126
+# define PERMISSION_DENY 1
 # define OUT_OF_MEMORY 3
-# define PERMISSION_DENY 4
 # define OPEN_FAILURE 5
 # define FORK_FAILURE 6
 # define DUP_FAILURE 7
@@ -62,10 +62,10 @@ char		**set_argv(char *tkn[], int *tkn_value);
 char		**ft_path_envp(char **envp);
 void		init_data(t_exec *data, t_redir *s_redir,
 				t_parsing *parsing, char **envp);
-void		ft_handle_echo(char *tkn[], int *tkn_value, int i);
+void		ft_handle_echo(t_parsing *data, char *tkn[], int *tkn_value, int i);
 
 // Execution Utils
-bool		no_such_file(char *tkn[], int *tkn_value);
+bool		no_such_file(t_parsing *data, char *tkn[], int *tkn_value);
 void		check_err_fork(pid_t pid);
 void		malloc_error(char *str);
 void		wait_pidz(t_exec *data);
@@ -85,7 +85,7 @@ int			cmd_count(char **tkn, int *tkn_value, char **envp);
 bool		there_is_pipeline(int *tkn_value);
 
 // REDIRECTION
-int			check_for_redirection(t_cmd_list *list, t_exec *data, char **envp);
+int			check_for_redirection(t_exec *data, char **envp);
 void		redirect_output(t_exec *data, t_redir *s_redir);
 void		heredoc_handling(t_exec *data, char *eof, char **g_env);
 void		ft_dup_heredoc(int heredoc);

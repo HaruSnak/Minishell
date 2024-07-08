@@ -6,22 +6,23 @@ void	ft_cmd_clear(void)
 	printf("\033[H\033[J");
 }
 
-void	ft_handle_echo(char *tkn[], int *tkn_value, int i)
+void	ft_handle_echo(t_parsing *data, char *tkn[], int *tkn_value, int i)
 {
-	int	no_nl;
+	int	nl;
 
-	no_nl = 0;
+	nl = 1;
 	while (tkn[++i])
 	{
-		if (!ft_strncmp(tkn[i], "-n", ft_strlen(tkn[i])))
-			no_nl = 1;
+		if (!ft_strncmp(tkn[i], "-n", 2))
+			nl = 0;
 		else if (tkn_value[i] == ARG)
 			printf("%s", tkn[i]);
 		else
 			break;
 	}
-	if (!no_nl)
+	if (nl)
 		printf("\n");
+	data->exit_value = 0;
 }
 
 int	ft_cmd_cd(char **envp, t_parsing *parsing)
@@ -82,9 +83,10 @@ int	builtins_exec(t_parsing *parsing, char **envp)
 	{
 		return (0);
 	}
-	else if (!ft_strncmp(parsing->tkn[0], "echo", ft_strlen(parsing->tkn[0])))
+	else if ((!ft_strncmp(parsing->tkn[0], "echo", 4))
+		&& !there_is_pipeline(parsing->tkn_value))
 	{
-		ft_handle_echo(parsing->tkn, parsing->tkn_value, 0);
+		ft_handle_echo(parsing, parsing->tkn, parsing->tkn_value, 0);
 		return (0);
 	}
 	else if (builtins_exec_bis(parsing, envp) == 0)
