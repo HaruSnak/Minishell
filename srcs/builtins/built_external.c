@@ -10,8 +10,9 @@ int	ft_handle_empty_cmd(char **input)
 		return (-1);
 	while ((*input)[i] != '\0')
 	{
-		if (!((*input)[i] >= 9 && (*input)[i] <= 13) || (*input)[i] == 32)
+		if ((*input)[i] >= 33 && (*input)[i] <= 126)
 			return (0);
+		i++;
 	}
 	return (-1);
 }

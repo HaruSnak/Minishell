@@ -24,3 +24,48 @@
 	free(path);
 	return (path_f);
 }*/
+
+void	ft_count_espace_echo(t_parsing *parsing, char **input)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (input[++i] != NULL)
+	{
+		if (!ft_strncmp(input[i], "echo", ft_strlen(input[i])))
+		{
+			i++;
+			while (input[i] != NULL)
+			{
+				count++;
+				i++;
+			}
+		}
+	}
+	return (count);
+}
+
+void	ft_espace_parsing(t_parsing *parsing)
+{
+	int	i;
+	//int	k;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (parsing->tkn[++i] != NULL)
+	{
+		if (!ft_strncmp(parsing->tkn[i], "echo", ft_strlen(parsing->tkn[i])))
+		{
+			i++;
+			while (parsing->tkn_value[i] == ARG)
+			{
+				count++;
+				i++;
+			}
+		}
+	}
+	return (count);
+}

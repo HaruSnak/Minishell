@@ -16,7 +16,6 @@ int	ft_return_value_echo(t_parsing *parsing, int k)
 		&& (parsing->tkn[k][i + 2] == '\0' || parsing->tkn[k][i + 2] == ' '
 		|| parsing->tkn[k][i + 2] == '\"'))
 		{
-			PL;
 			tmp_after = ft_substr(parsing->tkn[k], 0, i);
 			tmp = ft_itoa(parsing->exit_value);
 			tmp_env = ft_strjoin(tmp_after, tmp);
@@ -24,7 +23,6 @@ int	ft_return_value_echo(t_parsing *parsing, int k)
 			tmp = ft_strjoin(tmp_env, parsing->tkn[k] + i + 2);
 			free(parsing->tkn[k]);
 			parsing->tkn[k] = ft_strdup(tmp);
-			printf("parsing->tkn[k] = %s\n", parsing->tkn[k]);
 			free(tmp_after);
 			free(tmp_env);
 			return (free(tmp), 1);
