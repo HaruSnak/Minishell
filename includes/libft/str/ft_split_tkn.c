@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_split_tkn.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 15:08:32 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/11 15:10:30 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/07/11 15:37:37 by shmoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,27 @@
 // Count the number of words in a string
 static int	word_count(const char *s, char c)
 {
-	int	count;
-	int	in_word;
+	bool	d_quote;
+	bool	s_quote;
+	int		count;
+	int		in_word;
 
 	count = 0;
 	in_word = 0;
+	d_quote = false;
+	s_quote = false;
 	while (*s)
 	{
+		if (*s == '\"' && !s_quote)
+			d_quote = !d_quote;
+		else if (*s == '\'' && !d_quote)
+			s_quote = !s_quote;
 		if (*s != c && !in_word)
 		{
 			in_word = 1;
 			count++;
 		}
-		else if (*s == c && in_word)
+		else if (*s == c && in_word && !d_quote && !s_quote)
 			in_word = 0;
 		s++;
 	}
@@ -52,35 +60,58 @@ static char	*ft_strndup(const char *s, size_t n)
 	return (p);
 }
 
+static int	find_word_end(const char *s, char *c_star)
+{
+	int	i;
+	int	in_single_quote;
+	int	in_double_quote;
+
+	i = 0;
+	in_single_quote = 0;
+	in_double_quote = 0;
+	while (s[i])
+	{
+		if (s[i] == '\'' && !in_double_quote)
+			in_single_quote = !in_single_quote;
+		else if (s[i] == '\"' && !in_single_quote)
+			in_double_quote = !in_double_quote;
+		else if (s[i] == *c_star && !in_single_quote && !in_double_quote)
+			break ;
+		i++;
+	}
+	return (i);
+}
+
 static char	**allocate_words(const char *s, char *c_star, int count)
 {
 	char	**result;
 	int		i;
+	int		word_len;
 
 	result = (char **)malloc(sizeof(char *) * (count + 1));
 	if (!result)
 		return (NULL);
-	i = 0;
-	while (i < count)
+	i = -1;
+	while (++i < count)
 	{
 		while (*s == *c_star)
 			s++;
-		result[i] = ft_strndup(s, strcspn(s, c_star));
+		word_len = find_word_end(s, c_star);
+		result[i] = ft_strndup(s, word_len);
 		if (!result[i])
 		{
 			while (i >= 0)
 				free(result[i--]);
-			free(result);
-			return (NULL);
+			return (free(result), NULL);
 		}
-		s += strcspn(s, c_star);
-		i++;
+		s += word_len;
+		while (*s == *c_star)
+			s++;
 	}
-	result[i] = NULL;
-	return (result);
+	return (result[i] = NULL, result);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split_tkn(char const *s, char c)
 {
 	int		count;
 	char	**result;

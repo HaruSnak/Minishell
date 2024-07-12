@@ -8,7 +8,7 @@
 // and add a space after the quote
 int	ft_condition_replace(t_parsing *parsing, char *input, int i, int *k)
 {
-	if (input[i] == '\"' && !parsing->quote->check_s)
+	if (i + 1 <= ft_strlen(input) && input[i] == '\"' && !parsing->quote->check_s)
 	{
 		parsing->quote->check_d = !parsing->quote->check_d;
 		(*k) = i;
@@ -29,7 +29,7 @@ void	ft_copy_var(t_parsing *parsing, char *input, int i, int k)
 	int			l;
 
 	if ((input[i + 1] == '\'' && parsing->quote->check_s)
-		|| (input[i + 1] == '\"' && parsing->quote->check_d))
+		|| (input[i + 1] == '\"' && parsing->quote->check_d && input[i + 2] != '\"'))
 	{
 		l = i - k + 2;
 		parsing->tmp_env[parsing->quote->p] = ft_substr(input, k, l);
@@ -75,6 +75,8 @@ void	ft_delete_espace(t_parsing *parsing)
 
 	i = -1;
 	k = 0;
+	for (int i = 0; parsing->tmp_env[i]; i++)
+		printf("parsing->tmp_env[%d] = %s\n", i, parsing->tmp_env[i]);
 	while (parsing->tkn[++i] != NULL)
 	{
 		if (ft_strchr(parsing->tkn[i], '\'')

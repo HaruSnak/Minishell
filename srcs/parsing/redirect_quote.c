@@ -83,26 +83,18 @@ void	ft_boucle_redirect(char *input, int *i, int *k, char *tmp_redir)
 char	*ft_separe_operator(char *input)
 {
 	char	*tmp_redir;
-	char	*tmp_quote;
 	int		i;
 	int		k;
 
 	i = -1;
 	k = 0;
-	tmp_redir = malloc(sizeof(char) * ft_strlen(input) + 100);
-	tmp_quote = malloc(sizeof(char) * ft_strlen(input) + 100);
-	if (!tmp_redir || !tmp_quote)
+	tmp_redir = malloc(sizeof(char) * ft_strlen(input) + 100000); // FIX
+	if (!tmp_redir)
 		malloc_error("malloc");
 	ft_boucle_redirect(input, &i, &k, tmp_redir);
 	tmp_redir[k] = '\0';
-	i = -1;
-	k = 0;
-	while (tmp_redir[++i] != '\0')
-		ft_condit_quote(tmp_redir, &i, &k, tmp_quote);
-	tmp_quote[k] = '\0';
+	printf("tmp_redir: %s\n", tmp_redir); // <-- ICI RECUP VAR
 	free(input);
-	input = ft_strdup(tmp_quote);
-	free(tmp_quote);
-	free(tmp_redir);
-	return (input);
+	input = NULL;
+	return (tmp_redir);
 }

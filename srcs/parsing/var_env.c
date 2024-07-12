@@ -58,7 +58,7 @@ void	ft_interpret_bis(t_parsing *parsing, int k, char **envp)
 	free(env_cmd);
 }
 
-void	ft_simple_quote(t_parsing *parsing, int i)
+/*void	ft_simple_quote(t_parsing *parsing, int i)
 {
 	char	*tmp;
 
@@ -70,7 +70,7 @@ void	ft_simple_quote(t_parsing *parsing, int i)
 		free(tmp);
 		parsing->simple_quote = false;
 	}
-}
+}*/
 
 // Interpret the environment variable in the input
 // Replace the environment variable with the value in the input
@@ -95,7 +95,7 @@ void	ft_interpret_envp(char **envp, t_parsing *parsing)
 				i = -1;
 				continue ;
 			}
-			ft_simple_quote(parsing, k);
+			//ft_simple_quote(parsing, k);
 		}
 	}
 }

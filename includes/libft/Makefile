@@ -13,7 +13,7 @@ FILES = mem/ft_memset.c mem/ft_bzero.c mem/ft_memcpy.c mem/ft_memmove.c str/ft_s
         put/ft_putchar_fd.c put/ft_putstr_fd.c put/ft_putendl_fd.c put/ft_putnbr_fd.c \
         gnl/get_next_line.c printf/ft_conv_primary.c str/ft_strjoin_fs.c \
         printf/ft_conv_suit.c printf/ft_printf.c put/ft_putchar.c put/ft_putnbr.c \
-        put/ft_putstr.c \
+        put/ft_putstr.c str/ft_split_tkn.c \
 
 BONUS_FILES = lst/ft_lstnew_bonus.c lst/ft_lstadd_front_bonus.c lst/ft_lstsize_bonus.c lst/ft_lstlast_bonus.c \
               lst/ft_lstadd_back_bonus.c lst/ft_lstdelone_bonus.c lst/ft_lstclear_bonus.c lst/ft_lstiter_bonus.c \
