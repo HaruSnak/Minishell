@@ -73,6 +73,8 @@ typedef struct s_parsing
 	char	*v_senv;
 	char	*pwd;
 	int		*tkn_value;
+	int		*tkn_count;
+	int		*tkn_rotation;
 	int		count_envp;
 	int		exit_value;
 	int		signal_heredoc;

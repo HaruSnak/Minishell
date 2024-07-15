@@ -1,26 +1,33 @@
 
 #include "../../includes/minishell.h"
 
-// Cette fonction sert à trouver le chemin d'accès d'une commande
-// sous forme de tableau de chaînes de caractères.
-/*char	**ft_path_envp(char **envp)
+// 0 = tkn
+// 1 = double or simple quote
+// 2 = space
+void	ft_count_tkn_input(char **input, t_parsing *parsing)
 {
+	bool	d_quote;
+	bool	s_quote;
 	int		i;
-	char	*path;
-	char	**path_f;
+	int		k;
 
-	i = 0;
-	path = NULL;
-	while (envp[i] != NULL)
+	i = -1;
+	k = -1;
+	d_quote = false;
+	s_quote = false;
+	while (*(input[++i]))
 	{
-		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
-		{
-			path = ft_strjoin(envp[i] + 5, "/usr/bin:/bin");
-			break ;
-		}
-		i++;
+		if (*(input[i]) == '\"' && !s_quote)
+			d_quote = !d_quote;
+		else if (*(input[i]) == '\'' && !d_quote)
+			s_quote = !s_quote;
+		if (*(input[i]) == '$' && *(input)[i + 1] != ' ')
+			d_quote = !d_quote;
+		if (d_quote || s_quote)
+			parsing->tkn_count[++k] = 1;
+		else if (*(input)[i] == ' ')
+			parsing->tkn_count[++k] = 2;
+		else
+			parsing->tkn_count[++k] = 0;
 	}
-	path_f = ft_split(path, ':');
-	free(path);
-	return (path_f);
-}*/
+}
