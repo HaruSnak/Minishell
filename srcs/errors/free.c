@@ -35,8 +35,6 @@ void	ft_end_verify(t_parsing *parsing)
 	// ft_free_d_ptr((void ***)&parsing->tmp_setenv);
 	free(parsing->tkn_value);
 	parsing->tkn_value = NULL;
-	free(parsing->tkn_cpy);
-	parsing->tkn_cpy = NULL;
 }
 
 void	ft_free_and_compact(char **str, int index, int size)

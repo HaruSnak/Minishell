@@ -43,6 +43,7 @@
 # define CMD 6
 # define ARG 7
 # define FILE 8
+# define LAST_REDIR 9
 
 // Variable globale
 extern int g_signal_number;
@@ -89,6 +90,10 @@ void	ft_interpret_envp(char **envp, t_parsing *parsing);
 int		ft_token_value(t_parsing *parsing);
 int		ft_check_odd_quote(char *input);
 int		ft_return_value_echo(t_parsing *parsing, int k);
+char	*ft_f_null_q(t_parsing *parsing, char *env_var, int i, int p);
+int		ft_condition_envp(t_parsing *parsing, char **envp, char *env, int i);
+void	ft_verify_quote(t_parsing *parsing, int i, int k);
+void	ft_delete_quote(t_parsing *parsing);
 
 // SIGNALS FUNCTIONS
 void	ft_signal_handler(int signum);
@@ -137,14 +142,15 @@ int		ft_error_operator(t_parsing *parsing);
 int		ft_error_cmd_ext(int fd, char *str);
 
 // QUOTE FUNCTIONS SHELL
-int		ft_check_quote(char **envp, t_parsing *parsing);
+int		ft_interpret_env(char **envp, t_parsing *parsing);
 void	check_quote_heredoc(t_parsing *parsing, int i);
 int		ft_return_value_quote(t_parsing *parsing, int k);
 int		ft_quote_empty_pipe(t_parsing *parsing, int i);
 
 // UTILS FUNCTIONS
 int		ft_count_index(char **input);
-int		ft_strlen_quote(char *str, char c, int i);
+int		ft_strlen_quote(t_parsing *parsing, char *str, char c, int i);
+int		ft_strlen_quote_b(char *str, char c, int i);
 int		ft_check_envp(char **envp);
 
 #endif

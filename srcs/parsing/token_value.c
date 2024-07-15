@@ -4,16 +4,22 @@
 // Add the token value to the parsing structure
 void	ft_tkn_value_bis(t_parsing *parsing, int i)
 {
-	if (i > 0 && parsing->tkn_value[i - 1] == CMD)
+	if (i - 1 > 0 && parsing->tkn_value[i - 1] == CMD)
 		parsing->tkn_value[i] = ARG;
-	else if (i > 0 && parsing->tkn_value[i - 1] == ARG)
+	else if (i - 1 > 0 && parsing->tkn_value[i - 1] == ARG)
 		parsing->tkn_value[i] = ARG;
-	if (i > 0 && parsing->tkn_value[i - 1] == CMD)
+	if (i - 1 > 0 && parsing->tkn_value[i - 1] == CMD)
 		parsing->tkn_value[i] = ARG;
-	else if (i > 0 && parsing->tkn_value[i - 1] == ARG)
+	else if (i - 1 > 0 && parsing->tkn_value[i - 1] == ARG)
 		parsing->tkn_value[i] = ARG;
 	else
 		parsing->tkn_value[i] = CMD;
+	if (!ft_strncmp(parsing->tkn[i], ">>", ft_strlen(parsing->tkn[i])))
+		parsing->tkn_value[i] = APPEND;
+	else if (!ft_strncmp(parsing->tkn[i], "<<", ft_strlen(parsing->tkn[i])))
+		parsing->tkn_value[i] = HEREDOC;
+	else if (!ft_strncmp(parsing->tkn[i], "|", ft_strlen(parsing->tkn[i])))
+		parsing->tkn_value[i] = PIPE;
 }
 
 int	ft_token_value(t_parsing *parsing)
@@ -30,12 +36,12 @@ int	ft_token_value(t_parsing *parsing)
 			parsing->tkn_value[i] = IN;
 		else if (!ft_strncmp(parsing->tkn[i], ">", ft_strlen(parsing->tkn[i])))
 			parsing->tkn_value[i] = OUT;
-		else if (!ft_strncmp(parsing->tkn[i], ">>", ft_strlen(parsing->tkn[i])))
-			parsing->tkn_value[i] = APPEND;
-		else if (!ft_strncmp(parsing->tkn[i], "<<", ft_strlen(parsing->tkn[i])))
-			parsing->tkn_value[i] = HEREDOC;
-		else if (!ft_strncmp(parsing->tkn[i], "|", ft_strlen(parsing->tkn[i])))
-			parsing->tkn_value[i] = PIPE;
+		else if (i - 2 > 0 && (!ft_strncmp(parsing->tkn[i - 1], "<", 1)
+				|| !ft_strncmp(parsing->tkn[i - 1], ">", 1))
+			&& parsing->tkn_value[i - 2] == FILE && parsing->tkn[i + 1][0] != '>'
+			&& parsing->tkn[i + 1][1] != '>' && parsing->tkn[i + 1][0] != '<'
+			&& parsing->tkn[i + 1][1] != '<')
+			parsing->tkn_value[i] = LAST_REDIR;
 		else if (i > 0 && (!ft_strncmp(parsing->tkn[i - 1], "<", 1)
 				|| !ft_strncmp(parsing->tkn[i - 1], ">", 1)))
 			parsing->tkn_value[i] = FILE;
