@@ -36,11 +36,11 @@ int	ft_token_value(t_parsing *parsing)
 			parsing->tkn_value[i] = IN;
 		else if (!ft_strncmp(parsing->tkn[i], ">", ft_strlen(parsing->tkn[i])))
 			parsing->tkn_value[i] = OUT;
-		else if (i - 2 > 0 && (!ft_strncmp(parsing->tkn[i - 1], "<", 1)
+		if (i - 1 > 0 && (!ft_strncmp(parsing->tkn[i - 1], "<", 1)
 				|| !ft_strncmp(parsing->tkn[i - 1], ">", 1))
-			&& parsing->tkn_value[i - 2] == FILE && parsing->tkn[i + 1][0] != '>'
-			&& parsing->tkn[i + 1][1] != '>' && parsing->tkn[i + 1][0] != '<'
-			&& parsing->tkn[i + 1][1] != '<')
+			&& (parsing->tkn[i + 1] == NULL || (parsing->tkn[i + 1] != NULL
+					&& parsing->tkn[i + 1][0] != '>'
+				&& parsing->tkn[i + 1][0] != '<')))
 			parsing->tkn_value[i] = LAST_REDIR;
 		else if (i > 0 && (!ft_strncmp(parsing->tkn[i - 1], "<", 1)
 				|| !ft_strncmp(parsing->tkn[i - 1], ">", 1)))
