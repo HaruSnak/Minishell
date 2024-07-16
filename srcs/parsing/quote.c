@@ -9,9 +9,7 @@ int	ft_return_value_quote(t_parsing *parsing, int k)
 	int		i;
 
 	i = parsing->quote->p;
-	if (parsing->tkn[k][i] == '$' && parsing->tkn[k][i + 1] == '?'
-	&& (parsing->tkn[k][i + 2] == '\0' || parsing->tkn[k][i + 2] == ' '
-	|| parsing->tkn[k][i + 2] == '\"'))
+	if (parsing->tkn[k][i] == '$' && parsing->tkn[k][i + 1] == '?')
 	{
 		tmp_after = ft_substr(parsing->tkn[k], 0, i);
 		tmp = ft_itoa(parsing->exit_value);
@@ -39,15 +37,7 @@ int	ft_quote_empty_pipe(t_parsing *parsing, int i)
 	return (0);
 }
 
-void	check_quote_heredoc(t_parsing *parsing, int i)
-{
-	if (i > 0 && parsing->tkn[i - 1][0] == '<' && parsing->tkn[i - 1][1] == '<')
-	{
-		parsing->quote_heredoc = true;
-	}
-}
-
-int	ft_check_odd_quote(char *input)
+int	ft_check_odd_quote(char *input, t_parsing *parsing)
 {
 	int		i;
 	int		s_quote;
@@ -58,20 +48,16 @@ int	ft_check_odd_quote(char *input)
 	d_quote = 0;
 	while (input[++i] != '\0')
 	{
-		if (input[i] == '\'')
+		if (input[i] == '\"' && !parsing->quote->check_s)
+			parsing->quote->check_d = !parsing->quote->check_d;
+		else if (input[i] == '\'' && !parsing->quote->check_d)
+			parsing->quote->check_s = !parsing->quote->check_s;
+		if (input[i] == '\'' && !parsing->quote->check_d)
 			s_quote++;
-		else if (input[i] == '\"')
+		else if (input[i] == '\"' && !parsing->quote->check_s)
 			d_quote++;
 	}
-	if (s_quote % 2 != 0)
-	{
-		printf("minishell: Syntax error, unmatched single quote\n");
+	if (ft_error_quote(s_quote, d_quote) == -1)
 		return (-1);
-	}
-	if (d_quote % 2 != 0)
-	{
-		printf("minishell: Syntax error, unmatched double quote\n");
-		return (-1);
-	}
 	return (0);
 }

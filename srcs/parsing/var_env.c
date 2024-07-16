@@ -19,13 +19,14 @@ void	ft_pre_find(t_parsing *parsing, char **envp, int i, int *k)
 
 	env_var = ft_substr(parsing->tkn[i], *k + 1,
 			ft_strlen_quote_b(parsing->tkn[i], ' ', *k + 1));
-	if (ft_strlen(parsing->tkn[i]) == (ft_strlen(env_var) + 3))
+	/*if (ft_strlen(parsing->tkn[i]) == (ft_strlen(env_var) + 3))
 	{
 		free(parsing->tkn[i]);
 		parsing->tkn[i] = ft_strjoin("$", env_var);
+		PL;
 		free(env_var);
 		return ;
-	}
+	}*/
 	parsing->quote->p = *k;
 	if (ft_return_value_quote(parsing, i) == 1)
 	{
@@ -90,11 +91,12 @@ int	ft_interpret_env(char **envp, t_parsing *parsing)
 			free(tmp);
 			continue ;
 		}
-		if (parsing->tkn[i][0] == '\"')
-			check_quote_heredoc(parsing, i);
+		if (i > 0 && parsing->tkn[i - 1][0] == '<'
+			&& parsing->tkn[i - 1][1] == '<')
+			parsing->quote_heredoc = true;
 		free(tmp);
 	}
-	parsing->quote->check_d = false;
+	parsing->quote->check_d = false; //DELETE APRES CHECK NOTE A MOI
 	parsing->quote->check_s = false;
 	return (0);
 }

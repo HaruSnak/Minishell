@@ -20,7 +20,7 @@ void	ft_handle_echo(t_parsing *data, char *tkn[], int *tkn_value, int i)
 		else if (tkn_value[i + 1] != ARG)
 			printf("%s", tkn[i]);
 		else if (tkn_value[i] != ARG)
-			break;
+			break ;
 	}
 	if (nl)
 		printf("\n");
@@ -34,6 +34,9 @@ int	ft_cmd_cd(char **envp, t_parsing *parsing)
 
 	path = NULL;
 	oldpwd = NULL;
+	if (parsing->tkn[2] != NULL && parsing->tkn_value[2] == ARG)
+		return (printf("minishell: cd: too many arguments\n"),
+			parsing->exit_value = 1, 0);
 	if ((!ft_strncmp(parsing->tkn[0], "cd", ft_strlen(parsing->tkn[0]))
 			&& parsing->tkn[1] == NULL)
 		|| (!ft_strncmp(parsing->tkn[0], "cd", ft_strlen(parsing->tkn[0]))

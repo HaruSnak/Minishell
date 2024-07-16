@@ -12,11 +12,17 @@ int	ft_error_cmd_ext(int fd, char *str)
 	return (0);
 }
 
-/*void	ft_error_malloc(char *str)
+int	ft_error_quote(int s_quote, int d_quote)
 {
-	if (!str)
+	if (s_quote % 2 != 0)
 	{
-		perror("malloc ");
-		exit(EXIT_FAILURE);
+		printf("minishell: Syntax error, unmatched single quote\n");
+		return (-1);
 	}
-}*/
+	if (d_quote % 2 != 0)
+	{
+		printf("minishell: Syntax error, unmatched double quote\n");
+		return (-1);
+	}
+	return (0);
+}

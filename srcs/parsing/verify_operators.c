@@ -9,7 +9,7 @@ int	ft_handle_verify(char **input, t_parsing *parsing, char **envp)
 {
 	if (ft_handle_empty_cmd(input) == -1)
 		return (0);
-	if (ft_check_odd_quote(*input) == -1)
+	if (ft_check_odd_quote(*input, parsing) == -1)
 		return (-1);
 	*input = ft_separe_operator(*input);
 	parsing->tkn = ft_split_tkn(*input, ' ');

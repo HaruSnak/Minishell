@@ -87,7 +87,7 @@ char	*ft_replace_espace(char *input, t_parsing *parsing);
 void	ft_delete_espace(t_parsing *parsing);
 void	ft_interpret_envp(char **envp, t_parsing *parsing);
 int		ft_token_value(t_parsing *parsing);
-int		ft_check_odd_quote(char *input);
+int		ft_check_odd_quote(char *input, t_parsing *parsing);
 int		ft_return_value_echo(t_parsing *parsing, int k);
 char	*ft_f_null_q(t_parsing *parsing, char *env_var, int i, int p);
 int		ft_condition_envp(t_parsing *parsing, char **envp, char *env, int i);
@@ -135,6 +135,7 @@ int		ft_handle_verify(char **input, t_parsing *parsing, char **envp);
 // ERRORS FUNCTIONS
 void	ft_end_verify(t_parsing *parsing);
 void	ft_free_and_compact(char **str, int index, int size);
+int		ft_error_quote(int s_quote, int d_quote);
 // void	ft_free_data(t_exec *data, t_parsing *parsing);
 void	ft_free_d_ptr(void ***ptr);
 int		ft_error_operator(t_parsing *parsing);
@@ -142,7 +143,6 @@ int		ft_error_cmd_ext(int fd, char *str);
 
 // QUOTE FUNCTIONS SHELL
 int		ft_interpret_env(char **envp, t_parsing *parsing);
-void	check_quote_heredoc(t_parsing *parsing, int i);
 int		ft_return_value_quote(t_parsing *parsing, int k);
 int		ft_quote_empty_pipe(t_parsing *parsing, int i);
 
