@@ -15,9 +15,11 @@ void	ft_handle_echo(t_parsing *data, char *tkn[], int *tkn_value, int i)
 	{
 		if (!ft_strncmp(tkn[i], "-n", 2))
 			nl = 0;
-		else if (tkn_value[i] == ARG)
+		else if (tkn_value[i + 1] == ARG)
+			printf("%s ", tkn[i]);
+		else if (tkn_value[i + 1] != ARG)
 			printf("%s", tkn[i]);
-		else
+		else if (tkn_value[i] != ARG)
 			break;
 	}
 	if (nl)

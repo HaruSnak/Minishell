@@ -37,8 +37,8 @@ typedef struct s_exec
 	int			stdout_cpy;
 	int			fds[2];
 	int			check_signal;
-	pid_t		*pidz;
 	int			pid_i;
+	pid_t		*pidz;
 }	t_exec;
 
 typedef struct s_cmd_list

@@ -43,7 +43,6 @@
 # define CMD 6
 # define ARG 7
 # define FILE 8
-# define LAST_REDIR 9
 
 // Variable globale
 extern int g_signal_number;
