@@ -70,6 +70,12 @@ char	*ft_var_env(t_exec *data, char **envp, char *line)
 	i = -1;
 	while (line[++i] != '\0')
 	{
+		if (line[i] == '\"' && !data->parsing_ptr->quote->check_s)
+			data->parsing_ptr->quote->check_d
+				= !data->parsing_ptr->quote->check_d;
+		else if (line[i] == '\'' && !data->parsing_ptr->quote->check_d)
+			data->parsing_ptr->quote->check_s
+				= !data->parsing_ptr->quote->check_s;
 		if (line[i] == '$')
 		{
 			env_var = ft_substr(line, i + 1,
