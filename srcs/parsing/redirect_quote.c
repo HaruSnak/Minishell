@@ -93,7 +93,6 @@ char	*ft_separe_operator(char *input)
 		malloc_error("malloc");
 	ft_boucle_redirect(input, &i, &k, tmp_redir);
 	tmp_redir[k] = '\0';
-	printf("tmp_redir: %s\n", tmp_redir); // <-- ICI RECUP VAR
 	free(input);
 	input = NULL;
 	return (tmp_redir);

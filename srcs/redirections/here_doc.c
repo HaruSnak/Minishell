@@ -62,7 +62,7 @@ char	*ft_find_var_env(char *line, char **envp, int *i, char *env_var)
 	return (line);
 }
 
-char	*ft_var_env(char **envp, char *line)
+char	*ft_var_env(t_exec *data, char **envp, char *line)
 {
 	char	*env_var;
 	int		i;
@@ -73,7 +73,7 @@ char	*ft_var_env(char **envp, char *line)
 		if (line[i] == '$')
 		{
 			env_var = ft_substr(line, i + 1,
-					ft_strlen_quote(line, ' ', i + 1));// error handling
+					ft_strlen_quote(data->parsing_ptr, line, ' ', i + 1));// error handling
 			line = ft_find_var_env(line, envp, &i, env_var);
 			free(env_var);
 		}

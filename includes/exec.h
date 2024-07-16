@@ -93,7 +93,7 @@ int			ft_g_signal_exit(char *line, int heredoc);
 void		ft_write_heredoc(int heredoc, char *line,
 				char **g_env, t_exec *data);
 int			ft_line_null_msg(char *line, int count);
-char		*ft_var_env(char **envp, char *line);
+char		*ft_var_env(t_exec *data, char **envp, char *line);
 void		reset_outfile(t_exec *data, int i);
 void		print_output(int fd);
 
