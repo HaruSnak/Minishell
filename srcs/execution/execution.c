@@ -3,15 +3,12 @@
 
 bool	is_next_cmd_found(t_cmd_list *list, t_exec *data)
 {
-	t_cmd_list *list_cpy;
-
-	list_cpy = list;
 	if (list->next && data->outfile && !ft_strncmp(list->next->elem,
 			data->outfile, ft_strlen(data->outfile)))
 		return (1);
-	while (list_cpy->next && !list_cpy->is_cmd)
-		list_cpy = list_cpy->next;
-	if (list_cpy->cmd_found || list_cpy->absolute_path)
+	while (list->next && !list->is_cmd)
+		list = list->next;
+	if (list->cmd_found || list->absolute_path)
 		return (1);
 	else
 	{
@@ -23,7 +20,9 @@ bool	is_next_cmd_found(t_cmd_list *list, t_exec *data)
 void	command_found(t_exec *data, t_cmd_list *list, char **envp)
 {
 	data->cmd_count--;
-	if (list->next && !is_next_cmd_found(list, data))
+	if (data->cmd_count && list->next && !is_next_cmd_found(list->next, data))
+		return ;
+	else if (list->next && !is_next_cmd_found(list, data))
 		return ;
 	if (pipe(data->fds) == -1)
 	{
@@ -53,7 +52,7 @@ void	multi_execution(t_cmd_list *list, t_exec *data, char **envp)
 	list_cpy = list;
 	while (list)
 	{
-		if (!ft_strncmp(list->elem, "/usr/bin/echo", 13))
+		if (!ft_strncmp(list->elem, "echo", 13))
 			ft_handle_echo(data->parsing_ptr, data->parsing_ptr->tkn,
 				data->parsing_ptr->tkn_value, list->index);
 		else if (list->cmd_found || list->absolute_path)
