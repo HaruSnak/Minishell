@@ -17,13 +17,13 @@ bool	handle_single_redir(t_cmd_list *list, t_exec *data)
 		return (0);
 	else if (data->outfile)
 		redirect_output(data, data->redir_ptr);
-	if (!ft_strncmp(list->elem, "echo", 4))
+	if (!ft_strncmp(list->elem, "/usr/bin/echo", 13))
 	{
 		ft_handle_echo(data->parsing_ptr, data->parsing_ptr->tkn,
 			data->parsing_ptr->tkn_value, list->index);
 		return (0);
 	}
-	return (0);
+	return (1);
 }
 
 void	print_output(int fd)
