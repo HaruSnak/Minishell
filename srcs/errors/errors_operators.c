@@ -41,12 +41,12 @@ int	error_operator_redic(t_parsing *parsing, int i, int k)
 int	error_operator_other(t_parsing *parsing, int i, int k)
 {
 	if ((parsing->tkn[i][k] == '<' || parsing->tkn[i][k] == '>')
-	&& (parsing->tkn[i + 1][k] == '.' || parsing->tkn[i + 1][k] == '/'
-	|| parsing->tkn[i + 1][k] == '~' || parsing->tkn[i + 1][k] == '?'
-	|| parsing->tkn[i + 1][k] == '*'))
+	&& ((parsing->tkn[i + 1][0] == '.' && parsing->tkn[i + 1][1] != '/')
+	|| parsing->tkn[i + 1][k] == '/' || parsing->tkn[i + 1][k] == '~'
+	|| parsing->tkn[i + 1][k] == '?' || parsing->tkn[i + 1][k] == '*'))
 	{
-		if (parsing->tkn[i + 1][k] == '.' || parsing->tkn[i + 1][k] == '/'
-			|| parsing->tkn[i + 1][k] == '~')
+		if ((parsing->tkn[i + 1][0] == '.' && parsing->tkn[i + 1][1] != '/')
+		|| parsing->tkn[i + 1][k] == '/' || parsing->tkn[i + 1][k] == '~')
 		{
 			printf("minishell: %c: Is a directory\n", parsing->tkn[i + 1][k]);
 			return (parsing->exit_value = 2, -1);

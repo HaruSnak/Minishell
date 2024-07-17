@@ -58,16 +58,16 @@ int	ft_env_quote(char **envp, t_parsing *parsing)
 		while (parsing->tkn[i][++k] != '\0')
 		{
 			ft_verify_quote(parsing, i, k);
-			if (parsing->quote->check_d && parsing->tkn[i][k] == '$')
+			if (parsing->quote->check_d && parsing->tkn[i][k] == '$'
+			&& parsing->tkn[i][k + 1] != ' '
+			&& parsing->tkn[i][k + 1] != '\"'
+			&& k + 1 < ft_strlen(parsing->tkn[i]))
 				ft_pre_find(parsing, envp, i, &k);
 			if (!parsing->quote->check_d && !parsing->quote->check_s
 				&& parsing->tkn[i][k] == '$' && parsing->tkn[i][k + 1] != '\0'
 			&& parsing->tkn[i][k + 1] != ' '
 			&& k + 1 < ft_strlen(parsing->tkn[i]))
-			{
 				ft_pre_find(parsing, envp, i, &k);
-				continue ;
-			}
 		}
 		k = -1;
 	}
@@ -96,7 +96,5 @@ int	ft_interpret_env(char **envp, t_parsing *parsing)
 			parsing->quote_heredoc = true;
 		free(tmp);
 	}
-	parsing->quote->check_d = false; //DELETE APRES CHECK NOTE A MOI
-	parsing->quote->check_s = false;
 	return (0);
 }
