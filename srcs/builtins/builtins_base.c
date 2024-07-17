@@ -11,7 +11,7 @@ void	ft_handle_echo(t_parsing *data, char *tkn[], int *tkn_value, int i)
 	int	nl;
 
 	nl = 1;
-	while (tkn[++i])
+	while (tkn[++i] && tkn_value[i] == ARG)
 	{
 		if (!ft_strncmp(tkn[i], "-n", 2))
 			nl = 0;
@@ -19,8 +19,6 @@ void	ft_handle_echo(t_parsing *data, char *tkn[], int *tkn_value, int i)
 			printf("%s ", tkn[i]);
 		else if (tkn_value[i + 1] != ARG)
 			printf("%s", tkn[i]);
-		else if (tkn_value[i] != ARG)
-			break ;
 	}
 	if (nl)
 		printf("\n");
@@ -89,8 +87,9 @@ int	builtins_exec(t_parsing *parsing, char **envp)
 		return (0);
 	}
 	else if ((!ft_strncmp(parsing->tkn[0], "echo", 4))
-		&& !there_is_pipeline(parsing->tkn_value))
+		&& !there_is_pipeline(parsing->tkn_value) && !parsing)
 	{
+		PL;
 		ft_handle_echo(parsing, parsing->tkn, parsing->tkn_value, 0);
 		return (0);
 	}

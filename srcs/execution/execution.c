@@ -52,7 +52,7 @@ void	multi_execution(t_cmd_list *list, t_exec *data, char **envp)
 	list_cpy = list;
 	while (list)
 	{
-		if (!ft_strncmp(list->elem, "echo", 13))
+		if (!ft_strncmp(list->elem, "echo", 4))
 			ft_handle_echo(data->parsing_ptr, data->parsing_ptr->tkn,
 				data->parsing_ptr->tkn_value, list->index);
 		else if (list->cmd_found || list->absolute_path)
