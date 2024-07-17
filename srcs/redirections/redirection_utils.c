@@ -11,6 +11,21 @@ void	reset_outfile(t_exec *data, int tkn_i)
 	}
 }
 
+bool	handle_single_redir(t_cmd_list *list, t_exec *data)
+{
+	if (data->redir_ptr->redir_denied)
+		return (0);
+	else if (data->outfile)
+		redirect_output(data, data->redir_ptr);
+	if (!ft_strncmp(list->elem, "echo", 4))
+	{
+		ft_handle_echo(data->parsing_ptr, data->parsing_ptr->tkn,
+			data->parsing_ptr->tkn_value, list->index);
+		return (0);
+	}
+	return (0);
+}
+
 void	print_output(int fd)
 {
 	char	*line;

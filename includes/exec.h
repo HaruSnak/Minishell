@@ -100,5 +100,6 @@ void		print_output(int fd);
 // Redirection Utils
 void		ft_delete_file_heredoc(void);
 void		redirect_infile(t_exec *data, int *fd, char *path);
+bool		handle_single_redir(t_cmd_list *list, t_exec *data);
 
 #endif

@@ -63,12 +63,12 @@ void	reset_and_free(t_exec *data)
 {
 	if (dup2(data->stdin_cpy, STDIN_FILENO) == -1)// error handling
 	{
-		perror("dup22");
+		perror("dup2");
 		// return ;
 	}
 	if (dup2(data->stdout_cpy, STDOUT_FILENO) == -1)// error handling
 	{
-		perror("dup222");
+		perror("dup2");
 		// return ;
 	}
 	close(data->stdin_cpy);

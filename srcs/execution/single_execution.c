@@ -29,7 +29,7 @@ char	**set_argv(char *tkn[], int *tkn_value)
 		malloc_error("malloc : set_argv");
 	while (tkn_value[i] && (tkn_value[i] == ARG || tkn_value[i] == CMD))
 	{
-		argv[j] = ft_strdup(tkn[i]);// error handling
+		argv[j] = ft_strdup(tkn[i]);
 		if (!argv)
 			malloc_error("malloc : set_argv");
 		i++;
@@ -43,9 +43,7 @@ void	exec_cmd(t_cmd_list *list, t_exec *data, char **argv, char **envp)
 {
 	char	*path;
 
-	path = find_cmd_path(list, data, argv[0]); // argv[0] bad
-	if (data->outfile)
-		redirect_output(data, data->redir_ptr);
+	path = find_cmd_path(list, data, argv[0]);
 	if (path)
 		execve(path, argv, envp);
 	else
@@ -87,8 +85,7 @@ void	single_cmd_execution(t_cmd_list *list, t_exec *data, char **envp, char *tkn
 	char	**argv;
 
 	ft_init_signal_block();
-	if (data->redir_ptr->redir_denied)
-		return ;
+	handle_single_redir(list, data);
 	argv = find_path_set_argv(data, list, data->parsing_ptr->tkn_value, tkn);
 	if (argv)
 	{
