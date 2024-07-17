@@ -1,11 +1,6 @@
 
 #include "../../includes/minishell.h"
 
-void	ft_cmd_clear(void)
-{
-	printf("\033[H\033[J");
-}
-
 void	ft_handle_echo(t_parsing *data, char *tkn[], int *tkn_value, int i)
 {
 	int	nl;
@@ -27,6 +22,15 @@ void	ft_handle_echo(t_parsing *data, char *tkn[], int *tkn_value, int i)
 	data->exit_value = 0;
 }
 
+int	ft_verify_many_arg(t_parsing *parsing)
+{
+	if (parsing->tkn[1] != NULL && parsing->tkn[2] != NULL
+		&& parsing->tkn_value[2] == ARG)
+		return (printf("minishell: cd: too many arguments\n"),
+			parsing->exit_value = 1, 1);
+	return (0);
+}
+
 int	ft_cmd_cd(char **envp, t_parsing *parsing)
 {
 	char		*path;
@@ -34,9 +38,8 @@ int	ft_cmd_cd(char **envp, t_parsing *parsing)
 
 	path = NULL;
 	oldpwd = NULL;
-	if (parsing->tkn[2] != NULL && parsing->tkn_value[2] == ARG)
-		return (printf("minishell: cd: too many arguments\n"),
-			parsing->exit_value = 1, 0);
+	if (ft_verify_many_arg(parsing) == 1)
+		return (0);
 	if ((!ft_strncmp(parsing->tkn[0], "cd", ft_strlen(parsing->tkn[0]))
 			&& parsing->tkn[1] == NULL)
 		|| (!ft_strncmp(parsing->tkn[0], "cd", ft_strlen(parsing->tkn[0]))
@@ -58,17 +61,17 @@ int	ft_cmd_cd(char **envp, t_parsing *parsing)
 
 int	builtins_exec_bis(t_parsing *parsing, char **envp)
 {
-	if (ft_strncmp(parsing->tkn[0], "export", ft_strlen(parsing->tkn[0])) == 0)
+	if (!ft_strncmp(parsing->tkn[0], "export", ft_strlen(parsing->tkn[0])))
 	{
 		ft_handle_export(parsing, envp);
 		return (0);
 	}
-	else if (ft_strncmp(parsing->tkn[0], "unset", ft_strlen(parsing->tkn[0])) == 0)
+	else if (!ft_strncmp(parsing->tkn[0], "unset", ft_strlen(parsing->tkn[0])))
 	{
 		ft_handle_unset(parsing, envp);
 		return (0);
 	}
-	else if (ft_strncmp(parsing->tkn[0], "clear", ft_strlen(parsing->tkn[0])) == 0)
+	else if (!ft_strncmp(parsing->tkn[0], "clear", ft_strlen(parsing->tkn[0])))
 	{
 		ft_cmd_clear();
 		return (0);
