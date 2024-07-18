@@ -77,7 +77,10 @@ char	**find_path_set_argv(t_exec *data, t_cmd_list *list, int *tkn_value, char *
 		return (argv);
 	}
 	else
+	{
+
 		return (NULL);
+	}
 }
 
 void	single_cmd_execution(t_cmd_list *list, t_exec *data, char **envp, char *tkn[])

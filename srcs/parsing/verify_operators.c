@@ -23,7 +23,7 @@ int	ft_handle_verify(char **input, t_parsing *parsing, char **envp)
 		printf("parsing->tkn[%d] = %s\n", i, parsing->tkn[i]);
 		printf("parsing->tkn_value[%d] = %d\n", i, parsing->tkn_value[i]);
 	}*/
-	if (ft_check_redir(parsing) && builtins_exec(parsing, envp) == 0)
+	if (ft_check_redir(parsing) == 0 && builtins_exec(parsing, envp) == 0)
 		return (ft_end_verify(parsing), -1);
 	else
 		execution(parsing->tkn, envp, parsing);
