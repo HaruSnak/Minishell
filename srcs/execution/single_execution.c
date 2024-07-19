@@ -88,7 +88,8 @@ void	single_cmd_execution(t_cmd_list *list, t_exec *data, char **envp, char *tkn
 	char	**argv;
 
 	ft_init_signal_block();
-	handle_single_redir(list, data);
+	if (!handle_single_redir(list, data))
+		return ;
 	argv = find_path_set_argv(data, list, data->parsing_ptr->tkn_value, tkn);
 	if (argv)
 	{
