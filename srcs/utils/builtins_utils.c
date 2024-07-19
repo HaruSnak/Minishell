@@ -31,3 +31,19 @@ char	*ft_split_input(char *input, char *c)
 	ft_free_d_ptr((void ***)&tmp_split);
 	return (path);
 }
+
+int	ft_check_redir(t_parsing *parsing)
+{
+	int	i;
+
+	i = -1;
+	while (parsing->tkn_value[++i])
+	{
+		if (parsing->tkn_value[i] == IN || parsing->tkn_value[i] == OUT
+			|| parsing->tkn_value[i] == APPEND
+			|| parsing->tkn_value[i] == HEREDOC
+			|| parsing->tkn_value[i] == PIPE)
+			return (1);
+	}
+	return (0);
+}

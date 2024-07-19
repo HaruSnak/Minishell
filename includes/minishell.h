@@ -129,6 +129,7 @@ void	ft_handle_export(t_parsing *parsing, char **envp);
 int		ft_handle_empty_cmd(char **input);
 int		ft_handle_exit(t_parsing *parsing);
 bool	is_builtins(char *cmd, t_exec *data, char **envp);
+void	ft_cmd_clear(void);
 
 // REDIRECTION FUNCTIONS SHELL
 int		ft_handle_verify(char **input, t_parsing *parsing, char **envp);
@@ -152,5 +153,6 @@ int		ft_count_index(char **input);
 int		ft_strlen_quote(t_parsing *parsing, char *str, char c, int i);
 int		ft_strlen_quote_b(char *str, char c, int i);
 int		ft_check_envp(char **envp);
+int		ft_check_redir(t_parsing *parsing);
 
 #endif

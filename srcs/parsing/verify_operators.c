@@ -18,9 +18,12 @@ int	ft_handle_verify(char **input, t_parsing *parsing, char **envp)
 	ft_interpret_env(envp, parsing);
 	ft_token_value(parsing);
 	ft_delete_quote(parsing);
-	//for (int i = 0; parsing->tkn[i]; i++)
-	//	printf("parsing->tkn[%d] = %s\n", i, parsing->tkn[i]);
-	if (builtins_exec(parsing, envp) == 0)
+	/*for (int i = 0; parsing->tkn[i]; i++)
+	{
+		printf("parsing->tkn[%d] = %s\n", i, parsing->tkn[i]);
+		printf("parsing->tkn_value[%d] = %d\n", i, parsing->tkn_value[i]);
+	}*/
+	if (ft_check_redir(parsing) == 0 && builtins_exec(parsing, envp) == 0)
 		return (ft_end_verify(parsing), -1);
 	else
 		execution(parsing->tkn, envp, parsing);

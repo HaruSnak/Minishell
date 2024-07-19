@@ -12,3 +12,8 @@ bool	is_builtins(char *cmd, t_exec *data, char **envp)
 	else
 		return (FALSE);
 }
+
+void	ft_cmd_clear(void)
+{
+	printf("\033[H\033[J");
+}
