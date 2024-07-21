@@ -1,4 +1,14 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtins_utils.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/21 13:38:43 by shmoreno          #+#    #+#             */
+/*   Updated: 2024/07/21 14:19:28 by shmoreno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
@@ -13,7 +23,8 @@ char	*ft_split_input(char *input, char *c)
 	int		i;
 
 	tmp_split = ft_split(input, '/');
-	path = malloc(sizeof(char) * ft_strlen(input) + 100);
+	path = malloc(sizeof(char) * ft_strlen(input) + 1);
+	malloc_error_ptr(path, "malloc : ft_split_input");
 	path[0] = '\0';
 	i = 0;
 	while (tmp_split[i] != NULL)

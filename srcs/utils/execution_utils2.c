@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execution_utils2.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/21 13:38:59 by shmoreno          #+#    #+#             */
+/*   Updated: 2024/07/21 14:04:15 by shmoreno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
@@ -23,13 +34,9 @@ char	*find_small_path(char *cmd, char **envp)
 	while (j < 8)
 	{
 		path = ft_strjoin_fs(bin_paths[j], cmd);
-		if (!path)
-			malloc_error("malloc : find small path");
+		malloc_error_ptr(path, "malloc : find small path");
 		if (access(path, X_OK) == 0 && is_cmd(path) == TRUE)
-		{
-			free_strs(bin_paths);
-			return (path);
-		}
+			return (free_strs(bin_paths), path);
 		else
 			free(path);
 		j++;
@@ -52,8 +59,7 @@ char	*find_cmd_path(t_cmd_list *list, t_exec *data, char *cmd)
 	while (j < 8)
 	{
 		path = ft_strjoin_fs(data->paths[j], cmd);
-		if (!path)
-			malloc_error("malloc : find cmd path");
+		malloc_error_ptr(path, "malloc : find cmd path");
 		if (access(path, X_OK) == 0 && is_cmd(path) == TRUE)
 			return (path);
 		else

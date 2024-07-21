@@ -60,23 +60,23 @@ Despite these mixed feelings, this project has enabled me to acquire a wealth of
 ## Installation
 ```bash
 # Clone this repository
-$ git clone https://github.com/HaruSnak/So_Long.git
+$ git clone https://github.com/HaruSnak/Pipex.git
 
 # Go into the repository
-$ cd So_Long
+$ cd Pipex
 
 # To compile the program
 $ make
 
 # Execution example
-$ ./so_long {NAME_MAP}.ber
+$ ./Pipex {NAME_MAP}.ber
 
 # Allows you to do a complete cleaning of your construction environment
 $ make fclean # Or make clean
 ```
 
 ## Development
-### Pre-Requisites
+<!--### Pre-Requisites
 ```
 Requirements for Linux
 
@@ -87,7 +87,7 @@ X11 include files (package xorg)
 XShm extension must be present (package libxext-dev)
 Utility functions from BSD systems - development files (package libbsd-dev)
 e.g. sudo apt-get install gcc make xorg libxext-dev libbsd-dev (Debian/Ubuntu)
-```
+```-->
 
 ### File Structure
 
@@ -174,9 +174,8 @@ Write the build Instruction here.
 
 ## Notes
 
-*Small error on my part, for which there is a good chance that I will re-push the correction to get 100/100*
 <p align="left">
-    <img src="https://image.noelshack.com/fichiers/2024/29/4/1721314123-sans-titre.png"
+    <img src="https://image.noelshack.com/fichiers/2024/11/2/1710270009-125.png"
          alt="Sponsored by Evil Martians" width="216" height="164">
 </p>
 
@@ -185,16 +184,16 @@ Write the build Instruction here.
 Below you will find the links used for this project:
 
 - [Norm 42](https://cdn.intra.42.fr/pdf/pdf/960/norme.en.pdf)
-- [Mechanical Turk](https://en.wikipedia.org/wiki/Amazon_Mechanical_Turk)
-- [Fred Orion | Similar method | inspiration](https://www.youtube.com/watch?v=2aMrmWOgLvU)
+- [Holidaylvr | Pipe() tutorial for linux](https://www.youtube.com/watch?v=uHH7nHkgZ4w)
+- [Processus pipe | FR](https://www.codequoi.com/pipe-une-methode-de-communication-inter-processus/)
 
-[contributors-shield]: https://img.shields.io/github/contributors/HaruSnak/So_long.svg?style=for-the-badge
-[contributors-url]: https://github.com/HaruSnak/So_Long/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/HaruSnak/So_Long.svg?style=for-the-badge
-[forks-url]: https://github.com/HaruSnak/So_Long/network/members
-[stars-shield]: https://img.shields.io/github/stars/HaruSnak/So_Long.svg?style=for-the-badge
-[stars-url]: https://github.com/HaruSnak/So_Long/stargazers
-[issues-shield]: https://img.shields.io/github/issues/HaruSnak/So_Long.svg?style=for-the-badge
-[issues-url]: https://github.com/HaruSnak/So_Long/issues
+[contributors-shield]: https://img.shields.io/github/contributors/HaruSnak/Pipex.svg?style=for-the-badge
+[contributors-url]: https://github.com/HaruSnak/Pipex/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/HaruSnak/Pipex.svg?style=for-the-badge
+[forks-url]: https://github.com/HaruSnak/Pipex/network/members
+[stars-shield]: https://img.shields.io/github/stars/HaruSnak/Pipex.svg?style=for-the-badge
+[stars-url]: https://github.com/HaruSnak/Pipex/stargazers
+[issues-shield]: https://img.shields.io/github/issues/HaruSnak/Pipex.svg?style=for-the-badge
+[issues-url]: https://github.com/HaruSnak/Pipex/issues
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/shany-moreno-5a863b2aa

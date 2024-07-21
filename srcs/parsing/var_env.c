@@ -1,4 +1,14 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   var_env.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/21 13:38:27 by shmoreno          #+#    #+#             */
+/*   Updated: 2024/07/21 13:38:28 by shmoreno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
@@ -19,14 +29,6 @@ void	ft_pre_find(t_parsing *parsing, char **envp, int i, int *k)
 
 	env_var = ft_substr(parsing->tkn[i], *k + 1,
 			ft_strlen_quote_b(parsing->tkn[i], ' ', *k + 1));
-	/*if (ft_strlen(parsing->tkn[i]) == (ft_strlen(env_var) + 3))
-	{
-		free(parsing->tkn[i]);
-		parsing->tkn[i] = ft_strjoin("$", env_var);
-		PL;
-		free(env_var);
-		return ;
-	}*/
 	parsing->quote->p = *k;
 	if (ft_return_value_quote(parsing, i) == 1)
 	{

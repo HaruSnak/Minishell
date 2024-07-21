@@ -1,12 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execution_utils.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/21 13:38:40 by shmoreno          #+#    #+#             */
+/*   Updated: 2024/07/21 14:05:20 by shmoreno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 void	check_err_fork(pid_t pid)
 {
 	if (pid < 0)
-		{
+	{
 		perror("fork");
-		exit(FORK_FAILURE);// error handling > good
+		exit(FORK_FAILURE);
 	}
 }
 
@@ -28,8 +39,7 @@ void	init_pidz(t_exec *data, int cmd_count)
 {
 	data->pidz = (pid_t *)ft_calloc(1,
 			(cmd_count + 1) * sizeof(pid_t));
-	if (data->pidz == NULL)
-		malloc_error("malloc: init data");
+	malloc_error_ptr(data->pidz, "malloc : init_pidz");
 	data->pidz[cmd_count] = -1;
 }
 

@@ -1,11 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_list.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/21 13:38:35 by shmoreno          #+#    #+#             */
+/*   Updated: 2024/07/21 14:01:00 by shmoreno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 char	*extract_tkn(t_cmd_list *list, t_exec *data, char *tkn)
 {
-	char *path;
+	char	*path;
 
-	// set the bultins flag, strcmp tkn
 	path = find_cmd_path(list, data, tkn);
 	if (path && list->is_cmd)
 	{
@@ -33,8 +43,7 @@ t_cmd_list	*create_node(t_exec *data, char *tkn, int tkn_value)
 	else if (tkn_value == ARG)
 		new->arg = TRUE;
 	new->index = 0;
-	if (!new)
-		malloc_error("malloc : create_node");
+	malloc_error_ptr(new, "malloc : create_node");
 	new->elem = extract_tkn(new, data, tkn);
 	new->next = NULL;
 	return (new);

@@ -1,7 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/21 13:39:41 by shmoreno          #+#    #+#             */
+/*   Updated: 2024/07/21 18:14:22 by pcardin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int g_signal_number = 0;
+int	g_signal_number = 0;
 
 void	ft_init_main(t_parsing *parsing, t_quote *quote, char **envp, int argc)
 {
@@ -34,7 +45,6 @@ int	main(int argc, char **argv, char **envp)
 	ft_init_main(&parsing, &quote, envp, argc);
 	(void)argv;
 	ft_init_signal(&sa, &sa_quit);
-	// write(1, "\033[H\033[J", 6);
 	input = NULL;
 	while (1)
 	{

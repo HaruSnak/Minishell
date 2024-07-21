@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/21 13:38:48 by shmoreno          #+#    #+#             */
+/*   Updated: 2024/07/21 17:55:49 by pcardin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
@@ -23,11 +34,8 @@ void	free_list(t_cmd_list *list)
 	while (list)
 	{
 		next_node = list->next;
-		// if (list->is_cmd)
-		// {
-			free(list->elem);
-			list->elem = NULL;
-		// }
+		free(list->elem);
+		list->elem = NULL;
 		free(list);
 		list = NULL;
 		list = next_node;
@@ -61,12 +69,12 @@ void	free_strs(char **strs)
 
 void	reset_and_free(t_exec *data)
 {
-	if (dup2(data->stdin_cpy, STDIN_FILENO) == -1)// error handling
+	if (dup2(data->stdin_cpy, STDIN_FILENO) == -1) // error handling
 	{
 		perror("dup2");
 		// return ;
 	}
-	if (dup2(data->stdout_cpy, STDOUT_FILENO) == -1)// error handling
+	if (dup2(data->stdout_cpy, STDOUT_FILENO) == -1) // error handling
 	{
 		perror("dup2");
 		// return ;

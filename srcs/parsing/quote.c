@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   quote.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/21 13:41:00 by shmoreno          #+#    #+#             */
+/*   Updated: 2024/07/21 16:54:21 by shmoreno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
@@ -27,7 +38,6 @@ int	ft_return_value_quote(t_parsing *parsing, int k)
 
 int	ft_quote_empty_pipe(t_parsing *parsing, int i)
 {
-
 	if (((parsing->tkn[i][0] == '\"'
 			&& parsing->tkn[i][1] == '\"') || (parsing->tkn[i][0] == '\''
 		&& parsing->tkn[i][1] == '\'')))

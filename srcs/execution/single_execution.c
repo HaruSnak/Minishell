@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   single_execution.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/21 13:39:11 by shmoreno          #+#    #+#             */
+/*   Updated: 2024/07/21 13:58:19 by shmoreno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
@@ -25,13 +36,11 @@ char	**set_argv(char *tkn[], int *tkn_value)
 	while (tkn_value[++i] != CMD)
 		;
 	argv = malloc((get_argv_len(i, tkn_value) + 1) * sizeof(char *));
-	if (!argv)
-		malloc_error("malloc : set_argv");
+	malloc_error_dbl_ptr(argv, "malloc : set_argv");
 	while (tkn_value[i] && (tkn_value[i] == ARG || tkn_value[i] == CMD))
 	{
 		argv[j] = ft_strdup(tkn[i]);
-		if (!argv)
-			malloc_error("malloc : set_argv");
+		malloc_error_ptr(argv[j], "malloc : set_argv");
 		i++;
 		j++;
 	}
@@ -55,7 +64,8 @@ void	exec_cmd(t_cmd_list *list, t_exec *data, char **argv, char **envp)
 	}
 }
 
-char	**find_path_set_argv(t_exec *data, t_cmd_list *list, int *tkn_value, char **tkn)
+char	**find_path_set_argv(t_exec *data, t_cmd_list *list,
+int *tkn_value, char **tkn)
 {
 	char	*cmd_path;
 	char	**argv;
@@ -63,7 +73,7 @@ char	**find_path_set_argv(t_exec *data, t_cmd_list *list, int *tkn_value, char *
 
 	i = -1;
 	cmd_path = NULL;
-	while(list && !list->is_cmd)
+	while (list && !list->is_cmd)
 		list = list->next;
 	while (tkn[++i])
 	{
@@ -77,13 +87,11 @@ char	**find_path_set_argv(t_exec *data, t_cmd_list *list, int *tkn_value, char *
 		return (argv);
 	}
 	else
-	{
-
 		return (NULL);
-	}
 }
 
-void	single_cmd_execution(t_cmd_list *list, t_exec *data, char **envp, char *tkn[])
+void	single_cmd_execution(t_cmd_list *list, t_exec *data,
+char **envp, char *tkn[])
 {
 	char	**argv;
 
@@ -105,7 +113,7 @@ void	single_cmd_execution(t_cmd_list *list, t_exec *data, char **envp, char *tkn
 	}
 	else if (data->parsing_ptr->tkn_value[list->index] == CMD)
 	{
-		ft_printf("minishlag: %s: command not found\n", tkn[0]);
+		ft_printf("%s: command not found\n", tkn[0]);
 		data->parsing_ptr->exit_value = 127;
 	}
 }

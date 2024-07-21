@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec.h                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/21 13:39:26 by shmoreno          #+#    #+#             */
+/*   Updated: 2024/07/21 13:56:56 by shmoreno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef EXEC_H
 # define EXEC_H
@@ -57,7 +68,8 @@ typedef struct s_cmd_list
 bool		execution(char *argv[], char **envp, t_parsing *parsing);
 void		child_exec(char **envp, t_exec *data, t_cmd_list *list, char *path);
 void		parent_exec(t_exec *data);
-void		single_cmd_execution(t_cmd_list *list, t_exec *data, char **envp, char *tkn[]);
+void		single_cmd_execution(t_cmd_list *list, t_exec *data,
+				char **envp, char *tkn[]);
 char		**set_argv(char *tkn[], int *tkn_value);
 char		**ft_path_envp(char **envp);
 void		init_data(t_exec *data, t_redir *s_redir,
@@ -67,7 +79,6 @@ void		ft_handle_echo(t_parsing *data, char *tkn[], int *tkn_value, int i);
 // Execution Utils
 bool		no_such_file(t_parsing *data, char *tkn[], int *tkn_value);
 void		check_err_fork(pid_t pid);
-void		malloc_error(char *str);
 void		wait_pidz(t_exec *data);
 void		handle_input(void);
 void		handle_input(void);

@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execution.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/21 13:39:46 by shmoreno          #+#    #+#             */
+/*   Updated: 2024/07/21 17:37:39 by pcardin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
@@ -40,7 +51,7 @@ void	command_found(t_exec *data, t_cmd_list *list, char **envp)
 
 void	command_not_found(t_exec *data, char *wrong_path)
 {
-	ft_printf("minishlag: %s: command not found\n", wrong_path);
+	ft_printf("%s: command not found\n", wrong_path);
 	data->parsing_ptr->exit_value = 127;
 	handle_input();
 }
