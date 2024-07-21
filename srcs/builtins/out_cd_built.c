@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   out_cd_built.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:40:05 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/21 16:52:50 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/07/21 17:52:01 by pcardin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,7 @@ void	ft_handle_cd_home(t_parsing *parsing,
 	}
 }
 
-void	ft_handle_cd_previous(t_parsing *parsing,
-	char **envp)
+void	ft_handle_cd_previous(t_parsing *parsing, char **envp)
 {
 	char	*path;
 
@@ -53,14 +52,11 @@ void	ft_handle_cd_previous(t_parsing *parsing,
 		else
 			path = ft_split_input(parsing->v_senv, "/");
 		parsing->n_senv = "OLDPWD";
-		ft_setenv(envp, parsing);
-		free(parsing->v_senv);
+		(ft_setenv(envp, parsing), free(parsing->v_senv));
 		parsing->n_senv = "PWD";
 		parsing->v_senv = ft_strdup(path);
 		malloc_error_ptr(parsing->v_senv, "malloc : ft_handle_cd_previous");
-		ft_setenv(envp, parsing);
-		free(parsing->v_senv);
-		free(path);
+		(ft_setenv(envp, parsing), free(parsing->v_senv), free(path));
 		parsing->exit_value = 0;
 	}
 	else

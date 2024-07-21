@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:39:32 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/21 16:57:38 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/07/21 18:11:07 by pcardin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@
 # define PS2(s, x) fprintf(stderr, "%s: %s\n", (s), (x));*/
 
 # define PROMPT "\001\033[0;32m\002minishell\001\033[0m\002$ "
-// # define PROMPT "\001\033[0;32m\002minishell\001\033[0m\002 \001\xF0\x9F\x90\x9A\002 "
+/* # define PROMPT "\001\033[0;32m\002minishell\001\033[0m\002 \
+	\001\xF0\x9F\x90\x9A\002 "*/
 
 # define TRUE 1
 # define FALSE 0

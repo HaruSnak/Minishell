@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:38:08 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/21 16:58:40 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/07/21 17:52:16 by pcardin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,9 @@ char	*ft_find_var_env(char *line, char **envp, int *i, char *env_var)
 			malloc_error_ptr(tmp_env, "malloc : ft_find_var_env");
 			tmp_before = ft_strjoin(tmp_env, line + ft_strlen(tmp_env) + 1);
 			malloc_error_ptr(tmp_before, "malloc : ft_find_var_env");
-			free(line);
-			line = ft_strdup(tmp_before);
+			(free(line), line = ft_strdup(tmp_before));
 			malloc_error_ptr(line, "malloc : ft_find_var_env");
-			free(tmp_after);
-			free(tmp_env);
-			free(tmp_before);
-			p = -1;
+			(free(tmp_after), free(tmp_env), free(tmp_before), p = -1);
 			break ;
 		}
 	}

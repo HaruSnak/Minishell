@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:38:48 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/21 13:38:49 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/07/21 17:55:49 by pcardin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,12 @@ void	free_strs(char **strs)
 
 void	reset_and_free(t_exec *data)
 {
-	if (dup2(data->stdin_cpy, STDIN_FILENO) == -1)// error handling
+	if (dup2(data->stdin_cpy, STDIN_FILENO) == -1) // error handling
 	{
 		perror("dup2");
 		// return ;
 	}
-	if (dup2(data->stdout_cpy, STDOUT_FILENO) == -1)// error handling
+	if (dup2(data->stdout_cpy, STDOUT_FILENO) == -1) // error handling
 	{
 		perror("dup2");
 		// return ;
