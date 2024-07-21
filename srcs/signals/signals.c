@@ -6,7 +6,7 @@
 /*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 13:10:38 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/06/27 13:03:52 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/07/20 17:47:03 by shmoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,8 @@ void	ft_init_signal_block(void)
 	struct sigaction	sa_return;
 	struct sigaction	sa_quit;
 
-
-    ft_memset(&sa_return, 0, sizeof(sa_return)); // Delete ? valgrind bug ?
-    ft_memset(&sa_quit, 0, sizeof(sa_quit)); // Delete ? valgrind bug ?
+	ft_memset(&sa_return, 0, sizeof(sa_return));
+	ft_memset(&sa_quit, 0, sizeof(sa_quit));
 	sa_return.sa_handler = ft_signal_return;
 	sa_quit.sa_handler = ft_signal_quit;
 	sa_quit.sa_flags = 0;

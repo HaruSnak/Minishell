@@ -1,10 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirection_utils.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/21 13:37:28 by shmoreno          #+#    #+#             */
+/*   Updated: 2024/07/21 13:37:30 by shmoreno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 void	reset_outfile(t_exec *data, int tkn_i)
 {
 	if (!ft_strncmp(data->parsing_ptr->tkn[tkn_i], ">", 1)
-	|| !ft_strncmp(data->parsing_ptr->tkn[tkn_i], ">>", 2))
+		|| !ft_strncmp(data->parsing_ptr->tkn[tkn_i], ">>", 2))
 	{
 		free(data->outfile);
 		data->outfile = NULL;
@@ -52,7 +63,7 @@ void	redirect_infile(t_exec *data, int *fd, char *path)
 	{
 		perror("outfile open");
 		return ;// error handling
-	}	
+	}
 	if (dup2(*fd, STDIN_FILENO) == -1)
 	{
 		data->parsing_ptr->exit_value = PERMISSION_DENY;

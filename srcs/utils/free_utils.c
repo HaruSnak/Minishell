@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/21 13:38:48 by shmoreno          #+#    #+#             */
+/*   Updated: 2024/07/21 13:38:49 by shmoreno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
@@ -23,11 +34,8 @@ void	free_list(t_cmd_list *list)
 	while (list)
 	{
 		next_node = list->next;
-		// if (list->is_cmd)
-		// {
-			free(list->elem);
-			list->elem = NULL;
-		// }
+		free(list->elem);
+		list->elem = NULL;
 		free(list);
 		list = NULL;
 		list = next_node;

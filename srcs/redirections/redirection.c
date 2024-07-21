@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirection.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/21 13:37:21 by shmoreno          #+#    #+#             */
+/*   Updated: 2024/07/21 14:05:33 by shmoreno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
@@ -21,10 +32,10 @@ void	check_access_infile(t_exec *data, char *infile)
 		data->redir_ptr->redir_denied = TRUE;
 		return ;
 	}
-	redirect_infile(data, &fd, infile);// error handling
+	redirect_infile(data, &fd, infile);
 }
 
-void	check_access_outfile(char *outfile, int	tkn_value, t_exec *data)
+void	check_access_outfile(char *outfile, int tkn_value, t_exec *data)
 {
 	int		fd;
 
@@ -41,8 +52,7 @@ void	check_access_outfile(char *outfile, int	tkn_value, t_exec *data)
 	}
 	close(fd);
 	data->outfile = malloc((ft_strlen(outfile) + 1) * sizeof(char));
-	if (!data->outfile)
-		malloc_error("malloc : access_outfile");
+	malloc_error_ptr(data->outfile, "malloc : check_access_outfile");
 	ft_strlcpy(data->outfile, outfile, ft_strlen(outfile) + 1);
 }
 
@@ -63,7 +73,7 @@ int	check_for_redirection(t_exec *data, char **envp)
 			data->redir_ptr->redir_out = TRUE;
 		else if (data->parsing_ptr->tkn_value[i] == APPEND)
 			data->redir_ptr->append = TRUE;
-		if ((data->redir_ptr->redir_out == TRUE || data->redir_ptr->append == TRUE)
+		if ((data->redir_ptr->redir_out || data->redir_ptr->append)
 			&& !data->outfile && !data->redir_ptr->redir_denied)
 		{
 			check_access_outfile(data->parsing_ptr->tkn[i + 1],

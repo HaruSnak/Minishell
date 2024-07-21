@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtins_base.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/21 13:40:19 by shmoreno          #+#    #+#             */
+/*   Updated: 2024/07/21 13:45:02 by shmoreno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
@@ -92,7 +103,6 @@ int	builtins_exec(t_parsing *parsing, char **envp)
 	else if ((!ft_strncmp(parsing->tkn[0], "echo", 4))
 		&& !there_is_pipeline(parsing->tkn_value) && !parsing)
 	{
-		PL;
 		ft_handle_echo(parsing, parsing->tkn, parsing->tkn_value, 0);
 		return (0);
 	}

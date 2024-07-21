@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirect_quote.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/21 13:40:53 by shmoreno          #+#    #+#             */
+/*   Updated: 2024/07/21 14:11:53 by shmoreno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
@@ -88,9 +99,8 @@ char	*ft_separe_operator(char *input)
 
 	i = -1;
 	k = 0;
-	tmp_redir = malloc(sizeof(char) * ft_strlen(input) + 100000); // FIX
-	if (!tmp_redir)
-		malloc_error("malloc");
+	tmp_redir = malloc(sizeof(char) * ft_strlen(input) + 100);
+	malloc_error_ptr(tmp_redir, "malloc : ft_separe_operator");
 	ft_boucle_redirect(input, &i, &k, tmp_redir);
 	tmp_redir[k] = '\0';
 	free(input);

@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   list_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/21 13:41:27 by shmoreno          #+#    #+#             */
+/*   Updated: 2024/07/21 14:03:36 by shmoreno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
@@ -44,8 +55,7 @@ char	**set_argv_lst(t_cmd_list *list, char *cmd)
 	while (list && ft_strncmp(list->elem, cmd, ft_strlen(cmd)) != 0)
 		list = list->next;
 	argv = malloc((get_argv_cnt(list) + 1) * sizeof(char *));
-	if (!argv)
-		malloc_error("malloc : set_argv_list");
+	malloc_error_dbl_ptr(argv, "malloc : set_argv_lst");
 	argv = iter_through_list(list, argv);
 	return (argv);
 }

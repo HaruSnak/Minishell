@@ -1,11 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execution_utils3.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/21 13:38:52 by shmoreno          #+#    #+#             */
+/*   Updated: 2024/07/21 14:06:09 by shmoreno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void	malloc_error(char *str)
-{
-	perror(str);
-	exit(OUT_OF_MEMORY);
-}
 
 bool	no_such_file(t_parsing *data, char *tkn[], int *tkn_value)
 {
@@ -52,9 +57,8 @@ char	**ft_path_envp(char **envp)
 	{
 		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
 		{
-			path = ft_strjoin(envp[i] + 5, "/usr/bin:/bin");// error handling > good
-			if (!path)
-				malloc_error("malloc : path_envp");
+			path = ft_strjoin(envp[i] + 5, "/usr/bin:/bin");
+			malloc_error_ptr(path, "malloc : path_envp");
 			break ;
 		}
 	}
@@ -62,11 +66,8 @@ char	**ft_path_envp(char **envp)
 		return (NULL);
 	else
 	{
-		path_f = ft_split(path, ':');// error handling > good
-		if (!path_f)
-			malloc_error("malloc : path_f_envp");
-		free(path);
-		path = NULL;
-		return (path_f);
+		path_f = ft_split(path, ':');
+		malloc_error_dbl_ptr(path_f, "malloc : path_envp");
+		return (free(path), path = NULL, path_f);
 	}
 }

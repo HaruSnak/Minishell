@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/21 13:39:32 by shmoreno          #+#    #+#             */
+/*   Updated: 2024/07/21 16:57:38 by shmoreno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -24,11 +35,13 @@
 # include "libft/includes/libft.h"
 # include "exec.h"
 
-# define PL fprintf(stderr, "file: %s line: %d pid: %i\n", __FILE__, __LINE__, getpid())
+// DEBUG MACROS 
+/*# define PL fprintf(stderr, "file: %s line: %d pid: %i\n"
+, __FILE__, __LINE__, getpid())
 # define PI(x) fprintf(stderr, "PI: %d\n", (x));
 # define PI2(s, x) fprintf(stderr, "%s: %d\n", (s), (x));
 # define PS(x) fprintf(stderr, "PS: %s\n", (x));
-# define PS2(s, x) fprintf(stderr, "%s: %s\n", (s), (x));
+# define PS2(s, x) fprintf(stderr, "%s: %s\n", (s), (x));*/
 
 # define PROMPT "\001\033[0;32m\002minishell\001\033[0m\002$ "
 // # define PROMPT "\001\033[0;32m\002minishell\001\033[0m\002 \001\xF0\x9F\x90\x9A\002 "
@@ -46,7 +59,7 @@
 # define FILE 8
 
 // Variable globale
-extern int g_signal_number;
+extern int	g_signal_number;
 
 typedef struct s_quote
 {
@@ -69,7 +82,6 @@ typedef struct s_parsing
 	char	**path;
 	char	**tmp_env; // modifier name last
 	char	**tmp_setenv;
-	char	*tkn_cpy; //delete ?
 	char	*n_senv;
 	char	*v_senv;
 	char	*pwd;
@@ -84,12 +96,8 @@ typedef struct s_parsing
 
 // PARSING FUNCTIONS
 char	*ft_separe_operator(char *input);
-char	*ft_replace_espace(char *input, t_parsing *parsing);
-void	ft_delete_espace(t_parsing *parsing);
-void	ft_interpret_envp(char **envp, t_parsing *parsing);
 int		ft_token_value(t_parsing *parsing);
 int		ft_check_odd_quote(char *input, t_parsing *parsing);
-int		ft_return_value_echo(t_parsing *parsing, int k);
 char	*ft_f_null_q(t_parsing *parsing, char *env_var, int i, int p);
 int		ft_condition_envp(t_parsing *parsing, char **envp, char *env, int i);
 void	ft_verify_quote(t_parsing *parsing, int i, int k);
@@ -138,10 +146,11 @@ int		ft_handle_verify(char **input, t_parsing *parsing, char **envp);
 void	ft_end_verify(t_parsing *parsing);
 void	ft_free_and_compact(char **str, int index, int size);
 int		ft_error_quote(int s_quote, int d_quote);
-// void	ft_free_data(t_exec *data, t_parsing *parsing);
 void	ft_free_d_ptr(void ***ptr);
 int		ft_error_operator(t_parsing *parsing);
 int		ft_error_cmd_ext(int fd, char *str);
+void	malloc_error_ptr(void *str, char *msg);
+void	malloc_error_dbl_ptr(char **str, char *msg);
 
 // QUOTE FUNCTIONS SHELL
 int		ft_interpret_env(char **envp, t_parsing *parsing);

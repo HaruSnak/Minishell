@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sub_exec.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/21 13:39:52 by shmoreno          #+#    #+#             */
+/*   Updated: 2024/07/21 16:57:00 by shmoreno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
@@ -10,7 +21,7 @@ void	parent_exec(t_exec *data)
 		close(data->fds[WRIT]);
 		data->fds[WRIT] = -1;
 	}
-	if(dup2(data->fds[READ], STDIN_FILENO) == -1)
+	if (dup2(data->fds[READ], STDIN_FILENO) == -1)
 		perror("dup2 parent");// error handling
 	if (data->fds[READ] != -1)
 	{
@@ -27,7 +38,7 @@ bool	redir_handling(t_exec *data)
 		redirect_output(data, data->redir_ptr);
 	else if (!data->cmd_count && !data->redir_ptr->redir_out)
 		print_output(data->fds[WRIT]);
-	else if(dup2(data->fds[WRIT], STDOUT_FILENO) == -1)
+	else if (dup2(data->fds[WRIT], STDOUT_FILENO) == -1)
 		perror("dup2 child"); // error handling
 	close(data->fds[WRIT]);
 	data->fds[WRIT] = -1;
