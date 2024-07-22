@@ -3,23 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:37:21 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/21 14:05:33 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/07/22 15:35:10 by pcardin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void	ignore_first_cmd(t_cmd_list *list)
-{
-	while (list && !list->is_cmd)
-		list = list->next;
-	free(list->elem);
-	free(list);
-	list = NULL;
-}
 
 void	check_access_infile(t_exec *data, char *infile)
 {
@@ -56,6 +47,7 @@ void	check_access_outfile(char *outfile, int tkn_value, t_exec *data)
 	ft_strlcpy(data->outfile, outfile, ft_strlen(outfile) + 1);
 }
 
+// Redirect standard in and output if necessary  
 int	check_for_redirection(t_exec *data, char **envp)
 {
 	int	i;

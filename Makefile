@@ -16,10 +16,9 @@ SRC_1 = srcs/minishell.c \
 SRC_2 =	srcs/builtins/built_external.c \
 	srcs/builtins/export_unset_built.c \
 	srcs/builtins/out_cd_built.c \
+	srcs/builtins/builtins_utils.c \
 	srcs/builtins/out_env_built.c \
 	srcs/builtins/builtins_base.c \
-	srcs/utils/builtins_utils.c \
-	srcs/utils/builtins_utils.c \
 	srcs/errors/errors_operators.c \
 	srcs/errors/errors.c \
 	srcs/parsing/verify_operators.c \

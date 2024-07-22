@@ -6,12 +6,13 @@
 /*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:38:52 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/22 15:45:18 by pcardin          ###   ########.fr       */
+/*   Updated: 2024/07/22 15:51:58 by pcardin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+// Manualy handling input if path is unset
 bool	no_such_file(t_parsing *data, char *tkn[], int *tkn_value)
 {
 	int	i;
@@ -45,6 +46,7 @@ bool	there_is_pipeline(int *tkn_value)
 	return (FALSE);
 }
 
+// Extract the path
 char	**ft_path_envp(char **envp)
 {
 	int		i;

@@ -6,7 +6,7 @@
 /*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:38:43 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/22 11:22:19 by pcardin          ###   ########.fr       */
+/*   Updated: 2024/07/22 15:23:22 by pcardin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	wait_and_fetch_exit_value(pid_t pid, t_exec *data)
 {
 	int	status;
-	
+
 	if (!waitpid(pid, &status, 0))
 	{
 		perror("waitpid");
