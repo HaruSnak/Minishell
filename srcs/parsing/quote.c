@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:41:00 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/21 16:54:21 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/07/22 10:33:48 by pcardin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	ft_check_odd_quote(char *input, t_parsing *parsing)
 		else if (input[i] == '\"' && !parsing->quote->check_s)
 			d_quote++;
 	}
-	if (ft_error_quote(s_quote, d_quote) == -1)
+	if (ft_error_quote(parsing, s_quote, d_quote) == -1)
 		return (-1);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:38:40 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/21 14:05:20 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/07/22 10:04:09 by pcardin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,13 @@ void	wait_pidz(t_exec *data)
 	i = 0;
 	while (data->pid_i)
 	{
-		waitpid(data->pidz[i], &status, 0);
+		if (!waitpid(data->pidz[i], &status, 0))
+		{
+			perror("waitpid");
+			exit(OUT_OF_MEMORY);
+		}
+		if (WIFEXITED(status))
+			data->parsing_ptr->exit_value = WEXITSTATUS(status);
 		data->pid_i--;
 		i++;
 	}

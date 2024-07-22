@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:39:26 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/21 13:56:56 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/07/21 19:09:57 by pcardin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void		free_data(t_exec *data);
 void		free_list(t_cmd_list *list);
 void		free_single_list(t_cmd_list *list);
 void		free_strs(char **strs);
+void		wait_and_fetch_exit_value(pid_t pid, t_exec *data);
 
 // LISTS
 t_cmd_list	*set_cmd_list(t_exec *data, char **tkn, int *tkn_value);

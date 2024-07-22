@@ -6,7 +6,7 @@
 /*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:39:32 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/21 18:11:07 by pcardin          ###   ########.fr       */
+/*   Updated: 2024/07/22 10:35:03 by pcardin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@
 # include "exec.h"
 
 // DEBUG MACROS 
-/*# define PL fprintf(stderr, "file: %s line: %d pid: %i\n"
+# define PL fprintf(stderr, "file: %s line: %d pid: %i\n" \
 , __FILE__, __LINE__, getpid())
 # define PI(x) fprintf(stderr, "PI: %d\n", (x));
 # define PI2(s, x) fprintf(stderr, "%s: %d\n", (s), (x));
 # define PS(x) fprintf(stderr, "PS: %s\n", (x));
-# define PS2(s, x) fprintf(stderr, "%s: %s\n", (s), (x));*/
+# define PS2(s, x) fprintf(stderr, "%s: %s\n", (s), (x));
 
 # define PROMPT "\001\033[0;32m\002minishell\001\033[0m\002$ "
 /* # define PROMPT "\001\033[0;32m\002minishell\001\033[0m\002 \
@@ -146,7 +146,7 @@ int		ft_handle_verify(char **input, t_parsing *parsing, char **envp);
 // ERRORS FUNCTIONS
 void	ft_end_verify(t_parsing *parsing);
 void	ft_free_and_compact(char **str, int index, int size);
-int		ft_error_quote(int s_quote, int d_quote);
+int		ft_error_quote(t_parsing *parsing, int s_quote, int d_quote);
 void	ft_free_d_ptr(void ***ptr);
 int		ft_error_operator(t_parsing *parsing);
 int		ft_error_cmd_ext(int fd, char *str);

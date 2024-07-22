@@ -6,7 +6,7 @@
 /*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:39:41 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/21 18:14:22 by pcardin          ###   ########.fr       */
+/*   Updated: 2024/07/22 10:22:24 by pcardin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int	main(int argc, char **argv, char **envp)
 		add_history(input);
 		ft_handle_verify(&input, &parsing, envp);
 		free(input);
+		input = NULL;
 	}
 	if (parsing.tmp_setenv != NULL)
 		ft_free_d_ptr((void ***)&parsing.tmp_setenv);

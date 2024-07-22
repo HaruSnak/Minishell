@@ -37,6 +37,7 @@ SRC_2 =	srcs/builtins/built_external.c \
 	srcs/utils/execution_utils3.c srcs/errors/free.c \
 	srcs/utils/builtins_utils.c srcs/redirections/here_doc_bis.c \
 	srcs/redirections/redirection_utils.c \
+	srcs/utils/single_exec_utils.c
 
 OBJ_1 = $(patsubst %.c,$(OBJ_DIR)%.o,$(SRC_1))
 OBJ_2 = $(patsubst %.c,$(OBJ_DIR)%.o,$(SRC_2))

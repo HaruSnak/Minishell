@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   single_execution.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:39:11 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/21 13:58:19 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/07/21 19:10:17 by pcardin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int *tkn_value, char **tkn)
 }
 
 void	single_cmd_execution(t_cmd_list *list, t_exec *data,
-char **envp, char *tkn[])
+	char **envp, char *tkn[])
 {
 	char	**argv;
 
@@ -108,7 +108,7 @@ char **envp, char *tkn[])
 			exec_cmd(list, data, argv, envp);
 			ft_g_signal(data->parsing_ptr);
 		}
-		waitpid(data->pidz[0], 0, 0);
+		wait_and_fetch_exit_value(data->pidz[0], data);
 		free_strs(argv);
 	}
 	else if (data->parsing_ptr->tkn_value[list->index] == CMD)

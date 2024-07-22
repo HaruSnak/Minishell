@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:38:13 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/21 14:03:05 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/07/22 10:33:44 by pcardin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,18 @@ void	malloc_error_dbl_ptr(char **str, char *msg)
 	}
 }
 
-int	ft_error_quote(int s_quote, int d_quote)
+int	ft_error_quote(t_parsing *parsing, int s_quote, int d_quote)
 {
 	if (s_quote % 2 != 0)
 	{
 		printf("minishell: Syntax error, unmatched single quote\n");
+		parsing->quote->check_s = FALSE;
 		return (-1);
 	}
 	if (d_quote % 2 != 0)
 	{
 		printf("minishell: Syntax error, unmatched double quote\n");
+		parsing->quote->check_d = FALSE;
 		return (-1);
 	}
 	return (0);

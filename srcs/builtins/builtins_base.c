@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_base.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:40:19 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/21 13:45:02 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/07/22 10:46:37 by pcardin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,15 @@ int	ft_verify_many_arg(t_parsing *parsing)
 	return (0);
 }
 
-int	ft_cmd_cd(char **envp, t_parsing *parsing)
+void	ft_cmd_cd(char **envp, t_parsing *parsing)
 {
 	char		*path;
 	char		*oldpwd;
 
+	if (ft_verify_many_arg(parsing) == 1)
+		return ;
 	path = NULL;
 	oldpwd = NULL;
-	if (ft_verify_many_arg(parsing) == 1)
-		return (0);
 	if ((!ft_strncmp(parsing->tkn[0], "cd", ft_strlen(parsing->tkn[0]))
 			&& parsing->tkn[1] == NULL)
 		|| (!ft_strncmp(parsing->tkn[0], "cd", ft_strlen(parsing->tkn[0]))
@@ -65,22 +65,21 @@ int	ft_cmd_cd(char **envp, t_parsing *parsing)
 		ft_handle_cd_oldpwd(parsing, envp, path, oldpwd);
 	else if (!ft_strncmp(parsing->tkn[0], "cd", 3) && parsing->tkn[1] != NULL)
 		ft_handle_cd_path(parsing, envp);
-	return (0);
 }
 
 int	builtins_exec_bis(t_parsing *parsing, char **envp)
 {
-	if (!ft_strncmp(parsing->tkn[0], "export", ft_strlen(parsing->tkn[0])))
+	if (!ft_strncmp(parsing->tkn[0], "export", 6))
 	{
 		ft_handle_export(parsing, envp);
 		return (0);
 	}
-	else if (!ft_strncmp(parsing->tkn[0], "unset", ft_strlen(parsing->tkn[0])))
+	else if (!ft_strncmp(parsing->tkn[0], "unset", 5))
 	{
 		ft_handle_unset(parsing, envp);
 		return (0);
 	}
-	else if (!ft_strncmp(parsing->tkn[0], "clear", ft_strlen(parsing->tkn[0])))
+	else if (!ft_strncmp(parsing->tkn[0], "clear", 5))
 	{
 		ft_cmd_clear();
 		return (0);
@@ -90,14 +89,14 @@ int	builtins_exec_bis(t_parsing *parsing, char **envp)
 
 int	builtins_exec(t_parsing *parsing, char **envp)
 {
-	if (!ft_strncmp(parsing->tkn[0], "exit", ft_strlen(parsing->tkn[0])))
+	if (!ft_strncmp(parsing->tkn[0], "exit", 4))
 	{
 		ft_handle_exit(parsing);
 		return (0);
 	}
-	else if (!ft_strncmp(parsing->tkn[0], "cd", ft_strlen(parsing->tkn[0]))
-		&& ft_cmd_cd(envp, parsing) == 0)
+	else if (!ft_strncmp(parsing->tkn[0], "cd", 2))
 	{
+		ft_cmd_cd(envp, parsing);
 		return (0);
 	}
 	else if ((!ft_strncmp(parsing->tkn[0], "echo", 4))
