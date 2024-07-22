@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils3.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:38:52 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/21 14:06:09 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/07/22 15:45:18 by pcardin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,19 @@ bool	no_such_file(t_parsing *data, char *tkn[], int *tkn_value)
 			continue ;
 		else if (tkn_value[i] == CMD)
 			printf("minishell: %s: no such file or directory\n", tkn[i]);
+	}
+	return (FALSE);
+}
+
+bool	there_is_pipeline(int *tkn_value)
+{
+	int	i;
+
+	i = -1;
+	while (tkn_value[++i])
+	{
+		if (tkn_value[i] == PIPE)
+			return (TRUE);
 	}
 	return (FALSE);
 }
