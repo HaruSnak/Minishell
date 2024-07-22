@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sub_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:39:52 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/21 16:57:00 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/07/22 14:44:02 by pcardin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,13 @@
 
 void	parent_exec(t_exec *data)
 {
-	if (data->redir_ptr->redir_denied == TRUE)
-		data->redir_ptr->redir_denied = FALSE;
 	if (data->fds[WRIT] != -1)
 	{
 		close(data->fds[WRIT]);
 		data->fds[WRIT] = -1;
 	}
 	if (dup2(data->fds[READ], STDIN_FILENO) == -1)
-		perror("dup2 parent");// error handling
+		perror("dup2 parent");
 	if (data->fds[READ] != -1)
 	{
 		close(data->fds[READ]);
@@ -30,19 +28,18 @@ void	parent_exec(t_exec *data)
 	}
 }
 
-bool	redir_handling(t_exec *data)
+void	redir_handling(t_exec *data, t_cmd_list *list)
 {
 	close(data->fds[READ]);
 	data->fds[READ] = -1;
-	if (data->outfile && !data->cmd_count)
+	if (data->outfile && is_redir_next(list))
 		redirect_output(data, data->redir_ptr);
-	else if (!data->cmd_count && !data->redir_ptr->redir_out)
+	else if (!data->cmd_count)
 		print_output(data->fds[WRIT]);
 	else if (dup2(data->fds[WRIT], STDOUT_FILENO) == -1)
-		perror("dup2 child"); // error handling
+		perror("dup2 child");
 	close(data->fds[WRIT]);
 	data->fds[WRIT] = -1;
-	return (TRUE);
 }
 
 void	child_exec(char **envp, t_exec *data, t_cmd_list *list, char *path)
@@ -51,14 +48,9 @@ void	child_exec(char **envp, t_exec *data, t_cmd_list *list, char *path)
 
 	if (data->redir_ptr->redir_denied)
 		exit(PERMISSION_DENY);
-	if (redir_handling(data))
-	{
-		argv = set_argv_lst(list, list->elem);
-		execve(path, argv, envp);
-	}
-	else
-	{
-		data->parsing_ptr->exit_value = CMD_NOT_EXECUTABLE;
-		exit(CMD_NOT_EXECUTABLE);
-	}
+	redir_handling(data, list);
+	argv = set_argv_lst(list, list->elem);
+	execve(path, argv, envp);
+	data->parsing_ptr->exit_value = CMD_NOT_EXECUTABLE;
+	exit(CMD_NOT_EXECUTABLE);
 }

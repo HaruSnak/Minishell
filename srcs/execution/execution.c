@@ -6,7 +6,7 @@
 /*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:39:46 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/21 18:46:22 by pcardin          ###   ########.fr       */
+/*   Updated: 2024/07/22 14:43:05 by pcardin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ bool	is_next_cmd_found(t_cmd_list *list, t_exec *data)
 		return (1);
 	while (list->next && !list->is_cmd)
 		list = list->next;
-	if (list->cmd_found || list->absolute_path)
+	if (!list->next || list->cmd_found || list->absolute_path)
 		return (1);
 	else
 	{
@@ -33,7 +33,7 @@ void	command_found(t_exec *data, t_cmd_list *list, char **envp)
 	data->cmd_count--;
 	if (data->cmd_count && list->next && !is_next_cmd_found(list->next, data))
 		return ;
-	else if (list->next && !is_next_cmd_found(list, data))
+	else if (list->next && !is_next_cmd_found(list->next, data))
 		return ;
 	if (pipe(data->fds) == -1)
 	{

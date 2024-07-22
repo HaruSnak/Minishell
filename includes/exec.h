@@ -6,7 +6,7 @@
 /*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:39:26 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/21 19:09:57 by pcardin          ###   ########.fr       */
+/*   Updated: 2024/07/22 14:44:55 by pcardin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_cmd_list
 {
 	char				*elem;
 	int					index;
+	bool				redir_out;
 	bool				absolute_path;
 	bool				is_cmd;
 	bool				cmd_found;
@@ -68,14 +69,17 @@ typedef struct s_cmd_list
 bool		execution(char *argv[], char **envp, t_parsing *parsing);
 void		child_exec(char **envp, t_exec *data, t_cmd_list *list, char *path);
 void		parent_exec(t_exec *data);
-void		single_cmd_execution(t_cmd_list *list, t_exec *data,
-				char **envp, char *tkn[]);
 char		**set_argv(char *tkn[], int *tkn_value);
 char		**ft_path_envp(char **envp);
 void		init_data(t_exec *data, t_redir *s_redir,
 				t_parsing *parsing, char **envp);
 void		ft_handle_echo(t_parsing *data, char *tkn[], int *tkn_value, int i);
 
+void		single_cmd_execution(t_cmd_list *list, t_exec *data,
+				char **envp, char *tkn[]);
+char		**find_path_set_argv(t_exec *data, t_cmd_list *list,
+				int *tkn_value, char **tkn);
+	
 // Execution Utils
 bool		no_such_file(t_parsing *data, char *tkn[], int *tkn_value);
 void		check_err_fork(pid_t pid);
@@ -95,6 +99,7 @@ char		**set_argv_lst(t_cmd_list *list, char *cmd);
 char		*find_cmd_path(t_cmd_list *list, t_exec *data, char *cmd);
 int			cmd_count(char **tkn, int *tkn_value, char **envp);
 bool		there_is_pipeline(int *tkn_value);
+bool		is_redir_next(t_cmd_list *list);
 
 // REDIRECTION
 int			check_for_redirection(t_exec *data, char **envp);

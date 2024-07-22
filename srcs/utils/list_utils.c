@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   list_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:41:27 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/21 14:03:36 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/07/22 14:15:32 by pcardin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+bool	is_redir_next(t_cmd_list *list)
+{
+	while (list)
+	{
+		if (list->redir_out)
+			return (TRUE);
+		else if (list->pipe)
+			return (FALSE);
+		list = list->next;
+	}
+	return (FALSE);
+}
 
 int	get_argv_cnt(t_cmd_list *list)
 {

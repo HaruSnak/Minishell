@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_list.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:38:35 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/21 14:01:00 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/07/22 14:12:29 by pcardin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ t_cmd_list	*create_node(t_exec *data, char *tkn, int tkn_value)
 		new->is_cmd = TRUE;
 	else if (tkn_value == ARG)
 		new->arg = TRUE;
+	else if (tkn_value == OUT || tkn_value == APPEND)
+		new->redir_out = TRUE;
 	new->index = 0;
 	malloc_error_ptr(new, "malloc : create_node");
 	new->elem = extract_tkn(new, data, tkn);
