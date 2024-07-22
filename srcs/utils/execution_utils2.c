@@ -1,5 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execution_utils2.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/21 13:38:59 by shmoreno          #+#    #+#             */
+/*   Updated: 2024/07/21 14:04:15 by shmoreno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int	is_cmd(char *path)
+{
+	if (path[ft_strlen(path) - 1] == '/')
+		return (FALSE);
+	return (TRUE);
+}
 
 char	*find_small_path(char *cmd, char **envp)
 {
@@ -11,21 +29,43 @@ char	*find_small_path(char *cmd, char **envp)
 	if (access(cmd, X_OK) == 0 && is_cmd(cmd) == TRUE)
 		return (ft_strdup(cmd));
 	bin_paths = ft_path_envp(envp);
+	if (!bin_paths)
+		return (NULL);
 	while (j < 8)
 	{
 		path = ft_strjoin_fs(bin_paths[j], cmd);
-		if (!path)
-			malloc_error();
+		malloc_error_ptr(path, "malloc : find small path");
 		if (access(path, X_OK) == 0 && is_cmd(path) == TRUE)
-		{
-			free_strs(bin_paths);
-			return (path);
-		}
+			return (free_strs(bin_paths), path);
 		else
 			free(path);
 		j++;
 	}
 	free_strs(bin_paths);
+	return (NULL);
+}
+
+char	*find_cmd_path(t_cmd_list *list, t_exec *data, char *cmd)
+{
+	char	*path;
+	int		j;
+
+	j = 0;
+	if (access(cmd, X_OK) == 0 && is_cmd(cmd) == TRUE)
+	{
+		list->absolute_path = TRUE;
+		return (ft_strdup(cmd));
+	}
+	while (j < 8)
+	{
+		path = ft_strjoin_fs(data->paths[j], cmd);
+		malloc_error_ptr(path, "malloc : find cmd path");
+		if (access(path, X_OK) == 0 && is_cmd(path) == TRUE)
+			return (path);
+		else
+			free(path);
+		j++;
+	}
 	return (NULL);
 }
 
@@ -42,19 +82,24 @@ int	cmd_count(char **tkn, int *tkn_value, char **envp)
 		if (tkn_value[i] == CMD)
 		{
 			path = find_small_path(tkn[i], envp);
-			if (access(path, X_OK) == 0)
+			if (path && access(path, X_OK) == 0)
+			{
 				cmd++;
-			free(path);
+				free(path);
+			}
 		}
 	}
 	return (cmd);
 }
 
-void	handle_input()
+void	handle_input(void)
 {
-	char *line;
+	char	*line;
 
-	line = get_next_line(STDIN_FILENO);
+	if (STDIN_FILENO)
+		line = get_next_line(STDIN_FILENO);
+	else
+		return ;
 	while (line)
 	{
 		free(line);
@@ -64,4 +109,3 @@ void	handle_input()
 	free(line);
 	line = NULL;
 }
-

@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   function_utils.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/21 13:41:23 by shmoreno          #+#    #+#             */
+/*   Updated: 2024/07/21 13:41:24 by shmoreno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
@@ -18,12 +29,39 @@ int	ft_count_index(char **input)
 }
 
 // Count the number of characters in a string until a specific character
-int	ft_strlen_quote(char *str, char c, int i)
+int	ft_strlen_quote(t_parsing *parsing, char *str, char c, int i)
 {
-	int	count;
+	char	tmp;
+	int		count;
 
 	count = 0;
-	while (str[i] != c && str[i] != '\0' && str[i] != '\'' && str[i] != '\"')
+	if (parsing->quote->check_d)
+	{
+		tmp = '\"';
+	}
+	else if (parsing->quote->check_s)
+	{
+		tmp = '\'';
+	}
+	else
+	{
+		tmp = c;
+	}
+	while (str[i] != tmp && str[i] != '\0' )
+	{
+		count++;
+		i++;
+	}
+	return (count);
+}
+
+// Count the number of characters in a string until a specific character
+int	ft_strlen_quote_b(char *str, char c, int i)
+{
+	int		count;
+
+	count = 0;
+	while (str[i] != c && str[i] != '\0' && str[i] != '\"' && str[i] != '\'')
 	{
 		count++;
 		i++;

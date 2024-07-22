@@ -1,14 +1,40 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirection_utils.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/21 13:37:28 by shmoreno          #+#    #+#             */
+/*   Updated: 2024/07/22 14:44:32 by pcardin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 void	reset_outfile(t_exec *data, int tkn_i)
 {
 	if (!ft_strncmp(data->parsing_ptr->tkn[tkn_i], ">", 1)
-	|| !ft_strncmp(data->parsing_ptr->tkn[tkn_i], ">>", 2))
+		|| !ft_strncmp(data->parsing_ptr->tkn[tkn_i], ">>", 2))
 	{
 		free(data->outfile);
 		data->outfile = NULL;
 	}
+}
+
+bool	handle_single_redir(t_cmd_list *list, t_exec *data)
+{
+	if (data->redir_ptr->redir_denied)
+		return (0);
+	else if (data->outfile)
+		redirect_output(data, data->redir_ptr);
+	if (!ft_strncmp(list->elem, "/usr/bin/echo", 13))
+	{
+		ft_handle_echo(data->parsing_ptr, data->parsing_ptr->tkn,
+			data->parsing_ptr->tkn_value, list->index);
+		return (0);
+	}
+	return (1);
 }
 
 void	print_output(int fd)
@@ -36,8 +62,8 @@ void	redirect_infile(t_exec *data, int *fd, char *path)
 	if (*fd == -1)
 	{
 		perror("outfile open");
-		return ;// error handling
-	}	
+		return ; // error handling
+	}
 	if (dup2(*fd, STDIN_FILENO) == -1)
 	{
 		data->parsing_ptr->exit_value = PERMISSION_DENY;
@@ -63,11 +89,11 @@ void	redirect_output(t_exec *data, t_redir *s_redir)
 	{
 		perror("outfile");
 		data->parsing_ptr->exit_value = PERMISSION_DENY;
-		return ;// error handling
+		return ; // error handling
 	}
 	if (dup2(fd_out, STDOUT_FILENO) == -1)
 	{
-		perror("redir outfile");// error handling
+		perror("redir outfile"); // error handling
 		data->parsing_ptr->exit_value = DUP_FAILURE;
 	}
 	close(fd_out);

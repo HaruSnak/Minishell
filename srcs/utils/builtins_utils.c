@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtins_utils.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/21 13:38:43 by shmoreno          #+#    #+#             */
+/*   Updated: 2024/07/22 15:01:03 by pcardin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
@@ -12,7 +23,8 @@ char	*ft_split_input(char *input, char *c)
 	int		i;
 
 	tmp_split = ft_split(input, '/');
-	path = malloc(sizeof(char) * ft_strlen(input) + 100);
+	path = malloc(sizeof(char) * ft_strlen(input) + 1);
+	malloc_error_ptr(path, "malloc : ft_split_input");
 	path[0] = '\0';
 	i = 0;
 	while (tmp_split[i] != NULL)
@@ -29,4 +41,20 @@ char	*ft_split_input(char *input, char *c)
 	}
 	ft_free_d_ptr((void ***)&tmp_split);
 	return (path);
+}
+
+int	ft_check_redir(t_parsing *parsing)
+{
+	int	i;
+
+	i = -1;
+	while (parsing->tkn_value[++i])
+	{
+		if (parsing->tkn_value[i] == IN || parsing->tkn_value[i] == OUT
+			|| parsing->tkn_value[i] == APPEND
+			|| parsing->tkn_value[i] == HEREDOC
+			|| parsing->tkn_value[i] == PIPE)
+			return (1);
+	}
+	return (0);
 }

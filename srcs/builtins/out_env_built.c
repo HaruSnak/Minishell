@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   out_env_built.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/21 13:37:33 by shmoreno          #+#    #+#             */
+/*   Updated: 2024/07/21 17:52:57 by pcardin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
@@ -7,15 +18,24 @@ void	ft_setenv_last(char **envp, t_parsing *parsing, int i)
 	static int			j;
 
 	if (parsing->tmp_setenv == NULL)
-		parsing->tmp_setenv = malloc(sizeof(char *) * 100);
+	{
+		parsing->tmp_setenv = malloc(sizeof(char *)
+				* (parsing->count_envp + 2));
+		malloc_error_dbl_ptr(parsing->tmp_setenv, "malloc : ft_setenv_last");
+	}
 	if (parsing->v_senv != NULL)
 	{
 		tmp_equal = ft_strjoin(parsing->n_senv, "=");
+		malloc_error_ptr(tmp_equal, "malloc : ft_setenv_last");
 		parsing->tmp_setenv[j] = ft_strjoin(tmp_equal, parsing->v_senv);
+		malloc_error_ptr(parsing->tmp_setenv[j], "malloc : ft_setenv_last");
 		free(tmp_equal);
 	}
 	else
+	{
 		parsing->tmp_setenv[j] = ft_strdup(parsing->n_senv);
+		malloc_error_ptr(parsing->tmp_setenv[j], "malloc : ft_setenv_last");
+	}
 	parsing->tmp_setenv[j + 1] = NULL;
 	envp[i + 1] = parsing->tmp_setenv[j];
 	envp[i + 2] = NULL;

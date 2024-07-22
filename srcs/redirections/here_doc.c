@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   here_doc.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/21 13:38:08 by shmoreno          #+#    #+#             */
+/*   Updated: 2024/07/22 14:53:02 by pcardin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
@@ -45,15 +56,15 @@ char	*ft_find_var_env(char *line, char **envp, int *i, char *env_var)
 	{
 		if (ft_strncmp(envp[p], env_var, ft_strlen(env_var)) == 0)
 		{
-			tmp_after = ft_substr(line, 0, (*i));// error handling
-			tmp_env = ft_strjoin(tmp_after, envp[p] + ft_strlen(env_var) + 1);// error handling
-			tmp_before = ft_strjoin(tmp_env, line + ft_strlen(tmp_env) + 1);// error handling
-			free(line);
-			line = ft_strdup(tmp_before);// error handling
-			free(tmp_after);
-			free(tmp_env);
-			free(tmp_before);
-			p = -1;
+			tmp_after = ft_substr(line, 0, (*i));
+			malloc_error_ptr(tmp_after, "malloc : ft_find_var_env");
+			tmp_env = ft_strjoin(tmp_after, envp[p] + ft_strlen(env_var) + 1);
+			malloc_error_ptr(tmp_env, "malloc : ft_find_var_env");
+			tmp_before = ft_strjoin(tmp_env, line + ft_strlen(tmp_env) + 1);
+			malloc_error_ptr(tmp_before, "malloc : ft_find_var_env");
+			(free(line), line = ft_strdup(tmp_before));
+			malloc_error_ptr(line, "malloc : ft_find_var_env");
+			(free(tmp_after), free(tmp_env), free(tmp_before), p = -1);
 			break ;
 		}
 	}
@@ -62,7 +73,7 @@ char	*ft_find_var_env(char *line, char **envp, int *i, char *env_var)
 	return (line);
 }
 
-char	*ft_var_env(char **envp, char *line)
+char	*ft_var_env(t_exec *data, char **envp, char *line)
 {
 	char	*env_var;
 	int		i;
@@ -70,10 +81,17 @@ char	*ft_var_env(char **envp, char *line)
 	i = -1;
 	while (line[++i] != '\0')
 	{
+		if (line[i] == '\"' && !data->parsing_ptr->quote->check_s)
+			data->parsing_ptr->quote->check_d
+				= !data->parsing_ptr->quote->check_d;
+		else if (line[i] == '\'' && !data->parsing_ptr->quote->check_d)
+			data->parsing_ptr->quote->check_s
+				= !data->parsing_ptr->quote->check_s;
 		if (line[i] == '$')
 		{
 			env_var = ft_substr(line, i + 1,
-					ft_strlen_quote(line, ' ', i + 1));// error handling
+					ft_strlen_quote(data->parsing_ptr, line, ' ', i + 1));
+			malloc_error_ptr(env_var, "malloc : ft_var_env");
 			line = ft_find_var_env(line, envp, &i, env_var);
 			free(env_var);
 		}

@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   here_doc_bis.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/21 13:40:34 by shmoreno          #+#    #+#             */
+/*   Updated: 2024/07/22 15:00:57 by pcardin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
@@ -37,7 +48,7 @@ int	ft_g_signal_exit(char *line, int heredoc)
 void	ft_write_heredoc(int heredoc, char *line, char **g_env, t_exec *data)
 {
 	if (data->parsing_ptr->quote_heredoc == false)
-		line = ft_var_env(g_env, line);
+		line = ft_var_env(data, g_env, line);
 	else
 		data->parsing_ptr->quote_heredoc = false;
 	write(heredoc, line, ft_strlen(line));

@@ -1,7 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/21 13:39:41 by shmoreno          #+#    #+#             */
+/*   Updated: 2024/07/22 10:22:24 by pcardin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int g_signal_number = 0;
+int	g_signal_number = 0;
 
 void	ft_init_main(t_parsing *parsing, t_quote *quote, char **envp, int argc)
 {
@@ -13,6 +24,7 @@ void	ft_init_main(t_parsing *parsing, t_quote *quote, char **envp, int argc)
 	parsing->n_senv = "OLDPWD";
 	parsing->v_senv = "";
 	parsing->quote_heredoc = false;
+	parsing->simple_quote = false;
 	parsing->count_envp = ft_check_envp(envp);
 	parsing->signal_heredoc = 0;
 	quote->check_d = false;
@@ -44,6 +56,7 @@ int	main(int argc, char **argv, char **envp)
 		add_history(input);
 		ft_handle_verify(&input, &parsing, envp);
 		free(input);
+		input = NULL;
 	}
 	if (parsing.tmp_setenv != NULL)
 		ft_free_d_ptr((void ***)&parsing.tmp_setenv);

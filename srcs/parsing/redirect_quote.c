@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirect_quote.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/21 13:40:53 by shmoreno          #+#    #+#             */
+/*   Updated: 2024/07/21 14:11:53 by shmoreno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
@@ -59,28 +70,40 @@ void	ft_condit_redirect(char *input, int *i, int *k, char *tmp)
 	}
 }
 
+void	ft_boucle_redirect(char *input, int *i, int *k, char *tmp_redir)
+{
+	static bool	check_s;
+	static bool	check_d;
+
+	while (input[++(*i)] != '\0')
+	{
+		if (input[*i] == '\"' && !check_s)
+			check_d = !check_d;
+		else if (input[*i] == '\'' && !check_d)
+			check_s = !check_s;
+		if (!check_s && !check_d)
+			ft_condit_redirect(input, i, k, tmp_redir);
+		else
+		{
+			tmp_redir[*k] = input[*i];
+			(*k)++;
+		}
+	}
+}
+
 char	*ft_separe_operator(char *input)
 {
+	char	*tmp_redir;
 	int		i;
 	int		k;
-	char	*tmp_redir;
-	char	*tmp_quote;
 
 	i = -1;
 	k = 0;
 	tmp_redir = malloc(sizeof(char) * ft_strlen(input) + 100);
-	tmp_quote = malloc(sizeof(char) * ft_strlen(input) + 100);
-	while (input[++i] != '\0')
-		ft_condit_redirect(input, &i, &k, tmp_redir);
+	malloc_error_ptr(tmp_redir, "malloc : ft_separe_operator");
+	ft_boucle_redirect(input, &i, &k, tmp_redir);
 	tmp_redir[k] = '\0';
-	i = -1;
-	k = 0;
-	while (tmp_redir[++i] != '\0')
-		ft_condit_quote(tmp_redir, &i, &k, tmp_quote);
-	tmp_quote[k] = '\0';
 	free(input);
-	input = ft_strdup(tmp_quote);
-	free(tmp_quote);
-	free(tmp_redir);
-	return (input);
+	input = NULL;
+	return (tmp_redir);
 }

@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   errors_operators.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/21 13:40:46 by shmoreno          #+#    #+#             */
+/*   Updated: 2024/07/21 13:40:47 by shmoreno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
@@ -41,12 +52,12 @@ int	error_operator_redic(t_parsing *parsing, int i, int k)
 int	error_operator_other(t_parsing *parsing, int i, int k)
 {
 	if ((parsing->tkn[i][k] == '<' || parsing->tkn[i][k] == '>')
-	&& (parsing->tkn[i + 1][k] == '.' || parsing->tkn[i + 1][k] == '/'
-	|| parsing->tkn[i + 1][k] == '~' || parsing->tkn[i + 1][k] == '?'
-	|| parsing->tkn[i + 1][k] == '*'))
+	&& ((parsing->tkn[i + 1][0] == '.' && parsing->tkn[i + 1][1] != '/')
+	|| parsing->tkn[i + 1][k] == '/' || parsing->tkn[i + 1][k] == '~'
+	|| parsing->tkn[i + 1][k] == '?' || parsing->tkn[i + 1][k] == '*'))
 	{
-		if (parsing->tkn[i + 1][k] == '.' || parsing->tkn[i + 1][k] == '/'
-			|| parsing->tkn[i + 1][k] == '~')
+		if ((parsing->tkn[i + 1][0] == '.' && parsing->tkn[i + 1][1] != '/')
+		|| parsing->tkn[i + 1][k] == '/' || parsing->tkn[i + 1][k] == '~')
 		{
 			printf("minishell: %c: Is a directory\n", parsing->tkn[i + 1][k]);
 			return (parsing->exit_value = 2, -1);
@@ -72,6 +83,8 @@ int	ft_error_operator(t_parsing *parsing)
 	{
 		while (parsing->tkn[i][++k] != '\0')
 		{
+			if (parsing->tkn[i][0] == '\'' || parsing->tkn[i][0] == '\"')
+				break ;
 			if (error_operator_redic(parsing, i, k) == -1)
 				return (-1);
 			if (error_operator_other(parsing, i, k) == -1)
