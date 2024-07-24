@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:39:32 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/24 11:22:47 by pcardin          ###   ########.fr       */
+/*   Updated: 2024/07/24 16:24:25 by shmoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ int		ft_setenv(char **envp, t_parsing *parsing);
 // BUILTINS CD FUNCTIONS
 void	ft_handle_cd_home(t_parsing *parsing, char **envp);
 void	ft_handle_cd_previous(t_parsing *parsing, char **envp);
+void	ft_cd_previous_bis(t_parsing *parsing, char **envp, char *path);
 void	ft_handle_cd_root(t_parsing *parsing, char **envp);
 void	ft_handle_cd_oldpwd(t_parsing *parsing,
 			char **envp, char *path, char *oldpwd);
@@ -137,6 +138,7 @@ int		ft_handle_empty_cmd(char **input);
 int		ft_handle_exit(t_parsing *parsing);
 bool	is_builtins(char *cmd, t_exec *data, char **envp);
 void	ft_cmd_clear(void);
+void	ft_cmd_env(char **envp);
 
 // REDIRECTION FUNCTIONS SHELL
 int		ft_handle_verify(char **input, t_parsing *parsing, char **envp);

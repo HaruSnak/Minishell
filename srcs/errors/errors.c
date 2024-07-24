@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:38:13 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/22 15:00:28 by pcardin          ###   ########.fr       */
+/*   Updated: 2024/07/24 15:55:36 by shmoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+// Function for errors in the command execution
 int	ft_error_cmd_ext(int fd, char *str)
 {
 	if (fd == -1)
@@ -22,6 +23,7 @@ int	ft_error_cmd_ext(int fd, char *str)
 	return (0);
 }
 
+// Function for malloc errors on single pointer
 void	malloc_error_ptr(void *str, char *msg)
 {
 	if (!str)
@@ -31,6 +33,7 @@ void	malloc_error_ptr(void *str, char *msg)
 	}
 }
 
+// Function for malloc errors on double pointer
 void	malloc_error_dbl_ptr(char **str, char *msg)
 {
 	if (!str)
@@ -40,6 +43,7 @@ void	malloc_error_dbl_ptr(char **str, char *msg)
 	}
 }
 
+// Function for quote errors if odd or not
 int	ft_error_quote(t_parsing *parsing, int s_quote, int d_quote)
 {
 	if (s_quote % 2 != 0)

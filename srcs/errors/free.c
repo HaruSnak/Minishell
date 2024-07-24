@@ -6,12 +6,13 @@
 /*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 16:54:29 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/21 16:54:43 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:55:50 by shmoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+// Free the data structure
 void	ft_free_data(t_exec *data)
 {
 	if (data->redir_ptr->here_doc)

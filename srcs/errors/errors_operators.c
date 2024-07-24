@@ -6,12 +6,14 @@
 /*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:40:46 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/21 13:40:47 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:54:07 by shmoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+// The functions below handle errors related to redirection and pipe operators.
+// Function for pipe
 int	error_operator_pipe(t_parsing *parsing, int i, int k)
 {
 	if (parsing->tkn[i][k] == '|' && (parsing->tkn[0][0] == '|'
@@ -29,6 +31,7 @@ int	error_operator_pipe(t_parsing *parsing, int i, int k)
 	return (0);
 }
 
+// Function for redirection
 int	error_operator_redic(t_parsing *parsing, int i, int k)
 {
 	if ((parsing->tkn[i][k] == '<' || parsing->tkn[i][k] == '>')
@@ -49,6 +52,7 @@ int	error_operator_redic(t_parsing *parsing, int i, int k)
 	return (0);
 }
 
+// Function for other redirection errors
 int	error_operator_other(t_parsing *parsing, int i, int k)
 {
 	if ((parsing->tkn[i][k] == '<' || parsing->tkn[i][k] == '>')

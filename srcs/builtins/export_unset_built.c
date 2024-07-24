@@ -6,12 +6,14 @@
 /*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:40:13 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/21 13:40:14 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:47:28 by shmoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+// Check if the first part of the export argument is valid
+// If not, display an error message
 int	ft_check_error(t_parsing *parsing)
 {
 	int	i;
@@ -37,6 +39,7 @@ int	ft_check_error(t_parsing *parsing)
 	return (0);
 }
 
+// Handle the unset command
 int	ft_handle_unset(t_parsing *parsing, char **envp)
 {
 	int		i;
@@ -64,6 +67,7 @@ int	ft_handle_unset(t_parsing *parsing, char **envp)
 	return (0);
 }
 
+// Handle the export command with no arguments and arguments
 void	ft_handle_export(t_parsing *parsing, char **envp)
 {
 	char	**tmp2;

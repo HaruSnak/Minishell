@@ -6,7 +6,7 @@
 /*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:38:27 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/21 13:38:28 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/07/24 17:06:40 by shmoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,11 @@ int	ft_interpret_env(char **envp, t_parsing *parsing)
 			continue ;
 		}
 		if (i > 0 && parsing->tkn[i - 1][0] == '<'
-			&& parsing->tkn[i - 1][1] == '<')
+			&& parsing->tkn[i - 1][1] == '<'
+			&& (parsing->tkn[i][0] == '\'' || parsing->tkn[i][0] == '\"'))
 			parsing->quote_heredoc = true;
+		else
+			parsing->quote_heredoc = false;
 		free(tmp);
 	}
 	return (0);
