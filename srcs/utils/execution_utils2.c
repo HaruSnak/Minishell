@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:38:59 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/21 14:04:15 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/07/24 11:11:21 by pcardin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ int	cmd_count(char **tkn, int *tkn_value, char **envp)
 	return (cmd);
 }
 
+// Reset input when the next command is not found
 void	handle_input(void)
 {
 	char	*line;

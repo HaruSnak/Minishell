@@ -6,12 +6,14 @@
 /*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:40:25 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/21 13:40:26 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:42:39 by shmoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+// Check if the command/tkn is empty
+// if it is empty return -1
 int	ft_handle_empty_cmd(char **input)
 {
 	int	i;
@@ -28,6 +30,9 @@ int	ft_handle_empty_cmd(char **input)
 	return (-1);
 }
 
+// Check if the exit token has multiple arguments
+// If it's not a '-' or '+' followed by a number or a number itself
+// Display an error message
 void	ft_multi_args_exit(t_parsing *parsing)
 {
 	int		i;
@@ -46,6 +51,7 @@ void	ft_multi_args_exit(t_parsing *parsing)
 	}
 }
 
+// Handle the exit command
 int	ft_handle_exit(t_parsing *parsing)
 {
 	if (ft_strncmp(parsing->tkn[0], "exit",

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:38:08 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/22 14:53:02 by pcardin          ###   ########.fr       */
+/*   Updated: 2024/07/24 17:02:40 by shmoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,14 @@ char	*ft_find_null(char *line, char *env_var, int *i)
 	char	*tmp_after;
 	char	*tmp_before;
 
-	tmp_after = ft_substr(line, 0, (*i));// error handling
+	tmp_after = ft_substr(line, 0, (*i));
+	malloc_error_ptr(tmp_after, "malloc : ft_find_null");
 	tmp_before = ft_strjoin(tmp_after,
-			line + ft_strlen(tmp_after) + ft_strlen(env_var) + 1);// error handling
+			line + ft_strlen(tmp_after) + ft_strlen(env_var) + 1);
+	malloc_error_ptr(tmp_before, "malloc : ft_find_null");
 	free(line);
-	line = ft_strdup(tmp_before);// error handling
+	line = ft_strdup(tmp_before);
+	malloc_error_ptr(line, "malloc : ft_find_null");
 	free(tmp_after);
 	free(tmp_before);
 	(*i) -= 1;
@@ -62,7 +65,7 @@ char	*ft_find_var_env(char *line, char **envp, int *i, char *env_var)
 			malloc_error_ptr(tmp_env, "malloc : ft_find_var_env");
 			tmp_before = ft_strjoin(tmp_env, line + ft_strlen(tmp_env) + 1);
 			malloc_error_ptr(tmp_before, "malloc : ft_find_var_env");
-			(free(line), line = ft_strdup(tmp_before));
+			(free(line), line = NULL, line = ft_strdup(tmp_before));
 			malloc_error_ptr(line, "malloc : ft_find_var_env");
 			(free(tmp_after), free(tmp_env), free(tmp_before), p = -1);
 			break ;
@@ -99,6 +102,8 @@ char	*ft_var_env(t_exec *data, char **envp, char *line)
 	return (line);
 }
 
+// Function concernant le heredoc, qui permet de lire les lignes
+// et de les écrire dans un fichier temporaire
 void	heredoc_handling(t_exec *data, char *eof, char **g_env)
 {
 	char	*line;
@@ -117,13 +122,13 @@ void	heredoc_handling(t_exec *data, char *eof, char **g_env)
 		count++;
 		if (ft_g_signal_exit(line, heredoc) == 1)
 			return ;
-		if (ft_line_null_msg(line, count) == 1)
-			break ;
-		if (ft_strncmp(line, eof, ft_strlen(eof)) == 0)
+		if (ft_line_null_msg(line, count) == 1
+			|| ft_strncmp(line, eof, ft_strlen(eof)) == 0)
 			break ;
 		ft_write_heredoc(heredoc, line, g_env, data);
-		free(line);
 	}
+	if (line != NULL)
+		free(line);
 	close(heredoc);
 	redirect_infile(data, &heredoc, "obj/srcs/redirections/heredoc.txt");
 }

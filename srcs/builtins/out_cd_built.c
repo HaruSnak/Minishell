@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   out_cd_built.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:40:05 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/21 17:52:01 by pcardin          ###   ########.fr       */
+/*   Updated: 2024/07/24 16:24:05 by shmoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+// All functions for the different cd commands in the shell
 void	ft_handle_cd_home(t_parsing *parsing,
 	char **envp)
 {
@@ -40,24 +41,10 @@ void	ft_handle_cd_previous(t_parsing *parsing, char **envp)
 {
 	char	*path;
 
+	path = NULL;
 	if (chdir("..") == 0)
 	{
-		parsing->v_senv = ft_strdup(getenv("PWD"));
-		malloc_error_ptr(parsing->v_senv, "malloc : ft_handle_cd_previous");
-		if (ft_strncmp(parsing->v_senv, "/", ft_strlen(parsing->v_senv)) == 0)
-		{
-			path = ft_strdup("/");
-			malloc_error_ptr(path, "malloc : ft_handle_cd_previous");
-		}
-		else
-			path = ft_split_input(parsing->v_senv, "/");
-		parsing->n_senv = "OLDPWD";
-		(ft_setenv(envp, parsing), free(parsing->v_senv));
-		parsing->n_senv = "PWD";
-		parsing->v_senv = ft_strdup(path);
-		malloc_error_ptr(parsing->v_senv, "malloc : ft_handle_cd_previous");
-		(ft_setenv(envp, parsing), free(parsing->v_senv), free(path));
-		parsing->exit_value = 0;
+		ft_cd_previous_bis(parsing, envp, path);
 	}
 	else
 	{

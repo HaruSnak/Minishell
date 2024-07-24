@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_base.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:40:19 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/24 16:59:50 by pcardin          ###   ########.fr       */
+/*   Updated: 2024/07/24 17:39:17 by shmoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+// Handle the echo command and echo -n
 void	ft_handle_echo(t_parsing *data, char *tkn[], int *tkn_value, int i)
 {
 	int	nl;
@@ -31,6 +32,7 @@ void	ft_handle_echo(t_parsing *data, char *tkn[], int *tkn_value, int i)
 	data->exit_value = 0;
 }
 
+// Verifies if there are too many arguments
 int	ft_verify_many_arg(t_parsing *parsing)
 {
 	if (parsing->tkn[1] != NULL && parsing->tkn[2] != NULL
@@ -40,6 +42,7 @@ int	ft_verify_many_arg(t_parsing *parsing)
 	return (0);
 }
 
+// Handle the cd command with no arguments and arguments
 void	ft_cmd_cd(char **envp, t_parsing *parsing)
 {
 	char		*path;
@@ -69,21 +72,16 @@ void	ft_cmd_cd(char **envp, t_parsing *parsing)
 
 int	builtins_exec_bis(t_parsing *parsing, char **envp)
 {
-	if (!ft_strncmp(parsing->tkn[0], "export", 6))
-	{
-		ft_handle_export(parsing, envp);
-		return (0);
-	}
-	else if (!ft_strncmp(parsing->tkn[0], "unset", 5))
-	{
-		ft_handle_unset(parsing, envp);
-		return (0);
-	}
-	else if (!ft_strncmp(parsing->tkn[0], "clear", 5))
-	{
-		ft_cmd_clear();
-		return (0);
-	}
+	if (!ft_strncmp(parsing->tkn[0], "export", ft_strlen(parsing->tkn[0])))
+		return (ft_handle_export(parsing, envp), 0);
+	else if (!ft_strncmp(parsing->tkn[0], "unset", ft_strlen(parsing->tkn[0])))
+		return (ft_handle_unset(parsing, envp), 0);
+	else if (!ft_strncmp(parsing->tkn[0], "clear", ft_strlen(parsing->tkn[0])))
+		return (ft_cmd_clear(), 0);
+	else if (!ft_strncmp(parsing->tkn[0], "pwd", ft_strlen(parsing->tkn[0])))
+		return (printf("%s\n", getenv("PWD")), 0);
+	else if (!ft_strncmp(parsing->tkn[0], "env", ft_strlen(parsing->tkn[0])))
+		return (ft_cmd_env(envp), 0);
 	return (-1);
 }
 
