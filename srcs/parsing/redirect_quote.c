@@ -6,7 +6,7 @@
 /*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:40:53 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/21 14:11:53 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/07/24 17:35:38 by shmoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,8 @@ char	*ft_separe_operator(char *input)
 
 	i = -1;
 	k = 0;
-	tmp_redir = malloc(sizeof(char) * ft_strlen(input) + 100);
+	tmp_redir = malloc(sizeof(char)
+			* (ft_strlen(input) + ft_strlen_redic(input)) + 1);
 	malloc_error_ptr(tmp_redir, "malloc : ft_separe_operator");
 	ft_boucle_redirect(input, &i, &k, tmp_redir);
 	tmp_redir[k] = '\0';

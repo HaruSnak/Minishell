@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:39:32 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/24 12:22:34 by pcardin          ###   ########.fr       */
+/*   Updated: 2024/07/24 17:33:36 by shmoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,5 +164,6 @@ int		ft_strlen_quote(t_parsing *parsing, char *str, char c, int i);
 int		ft_strlen_quote_b(char *str, char c, int i);
 int		ft_check_envp(char **envp);
 int		ft_check_redir(t_parsing *parsing);
+int		ft_strlen_redic(char *str);
 
 #endif
