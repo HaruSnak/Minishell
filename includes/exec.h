@@ -6,7 +6,7 @@
 /*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:39:26 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/22 14:44:55 by pcardin          ###   ########.fr       */
+/*   Updated: 2024/07/24 11:23:03 by pcardin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void		single_cmd_execution(t_cmd_list *list, t_exec *data,
 				char **envp, char *tkn[]);
 char		**find_path_set_argv(t_exec *data, t_cmd_list *list,
 				int *tkn_value, char **tkn);
-	
+
 // Execution Utils
 bool		no_such_file(t_parsing *data, char *tkn[], int *tkn_value);
 void		check_err_fork(pid_t pid);

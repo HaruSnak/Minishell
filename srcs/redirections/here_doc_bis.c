@@ -6,7 +6,7 @@
 /*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:40:34 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/22 15:00:57 by pcardin          ###   ########.fr       */
+/*   Updated: 2024/07/24 11:07:49 by pcardin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_dup_heredoc(int heredoc)
 	{
 		perror("redir_heredoc");
 		close(heredoc);
-		return ; // error handling
+		return ;
 	}
 	close(heredoc);
 }

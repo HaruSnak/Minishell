@@ -6,7 +6,7 @@
 /*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:39:46 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/22 15:41:48 by pcardin          ###   ########.fr       */
+/*   Updated: 2024/07/24 10:56:19 by pcardin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	command_found(t_exec *data, t_cmd_list *list, char **envp)
 	if (pipe(data->fds) == -1)
 	{
 		perror("pipe");
-		return ;// error handling
+		return ;
 	}
 	data->pidz[data->pid_i] = fork();
 	check_err_fork(data->pidz[data->pid_i]);
@@ -56,6 +56,7 @@ void	command_not_found(t_exec *data, char *wrong_path)
 	handle_input();
 }
 
+// Iter through the list and execute commands when found
 void	multi_execution(t_cmd_list *list, t_exec *data, char **envp)
 {
 	t_cmd_list	*list_cpy;

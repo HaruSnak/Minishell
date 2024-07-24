@@ -6,7 +6,7 @@
 /*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:37:28 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/22 14:44:32 by pcardin          ###   ########.fr       */
+/*   Updated: 2024/07/24 11:05:24 by pcardin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	redirect_infile(t_exec *data, int *fd, char *path)
 	if (*fd == -1)
 	{
 		perror("outfile open");
-		return ; // error handling
+		return ;
 	}
 	if (dup2(*fd, STDIN_FILENO) == -1)
 	{
@@ -89,11 +89,11 @@ void	redirect_output(t_exec *data, t_redir *s_redir)
 	{
 		perror("outfile");
 		data->parsing_ptr->exit_value = PERMISSION_DENY;
-		return ; // error handling
+		return ;
 	}
 	if (dup2(fd_out, STDOUT_FILENO) == -1)
 	{
-		perror("redir outfile"); // error handling
+		perror("redir outfile");
 		data->parsing_ptr->exit_value = DUP_FAILURE;
 	}
 	close(fd_out);

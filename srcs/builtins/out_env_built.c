@@ -6,7 +6,7 @@
 /*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:37:33 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/21 17:52:57 by pcardin          ###   ########.fr       */
+/*   Updated: 2024/07/24 11:10:22 by pcardin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	ft_setenv_last(char **envp, t_parsing *parsing, int i)
 {
-	char				*tmp_equal;
-	static int			j;
+	char		*tmp_equal;
+	static int	j;
 
 	if (parsing->tmp_setenv == NULL)
 	{
