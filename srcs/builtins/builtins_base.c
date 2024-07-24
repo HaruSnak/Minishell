@@ -6,7 +6,7 @@
 /*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:40:19 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/22 10:46:37 by pcardin          ###   ########.fr       */
+/*   Updated: 2024/07/24 16:59:50 by pcardin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ int	builtins_exec(t_parsing *parsing, char **envp)
 {
 	if (!ft_strncmp(parsing->tkn[0], "exit", 4))
 	{
+		parsing->exit_value = 0;
 		ft_handle_exit(parsing);
 		return (0);
 	}

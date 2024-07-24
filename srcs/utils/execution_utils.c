@@ -6,7 +6,7 @@
 /*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:38:40 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/22 14:09:26 by pcardin          ###   ########.fr       */
+/*   Updated: 2024/07/24 12:30:00 by pcardin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	wait_pidz(t_exec *data)
 	int		status;
 
 	i = 0;
+	status = 0;
 	while (data->pid_i)
 	{
 		if (!waitpid(data->pidz[i], &status, 0))

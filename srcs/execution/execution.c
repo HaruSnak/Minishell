@@ -6,7 +6,7 @@
 /*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:39:46 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/22 15:41:48 by pcardin          ###   ########.fr       */
+/*   Updated: 2024/07/24 17:06:58 by pcardin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,11 @@ void	multi_execution(t_cmd_list *list, t_exec *data, char **envp)
 	list_cpy = list;
 	while (list)
 	{
+		if (!ft_strncmp(list->elem, "exit", 4))
+		{
+			list = list->next;
+			continue ;
+		}
 		if (!ft_strncmp(list->elem, "echo", 4))
 			ft_handle_echo(data->parsing_ptr, data->parsing_ptr->tkn,
 				data->parsing_ptr->tkn_value, list->index);
