@@ -6,7 +6,7 @@
 /*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:40:19 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/24 17:39:17 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/07/25 18:29:25 by shmoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,33 +72,41 @@ void	ft_cmd_cd(char **envp, t_parsing *parsing)
 
 int	builtins_exec_bis(t_parsing *parsing, char **envp)
 {
-	if (!ft_strncmp(parsing->tkn[0], "export", ft_strlen(parsing->tkn[0])))
+	if (!ft_strncmp(parsing->tkn[0], "export", 6)
+		&& ft_strlen(parsing->tkn[0]) == 6)
 		return (ft_handle_export(parsing, envp), 0);
-	else if (!ft_strncmp(parsing->tkn[0], "unset", ft_strlen(parsing->tkn[0])))
+	else if (!ft_strncmp(parsing->tkn[0], "unset", 5)
+		&& ft_strlen(parsing->tkn[0]) == 5)
 		return (ft_handle_unset(parsing, envp), 0);
-	else if (!ft_strncmp(parsing->tkn[0], "clear", ft_strlen(parsing->tkn[0])))
+	else if (!ft_strncmp(parsing->tkn[0], "clear", 5)
+		&& ft_strlen(parsing->tkn[0]) == 5)
 		return (ft_cmd_clear(), 0);
-	else if (!ft_strncmp(parsing->tkn[0], "pwd", ft_strlen(parsing->tkn[0])))
+	else if (!ft_strncmp(parsing->tkn[0], "pwd", 3)
+		&& ft_strlen(parsing->tkn[0]) == 3)
 		return (printf("%s\n", getenv("PWD")), 0);
-	else if (!ft_strncmp(parsing->tkn[0], "env", ft_strlen(parsing->tkn[0])))
+	else if (!ft_strncmp(parsing->tkn[0], "env", 3)
+		&& ft_strlen(parsing->tkn[0]) == 3)
 		return (ft_cmd_env(envp), 0);
 	return (-1);
 }
 
 int	builtins_exec(t_parsing *parsing, char **envp)
 {
-	if (!ft_strncmp(parsing->tkn[0], "exit", 4))
+	if (!ft_strncmp(parsing->tkn[0], "exit", 4)
+		&& ft_strlen(parsing->tkn[0]) == 4)
 	{
 		parsing->exit_value = 0;
 		ft_handle_exit(parsing);
 		return (0);
 	}
-	else if (!ft_strncmp(parsing->tkn[0], "cd", 2))
+	else if (!ft_strncmp(parsing->tkn[0], "cd", 2)
+		&& ft_strlen(parsing->tkn[0]) == 2)
 	{
 		ft_cmd_cd(envp, parsing);
 		return (0);
 	}
-	else if ((!ft_strncmp(parsing->tkn[0], "echo", 4))
+	else if ((!ft_strncmp(parsing->tkn[0], "echo", 4)
+			&& ft_strlen(parsing->tkn[0]) == 4)
 		&& !there_is_pipeline(parsing->tkn_value) && !parsing)
 	{
 		ft_handle_echo(parsing, parsing->tkn, parsing->tkn_value, 0);

@@ -6,7 +6,7 @@
 /*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/07/24 17:40:34 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/07/25 18:31:36 by shmoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@
 # define PS2(s, x) fprintf(stderr, "%s: %s\n", (s), (x));
 */
 # define PROMPT "\001\033[0;32m\002minishell\001\033[0m\002$ "
+
+# define PATH_MAX 4096
 
 # define TRUE 1
 # define FALSE 0

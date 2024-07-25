@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   out_env_built.c                                    :+:      :+:    :+:   */
+/*   export_unset_bis.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:37:33 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/24 16:20:32 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/07/25 18:29:57 by shmoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,15 @@ void	ft_setenv_bis(t_parsing *parsing, char **envp, int i, char *tmp_equal)
 {
 	char	*tmp_last;
 
+	tmp_last = NULL;
 	if (parsing->v_senv != NULL)
 	{
 		if (i < parsing->count_envp)
 		{
 			tmp_equal = ft_strjoin(parsing->n_senv, "=");
+			malloc_error_ptr(tmp_equal, "malloc : ft_setenv_bis");
 			tmp_last = ft_strjoin(tmp_equal, parsing->v_senv);
+			malloc_error_ptr(tmp_last, "malloc : ft_setenv_bis");
 			ft_strlcpy(envp[i], tmp_last, ft_strlen(tmp_last) + 1);
 			free(tmp_last);
 			free(tmp_equal);
@@ -109,6 +112,7 @@ int	ft_setenv(char **envp, t_parsing *parsing)
 	int		i;
 
 	i = -1;
+	tmp = NULL;
 	while (envp[++i] != NULL)
 	{
 		if (!ft_strncmp(envp[i], parsing->n_senv, ft_strlen(parsing->n_senv)))

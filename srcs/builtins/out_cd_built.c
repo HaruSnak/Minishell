@@ -6,7 +6,7 @@
 /*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:40:05 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/24 16:24:05 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/07/25 18:21:08 by shmoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,9 +108,12 @@ void	ft_handle_cd_path(t_parsing *parsing, char **envp)
 		parsing->v_senv = parsing->pwd;
 		ft_setenv(envp, parsing);
 		parsing->n_senv = "PWD";
-		parsing->v_senv = malloc(sizeof(char) * ft_strlen(parsing->tkn[1]) + 1);
+		parsing->v_senv = NULL;
+		parsing->v_senv = malloc(sizeof(char) * ft_strlen(parsing->tkn[1])
+				+ ft_strlen(getenv("PWD")) + 2);
 		malloc_error_ptr(parsing->v_senv, "malloc : ft_handle_cd_path");
-		getcwd(parsing->v_senv, ft_strlen(parsing->tkn[1]) + 1);
+		getcwd(parsing->v_senv, (ft_strlen(parsing->tkn[1])
+				+ ft_strlen(getenv("PWD")) + 2));
 		ft_setenv(envp, parsing);
 		free(parsing->v_senv);
 		parsing->exit_value = 0;
