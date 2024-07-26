@@ -6,7 +6,7 @@
 /*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 16:54:29 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/24 15:55:50 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/07/26 16:55:38 by shmoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,13 @@ void	ft_free_d_ptr(void ***ptr)
 // verify_operations function commands free
 void	ft_end_verify(t_parsing *parsing)
 {
-	ft_free_d_ptr((void ***)&parsing->tkn);
-	free(parsing->tkn_value);
-	parsing->tkn_value = NULL;
+	if (parsing->tkn != NULL)
+		ft_free_d_ptr((void ***)&parsing->tkn);
+	if (parsing->tkn_value != NULL)
+	{
+		free(parsing->tkn_value);
+		parsing->tkn_value = NULL;
+	}
 }
 
 void	ft_free_and_compact(char **str, int index, int size)

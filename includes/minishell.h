@@ -5,34 +5,30 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/07/25 18:31:36 by shmoreno         ###   ########.fr       */
+/*   Created: 2024/07/26 17:33:59 by shmoreno          #+#    #+#             */
+/*   Updated: 2024/07/26 17:37:31 by shmoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <fcntl.h>
-# include <stdarg.h>
-# include <stdbool.h>
-# include <stdint.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <string.h>
-# include <time.h>
-# include <sys/time.h>
-# include <math.h>
 # include <unistd.h>
+# include <fcntl.h>
+# include <sys/types.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include <signal.h>
+# include <dirent.h>
+# include <string.h>
+# include <sys/ioctl.h>
 # include <termios.h>
-# include <errno.h>
-# include <errno.h>
+# include <curses.h>
+# include <term.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include <sys/ioctl.h>
 # include "libft/includes/libft.h"
 # include "exec.h"
 
@@ -45,8 +41,6 @@
 # define PS2(s, x) fprintf(stderr, "%s: %s\n", (s), (x));
 */
 # define PROMPT "\001\033[0;32m\002minishell\001\033[0m\002$ "
-
-# define PATH_MAX 4096
 
 # define TRUE 1
 # define FALSE 0
@@ -79,20 +73,14 @@ typedef struct s_heredoc_state
 typedef struct s_parsing
 {
 	bool	quote_heredoc;
-	bool	simple_quote;
 	char	**tkn;
-	char	**path;
-	char	**tmp_env; // modifier name last
 	char	**tmp_setenv;
 	char	*n_senv;
 	char	*v_senv;
 	char	*pwd;
 	int		*tkn_value;
-	int		*tkn_count;
-	int		*tkn_rotation;
 	int		count_envp;
 	int		exit_value;
-	int		signal_heredoc;
 	t_quote	*quote;
 }	t_parsing;
 

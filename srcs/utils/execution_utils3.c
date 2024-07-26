@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils3.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:38:52 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/22 15:51:58 by pcardin          ###   ########.fr       */
+/*   Updated: 2024/07/26 17:31:17 by shmoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ bool	no_such_file(t_parsing *data, char *tkn[], int *tkn_value)
 	int	i;
 
 	i = -1;
-	data->exit_value = 127;
+	data->exit_value = CMD_NOT_FOUND;
 	while (tkn[++i])
 	{
 		if (!ft_strncmp(tkn[i], "echo", 4)

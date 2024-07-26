@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:38:40 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/24 12:30:00 by pcardin          ###   ########.fr       */
+/*   Updated: 2024/07/26 17:33:17 by shmoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,4 @@ void	init_data(t_exec *data, t_redir *s_redir,
 	else
 		data->pidz = NULL;
 	data->pid_i = 0;
-	data->check_signal = 0;
 }

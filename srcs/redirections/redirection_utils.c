@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:37:28 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/24 11:05:24 by pcardin          ###   ########.fr       */
+/*   Updated: 2024/07/26 17:18:48 by shmoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	redirect_output(t_exec *data, t_redir *s_redir)
 {
 	int		fd_out;
 
+	fd_out = 0;
 	if (data->outfile && access(data->outfile, F_OK | R_OK) == -1)
 	{
 		perror("access");

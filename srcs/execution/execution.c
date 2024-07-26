@@ -6,7 +6,7 @@
 /*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:39:46 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/24 17:38:54 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/07/26 17:30:54 by shmoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	command_found(t_exec *data, t_cmd_list *list, char **envp)
 void	command_not_found(t_exec *data, char *wrong_path)
 {
 	ft_printf("%s: command not found\n", wrong_path);
-	data->parsing_ptr->exit_value = 127;
+	data->parsing_ptr->exit_value = CMD_NOT_FOUND;
 	handle_input();
 }
 

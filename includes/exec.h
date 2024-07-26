@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:39:26 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/24 11:23:03 by pcardin          ###   ########.fr       */
+/*   Updated: 2024/07/26 17:33:15 by shmoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,8 @@
 # define CMD_NOT_EXECUTABLE 126
 # define PERMISSION_DENY 1
 # define OUT_OF_MEMORY 3
-# define OPEN_FAILURE 5
 # define FORK_FAILURE 6
 # define DUP_FAILURE 7
-# define PIPE_FAILURE 8
 
 typedef struct s_parsing	t_parsing;
 
@@ -47,7 +45,6 @@ typedef struct s_exec
 	int			stdin_cpy;
 	int			stdout_cpy;
 	int			fds[2];
-	int			check_signal;
 	int			pid_i;
 	pid_t		*pidz;
 }	t_exec;

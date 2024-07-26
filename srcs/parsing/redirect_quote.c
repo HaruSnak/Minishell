@@ -6,40 +6,11 @@
 /*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:40:53 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/24 17:35:38 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/07/26 16:53:03 by shmoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-// Check if the character is a quote and if it is,
-// check if it is a single or double quote
-// and if it is, add a space after the quote
-void	ft_condit_quote(char *tmp_redir, int *i, int *k, char *tmp_quote)
-{
-	static bool	check_s;
-	static bool	check_d;
-
-	if (tmp_redir[*i] == '\"' && !check_s)
-		check_d = !check_d;
-	else if (tmp_redir[*i] == '\'' && !check_d)
-		check_s = !check_s;
-	if (((tmp_redir[*i] == '\'' && (tmp_redir[*i + 1] == '\''
-					|| tmp_redir[*i + 1] == '\"') && (!check_d && !check_s))
-			|| (tmp_redir[*i] == '\"' && (tmp_redir[*i + 1] == '\"'
-					|| tmp_redir[*i + 1] == '\'') && (!check_d && !check_s)))
-		|| ((tmp_redir[*i] == '\"' || tmp_redir[*i] == '\'')
-			&& (tmp_redir[*i + 1] >= 35 && tmp_redir[*i + 1] <= 126)
-			&& (!check_d && !check_s)) || (tmp_redir[*i] >= 35
-			&& tmp_redir[*i] <= 126 && (tmp_redir[*i + 1] == '\"'
-				|| tmp_redir[*i + 1] == '\'') && (!check_d && !check_s)))
-	{
-		tmp_quote[(*k)++] = tmp_redir[*i];
-		tmp_quote[(*k)++] = ' ';
-	}
-	else
-		tmp_quote[(*k)++] = tmp_redir[*i];
-}
 
 void	ft_condit_redirect(char *input, int *i, int *k, char *tmp)
 {
@@ -100,7 +71,7 @@ char	*ft_separe_operator(char *input)
 	i = -1;
 	k = 0;
 	tmp_redir = malloc(sizeof(char)
-			* (ft_strlen(input) + ft_strlen_redic(input)) + 1);
+			* (ft_strlen(input) + ft_strlen_redic(input) + 1));
 	malloc_error_ptr(tmp_redir, "malloc : ft_separe_operator");
 	ft_boucle_redirect(input, &i, &k, tmp_redir);
 	tmp_redir[k] = '\0';

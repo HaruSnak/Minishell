@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:39:41 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/22 10:22:24 by pcardin          ###   ########.fr       */
+/*   Updated: 2024/07/26 17:06:19 by shmoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,11 @@ void	ft_init_main(t_parsing *parsing, t_quote *quote, char **envp, int argc)
 	parsing->quote = quote;
 	parsing->exit_value = 0;
 	parsing->pwd = getenv("PWD");
-	parsing->tmp_env = NULL;
 	parsing->tmp_setenv = NULL;
 	parsing->n_senv = "OLDPWD";
 	parsing->v_senv = "";
 	parsing->quote_heredoc = false;
-	parsing->simple_quote = false;
 	parsing->count_envp = ft_check_envp(envp);
-	parsing->signal_heredoc = 0;
 	quote->check_d = false;
 	quote->check_s = false;
 	quote->p = 0;

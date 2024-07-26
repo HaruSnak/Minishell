@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   single_execution.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:39:11 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/22 11:21:44 by pcardin          ###   ########.fr       */
+/*   Updated: 2024/07/26 17:30:57 by shmoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,6 @@ void	single_cmd_execution(t_cmd_list *list, t_exec *data,
 	else if (data->parsing_ptr->tkn_value[list->index] == CMD)
 	{
 		ft_printf("%s: command not found\n", tkn[0]);
-		data->parsing_ptr->exit_value = 127;
+		data->parsing_ptr->exit_value = CMD_NOT_FOUND;
 	}
 }

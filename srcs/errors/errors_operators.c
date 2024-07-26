@@ -6,7 +6,7 @@
 /*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:40:46 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/24 15:54:07 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/07/26 17:00:59 by shmoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,15 @@ int	error_operator_pipe(t_parsing *parsing, int i, int k)
 // Function for redirection
 int	error_operator_redic(t_parsing *parsing, int i, int k)
 {
-	if ((parsing->tkn[i][k] == '<' || parsing->tkn[i][k] == '>')
+	if (((parsing->tkn[i][k] == '<' && ft_strlen(parsing->tkn[i]) == 1)
+		|| (parsing->tkn[i][k] == '>' && ft_strlen(parsing->tkn[i]) == 1)
+		|| (parsing->tkn[i][k] == '<' && parsing->tkn[i][k + 1] == '<')
+		|| (parsing->tkn[i][k] == '>' && parsing->tkn[i][k + 1] == '>'))
 	&& (parsing->tkn[i + 1] == NULL || parsing->tkn[i + 1][k] == '\0'
-	|| parsing->tkn[i][k + 1] == ' ' || parsing->tkn[i + 1][k] == '\0'
-	|| parsing->tkn[i + 1][k] == '>' || parsing->tkn[i + 1][k] == '<'
-	|| parsing->tkn[i + 1][k] == '|' || parsing->tkn[i + 1][k] == ')'
-	|| parsing->tkn[i + 1][k] == '(' || parsing->tkn[i + 1][k] == ';'
-	|| parsing->tkn[i + 1][k] == '&'))
+	|| parsing->tkn[i][k + 1] == ' ' || parsing->tkn[i + 1][k] == '>'
+	|| parsing->tkn[i + 1][k] == '<' || parsing->tkn[i + 1][k] == '|'
+	|| parsing->tkn[i + 1][k] == ')' || parsing->tkn[i + 1][k] == '('
+	|| parsing->tkn[i + 1][k] == ';' || parsing->tkn[i + 1][k] == '&'))
 	{
 		if (parsing->tkn[i + 1] == NULL)
 			printf("minishell: syntax error near unexpected token `newline'\n");

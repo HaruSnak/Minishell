@@ -6,7 +6,7 @@
 /*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:41:23 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/24 17:33:18 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/07/26 16:52:47 by shmoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,5 @@ int	ft_strlen_redic(char *str)
 		if (str[i] == '>' || str[i] == '<' || str[i] == '|')
 			count++;
 	}
-	return (count);
+	return (count + 1);
 }
