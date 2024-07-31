@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_base.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:40:19 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/25 18:29:25 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:59:09 by pcardin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,13 @@ void	ft_handle_echo(t_parsing *data, char *tkn[], int *tkn_value, int i)
 	int	nl;
 
 	nl = 1;
-	while (tkn[++i] && tkn_value[i] == ARG)
+	while (tkn[++i] && (tkn_value[i] == ARG || tkn_value[i] == IN))
 	{
+		if (tkn_value[i] == IN)
+			i = i + 2;
 		if (!ft_strncmp(tkn[i], "-n", 2))
 			nl = 0;
-		else if (tkn_value[i + 1] == ARG)
+		else if (tkn_value[i + 1] == ARG || tkn_value[i + 1] == IN)
 			printf("%s ", tkn[i]);
 		else if (tkn_value[i + 1] != ARG)
 			printf("%s", tkn[i]);
@@ -74,6 +76,8 @@ int	builtins_exec_bis(t_parsing *parsing, char **envp)
 {
 	if (!ft_strncmp(parsing->tkn[0], "export", 6)
 		&& ft_strlen(parsing->tkn[0]) == 6)
+		parsing->exit_value = 0;
+	if (!ft_strncmp(parsing->tkn[0], "export", ft_strlen(parsing->tkn[0])))
 		return (ft_handle_export(parsing, envp), 0);
 	else if (!ft_strncmp(parsing->tkn[0], "unset", 5)
 		&& ft_strlen(parsing->tkn[0]) == 5)
@@ -107,7 +111,7 @@ int	builtins_exec(t_parsing *parsing, char **envp)
 	}
 	else if ((!ft_strncmp(parsing->tkn[0], "echo", 4)
 			&& ft_strlen(parsing->tkn[0]) == 4)
-		&& !there_is_pipeline(parsing->tkn_value) && !parsing)
+		&& !there_is_pipeline(parsing->tkn_value))
 	{
 		ft_handle_echo(parsing, parsing->tkn, parsing->tkn_value, 0);
 		return (0);

@@ -27,28 +27,22 @@ RM = rm -rf
 vpath %.c $(sort $(dir $(FILES)))
 
 $(OBJ_DIR)%.o: %.c
-	@mkdir -p $(@D)
-	@$(CC) $(CFLAGS) -c $< -o $@
+	mkdir -p $(@D)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
 	@ar rcs $@ $(OBJ)
-	@echo "$(NAME) created"
-	@ranlib $@
-	@echo "$(NAME) indexed"
 
 bonus: $(BONUS_OBJ)
-	@ar rcs $(NAME) $(BONUS_OBJ)
-	@ranlib $(NAME)
+	ar rcs $(NAME) $(BONUS_OBJ)
 
 clean:
-	@$(RM) $(OBJ_DIR)
-	@echo "OBJ deleted"
+	$(RM) $(OBJ_DIR)
 
 fclean: clean
-	@$(RM) $(NAME)
-	@echo "$(NAME) deleted"
+	$(RM) $(NAME)
 
 re: fclean all
 
@@ -57,5 +51,4 @@ normi: $(FILES)
 
 normib: $(BONUS_FILES)
 	norminette $(BONUS_FILES)
-
 .PHONY: all clean fclean re normi normib bonus

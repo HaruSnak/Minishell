@@ -44,44 +44,32 @@ OBJ_1 = $(patsubst %.c,$(OBJ_DIR)%.o,$(SRC_1))
 OBJ_2 = $(patsubst %.c,$(OBJ_DIR)%.o,$(SRC_2))
 
 $(OBJ_DIR)%.o: %.c
-	@mkdir -p $(@D)
-	@$(CC) $(FLAGS) $(CFLAGS) -c $< -o $@
+	mkdir -p $(@D)
+	$(CC) $(FLAGS) $(CFLAGS) -c $< -o $@
 
 INCLUDE = -L $(LIBFTDIR) -lft -lreadline
 
 .c.o:
-	@$(CC) $(FLAGS) $(CFLAGS) -c $< -o $@
+	$(CC) $(FLAGS) $(CFLAGS) -c $< -o $@
 
 ${NAME}: ${OBJ_1} ${OBJ_2}
-	@echo "Compiling $(NAME)..."
-	@make -C $(LIBFTDIR)
+	make -C $(LIBFTDIR)
 	@${CC} ${FLAGS} ${CFLAGS} ${LDFLAGS} ${OBJ_1} ${OBJ_2} -o ${NAME} ${INCLUDE}
-	@clear
-	@echo "$(NAME) compiled successfully."
 
 all: ${NAME}
 
 clean:
-	@echo "Cleaning object files..."
-	@${RM} ${OBJ_1} ${OBJ_2}
-	@echo "Cleaning libft object files..."
-	@make -C $(LIBFTDIR) clean
-	@rm -rf ${LIBFT_OBJ}
-	@rm -rf ${OBJ_DIR}
-	@echo "Cleaning project object files..."
-	@echo "Cleaning object files..."
-	@rm -rf ${OBJ_1} ${OBJ_2}
-	@echo "Object files cleaned."
+	${RM} ${OBJ_1} ${OBJ_2}
+	make -C $(LIBFTDIR) clean
+	rm -rf ${LIBFT_OBJ}
+	rm -rf ${OBJ_DIR}
+	rm -rf ${OBJ_1} ${OBJ_2}
 
 fclean: clean
-	@echo "Cleaning libft..."
-	@make -C $(LIBFTDIR) fclean
-	@echo "Cleaning executable..."
-	@${RM} ${NAME}
-	@rm -rf ${OBJ_DIR}
-	@rm -rf ${LIBFT_OBJ}
-	@clear
-	@echo "Executable and libft cleaned."
+	make -C $(LIBFTDIR) fclean
+	${RM} ${NAME}
+	rm -rf ${OBJ_DIR}
+	rm -rf ${LIBFT_OBJ}
 
 re: fclean all
 

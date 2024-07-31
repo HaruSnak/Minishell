@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   verify_operators.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:41:10 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/26 16:56:32 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:59:31 by pcardin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,9 @@ int	ft_handle_verify(char **input, t_parsing *parsing, char **envp)
 	ft_interpret_env(envp, parsing);
 	ft_token_value(parsing);
 	ft_delete_quote(parsing);
-	if (ft_check_redir(parsing) == 0 && builtins_exec(parsing, envp) == 0)
-		return (ft_end_verify(parsing), -1);
+	ft_check_redir(parsing);
+	if (builtins_exec(parsing, envp) == 0)
+		return (ft_end_verify(parsing), reset_std_out(parsing), -1);
 	else
 		execution(parsing->tkn, envp, parsing);
 	ft_end_verify(parsing);

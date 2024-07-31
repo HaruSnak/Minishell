@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 13:39:41 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/26 17:06:19 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/07/31 15:47:40 by pcardin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	ft_init_main(t_parsing *parsing, t_quote *quote, char **envp, int argc)
 	parsing->v_senv = "";
 	parsing->quote_heredoc = false;
 	parsing->count_envp = ft_check_envp(envp);
+	parsing->stdout_cpy = dup(1);
 	quote->check_d = false;
 	quote->check_s = false;
 	quote->p = 0;

@@ -3,11 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shmoreno <shmoreno@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: pcardin <pcardin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 17:33:59 by shmoreno          #+#    #+#             */
-/*   Updated: 2024/07/26 17:37:31 by shmoreno         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:58:44 by pcardin          ###   ########.fr       */
 /*                                                                            */
+/* ************************************************************************** */
+
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
@@ -35,7 +37,7 @@
 // DEBUG MACROS 
 /*# define PL fprintf(stderr, "file: %s line: %d pid: %i\n", \
 	__FILE__, __LINE__, getpid())
-# define PI(x) fprintf(stderr, "PI: %d\n", (x));
+/*# define PI(x) fprintf(stderr, "PI: %d\n", (x));
 # define PS(x) fprintf(stderr, "PS: %s\n", (x));
 # define PI2(s, x) fprintf(stderr, "%s: %d\n", (s), (x));
 # define PS2(s, x) fprintf(stderr, "%s: %s\n", (s), (x));
@@ -81,6 +83,7 @@ typedef struct s_parsing
 	int		*tkn_value;
 	int		count_envp;
 	int		exit_value;
+	int		stdout_cpy;
 	t_quote	*quote;
 }	t_parsing;
 
@@ -130,6 +133,7 @@ int		ft_handle_exit(t_parsing *parsing);
 bool	is_builtins(char *cmd, t_exec *data, char **envp);
 void	ft_cmd_clear(void);
 void	ft_cmd_env(char **envp);
+void	reset_std_out(t_parsing *parsing_ptr);
 
 // REDIRECTION FUNCTIONS SHELL
 int		ft_handle_verify(char **input, t_parsing *parsing, char **envp);
@@ -154,7 +158,7 @@ int		ft_count_index(char **input);
 int		ft_strlen_quote(t_parsing *parsing, char *str, char c, int i);
 int		ft_strlen_quote_b(char *str, char c, int i);
 int		ft_check_envp(char **envp);
-int		ft_check_redir(t_parsing *parsing);
+void	ft_check_redir(t_parsing *parsing);
 int		ft_strlen_redic(char *str);
 
 #endif
